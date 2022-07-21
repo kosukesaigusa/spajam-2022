@@ -1,0 +1,47 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug (local)",
+      "program": "lib/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": ["--debug", "--dart-define=FLAVOR=local"]
+    },
+    {
+      "name": "Debug (dev)",
+      "program": "lib/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": ["--debug", "--dart-define=FLAVOR=dev"]
+    },
+    {
+      "name": "Release (dev)",
+      "program": "lib/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": ["--release", "--dart-define=FLAVOR=dev"]
+    },
+    {
+      "name": "Debug (prod)",
+      "program": "lib/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": ["--debug", "--dart-define=FLAVOR=prod"]
+    },
+    {
+      "name": "Release (prod)",
+      "program": "lib/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "args": ["--release", "--dart-define=FLAVOR=prod"]
+    },
+    {
+      "name": "Debug Functions (local)",
+      "type": "node",
+      "request": "attach",
+      "restart": true,
+      "port": 9229
+    }
+  ]
+}
