@@ -50,8 +50,10 @@ android {
         applicationId "com.kosukesaigusa.spajam2022"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
-        // デフォルトの flutter.minSdkVersion だと minSdkVersion が古いものになるため
+        // デフォルトの flutter.minSdkVersion だと minSdkVersion が古いものになるため 21 を直接指定した。
         minSdkVersion 21
+        // または、local.properties に flutter.minSdkVersion=21 を記述する
+        // minSdkVersion flutter.minSdkVersion
         targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
