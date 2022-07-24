@@ -21,6 +21,8 @@ dependencies:
   firebase_storage:
   flutter:
     sdk: flutter
+  flutter_hooks:
+  package_info_plus: ^1.4.3
 
 dev_dependencies:
   flutter_test:

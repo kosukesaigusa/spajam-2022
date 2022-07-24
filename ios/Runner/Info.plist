@@ -6,7 +6,7 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<!-- アプリアイコンと一緒に表示されるアプリ名 -->
 	<key>CFBundleDisplayName</key>
-	<string>Spajam202$(APP_ID_SUFFIX)</string>
+	<string>Spajam2022$(APP_ID_SUFFIX)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

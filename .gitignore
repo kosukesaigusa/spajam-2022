@@ -56,3 +56,7 @@ app.*.map.json
 
 # iOS related
 **/ios/Flutter/DartDefines.xcconfig
+
+# Firebase related
+**/android/app/google-services.json
+**/ios/Runner/GoogleService-Info.plist
