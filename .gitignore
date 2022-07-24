@@ -50,3 +50,13 @@ app.*.map.json
 
 # FVM
 .fvm/flutter_sdk
+
+# Android related
+**/android/app/src/main/res/mipmap*/
+
+# iOS related
+**/ios/Flutter/DartDefines.xcconfig
+
+# Firebase related
+**/android/app/google-services.json
+**/ios/GoogleService-Info.plist
