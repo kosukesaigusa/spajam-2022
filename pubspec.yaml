@@ -29,6 +29,7 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^2.0.0
   flutter_launcher_icons:
+  flutter_native_splash:
 
 flutter:
   uses-material-design: true
@@ -36,3 +37,15 @@ flutter:
 flutter_icons:
   android: true
   ios: true
+
+flutter_native_splash:
+  color: '#ffffff'
+  image: 'assets/splash_icons/splash_light.png'
+  color_dark: '#000000'
+  image_dark: 'assets/splash_icons/splash_dark.png'
+  fullscreen: true
+  android_12:
+    icon_background_color: '#ffffff'
+    image: 'assets/splash_icons/splash_light.png'
+    icon_background_color_dark: '#000000'
+    image_dark: 'assets/splash_icons/splash_dark.png'
