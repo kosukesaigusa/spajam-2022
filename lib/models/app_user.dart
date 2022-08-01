@@ -9,6 +9,7 @@ part 'app_user.g.dart';
 @freezed
 class AppUser with _$AppUser {
   const factory AppUser({
+    required String appUserId,
     @Default('') String name,
     @unionTimestampConverter @Default(UnionTimestamp.serverTimestamp()) UnionTimestamp createdAt,
     @alwaysUseServerTimestampUnionTimestampConverter

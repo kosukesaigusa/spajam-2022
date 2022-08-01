@@ -20,6 +20,7 @@ AppUser _$AppUserFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$AppUser {
+  String get appUserId => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   @unionTimestampConverter
   UnionTimestamp get createdAt => throw _privateConstructorUsedError;
@@ -36,7 +37,8 @@ abstract class $AppUserCopyWith<$Res> {
   factory $AppUserCopyWith(AppUser value, $Res Function(AppUser) then) =
       _$AppUserCopyWithImpl<$Res>;
   $Res call(
-      {String name,
+      {String appUserId,
+      String name,
       @unionTimestampConverter
           UnionTimestamp createdAt,
       @alwaysUseServerTimestampUnionTimestampConverter
@@ -56,11 +58,16 @@ class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
 
   @override
   $Res call({
+    Object? appUserId = freezed,
     Object? name = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
     return _then(_value.copyWith(
+      appUserId: appUserId == freezed
+          ? _value.appUserId
+          : appUserId // ignore: cast_nullable_to_non_nullable
+              as String,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -98,7 +105,8 @@ abstract class _$$_AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
       __$$_AppUserCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String name,
+      {String appUserId,
+      String name,
       @unionTimestampConverter
           UnionTimestamp createdAt,
       @alwaysUseServerTimestampUnionTimestampConverter
@@ -121,11 +129,16 @@ class __$$_AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? appUserId = freezed,
     Object? name = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
     return _then(_$_AppUser(
+      appUserId: appUserId == freezed
+          ? _value.appUserId
+          : appUserId // ignore: cast_nullable_to_non_nullable
+              as String,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -146,7 +159,8 @@ class __$$_AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_AppUser extends _AppUser {
   const _$_AppUser(
-      {this.name = '',
+      {required this.appUserId,
+      this.name = '',
       @unionTimestampConverter
           this.createdAt = const UnionTimestamp.serverTimestamp(),
       @alwaysUseServerTimestampUnionTimestampConverter
@@ -156,6 +170,8 @@ class _$_AppUser extends _AppUser {
   factory _$_AppUser.fromJson(Map<String, dynamic> json) =>
       _$$_AppUserFromJson(json);
 
+  @override
+  final String appUserId;
   @override
   @JsonKey()
   final String name;
@@ -170,7 +186,7 @@ class _$_AppUser extends _AppUser {
 
   @override
   String toString() {
-    return 'AppUser(name: $name, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'AppUser(appUserId: $appUserId, name: $name, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -178,6 +194,7 @@ class _$_AppUser extends _AppUser {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AppUser &&
+            const DeepCollectionEquality().equals(other.appUserId, appUserId) &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
             const DeepCollectionEquality().equals(other.updatedAt, updatedAt));
@@ -187,6 +204,7 @@ class _$_AppUser extends _AppUser {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      const DeepCollectionEquality().hash(appUserId),
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(createdAt),
       const DeepCollectionEquality().hash(updatedAt));
@@ -206,7 +224,8 @@ class _$_AppUser extends _AppUser {
 
 abstract class _AppUser extends AppUser {
   const factory _AppUser(
-      {final String name,
+      {required final String appUserId,
+      final String name,
       @unionTimestampConverter
           final UnionTimestamp createdAt,
       @alwaysUseServerTimestampUnionTimestampConverter
@@ -215,6 +234,8 @@ abstract class _AppUser extends AppUser {
 
   factory _AppUser.fromJson(Map<String, dynamic> json) = _$_AppUser.fromJson;
 
+  @override
+  String get appUserId;
   @override
   String get name;
   @override
