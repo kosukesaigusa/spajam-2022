@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:spajam2022/features/auth/auth.dart';
 import 'package:spajam2022/repositories/app_user_repository.dart';
 
 import '../hooks/package_info_state.dart';
@@ -22,6 +23,10 @@ class AboutPage extends HookConsumerWidget {
           children: [
             Text('App Name: ${_getAppNameText(packageInfo)}'),
             Text('Version: ${_getVersionInfoText(packageInfo)}'),
+            ElevatedButton(
+              onPressed: () => ref.read(signOutProvider)(),
+              child: const Text('サインアウト'),
+            ),
           ],
         ),
       ),

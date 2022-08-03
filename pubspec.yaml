@@ -26,6 +26,7 @@ dependencies:
   freezed_annotation:
   package_info_plus: ^1.4.3
   simple_logger:
+  flutter_spinkit:
 
 dev_dependencies:
   build_runner:

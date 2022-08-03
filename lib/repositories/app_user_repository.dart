@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../models/app_user.dart';
@@ -17,5 +18,11 @@ class AppUserRepository {
       return null;
     }
     return ds.data()!;
+  }
+
+  /// 指定した userId のユーザーを `SetOptions(merge: true)` で作成する。
+  Future<void> setUser({required String userId}) async {
+    await appUserRef(appUserId: userId)
+        .set(AppUser(appUserId: userId, name: userId), SetOptions(merge: true));
   }
 }
