@@ -12,6 +12,7 @@ dependencies:
   cloud_firestore:
   cloud_functions:
   cupertino_icons:
+  hooks_riverpod:
   firebase_analytics:
   firebase_auth:
   firebase_core:
@@ -22,14 +23,24 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_hooks:
+  freezed_annotation:
   package_info_plus: ^1.4.3
+  simple_logger:
+  flutter_spinkit:
 
 dev_dependencies:
+  build_runner:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
   flutter_launcher_icons:
   flutter_native_splash:
+  freezed:
+  json_serializable: ^6.3.1
+  pedantic_mono:
+
+dependency_overrides:
+  hooks_riverpod: '>=2.0.0-0'
 
 flutter:
   uses-material-design: true
