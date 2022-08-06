@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:spajam2022/repositories/app_user_repository.dart';
-import 'package:spajam2022/utils/exceptions/base.dart';
-import 'package:spajam2022/utils/loading.dart';
 
+import '../../repositories/app_user_repository.dart';
+import '../../utils/exceptions/base.dart';
+import '../../utils/loading.dart';
 import '../../utils/logger.dart';
 
 final _authProvider = Provider<FirebaseAuth>((_) => FirebaseAuth.instance);
