@@ -11,13 +11,16 @@ class AppUser with _$AppUser {
   const factory AppUser({
     required String appUserId,
     @Default('') String name,
-    @unionTimestampConverter @Default(UnionTimestamp.serverTimestamp()) UnionTimestamp createdAt,
+    @unionTimestampConverter
+    @Default(UnionTimestamp.serverTimestamp())
+        UnionTimestamp createdAt,
     @alwaysUseServerTimestampUnionTimestampConverter
     @Default(UnionTimestamp.serverTimestamp())
         UnionTimestamp updatedAt,
   }) = _AppUser;
 
-  factory AppUser.fromJson(Map<String, dynamic> json) => _$AppUserFromJson(json);
+  factory AppUser.fromJson(Map<String, dynamic> json) =>
+      _$AppUserFromJson(json);
 
   factory AppUser.fromDocumentSnapshot(DocumentSnapshot ds) {
     final data = ds.data()! as Map<String, dynamic>;

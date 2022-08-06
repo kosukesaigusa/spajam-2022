@@ -4,14 +4,15 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'union_timestamp.freezed.dart';
 
 /// UnionTimeStamp の JsonConverter。
-const unionTimestampConverter = _UnionTimestampConverter(alwaysUseServerTimestamp: false);
+const unionTimestampConverter = _UnionTimestampConverter();
 
 /// toJson（Firestore への書き込み）時に、常に FieldValue.serverTimestamp を使用する
 /// UnionTimeStamp の JsonConverter。
 const alwaysUseServerTimestampUnionTimestampConverter =
     _UnionTimestampConverter(alwaysUseServerTimestamp: true);
 
-class _UnionTimestampConverter implements JsonConverter<UnionTimestamp, Object> {
+class _UnionTimestampConverter
+    implements JsonConverter<UnionTimestamp, Object> {
   const _UnionTimestampConverter({this.alwaysUseServerTimestamp = false});
 
   /// toJson（Firestore への書き込み）時に、常に FieldValue.serverTimestamp を使用するかどうか。
@@ -27,7 +28,8 @@ class _UnionTimestampConverter implements JsonConverter<UnionTimestamp, Object> 
   Object toJson(UnionTimestamp unionTimestamp) => alwaysUseServerTimestamp
       ? FieldValue.serverTimestamp()
       : unionTimestamp.map(
-          dateTime: (unionDateTime) => Timestamp.fromDate(unionDateTime.dateTime),
+          dateTime: (unionDateTime) =>
+              Timestamp.fromDate(unionDateTime.dateTime),
           serverTimestamp: (_) => FieldValue.serverTimestamp(),
         );
 }
@@ -47,5 +49,6 @@ class UnionTimestamp with _$UnionTimestamp {
 
   /// UnionTimestamp.dateTime の DateTime を返す。
   /// serverTimestamp の場合は null を返す。
-  DateTime? get dateTime => mapOrNull(dateTime: (unionDateTime) => unionDateTime.dateTime);
+  DateTime? get dateTime =>
+      mapOrNull(dateTime: (unionDateTime) => unionDateTime.dateTime);
 }

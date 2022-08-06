@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:spajam2022/pages/root_navigator.dart';
+
+import 'pages/root_navigator.dart';
 
 class App extends ConsumerWidget {
-  const App({Key? key}) : super(key: key);
+  const App({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'SPAJAM 2022',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
