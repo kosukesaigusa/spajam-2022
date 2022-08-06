@@ -3,14 +3,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../pages/about_page.dart';
-import '../../pages/sign_in_page.dart';
+import '../../pages/todos_page.dart';
 
 /// 現在選択状態になっている下タブを管理する StateProvider。
 final bottomTabStateProvider = StateProvider<BottomTab>((_) => bottomTabs[0]);
 
 /// BottomTab の種別。
 enum BottomTabEnum {
-  signIn(label: SignInPage.name, location: SignInPage.location),
+  todos(label: TodosPage.name, location: TodosPage.location),
   about(label: AboutPage.name, location: AboutPage.location);
 
   const BottomTabEnum({
@@ -39,8 +39,8 @@ class BottomTab {
 final bottomTabIconProvider =
     Provider.family<Widget, BottomTabEnum>((ref, bottomTabEnum) {
   switch (bottomTabEnum) {
-    case BottomTabEnum.signIn:
-      return const FaIcon(FontAwesomeIcons.arrowRightToBracket);
+    case BottomTabEnum.todos:
+      return const FaIcon(FontAwesomeIcons.check);
     case BottomTabEnum.about:
       return const FaIcon(FontAwesomeIcons.ellipsis);
   }
@@ -51,7 +51,7 @@ final bottomTabs = <BottomTab>[
   BottomTab._(
     index: 0,
     key: GlobalKey<NavigatorState>(),
-    bottomTabEnum: BottomTabEnum.signIn,
+    bottomTabEnum: BottomTabEnum.todos,
   ),
   BottomTab._(
     index: 1,

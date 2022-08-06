@@ -4,6 +4,7 @@ import '../../pages/about_page.dart';
 import '../../pages/main_page.dart';
 import '../../pages/not_found_page.dart';
 import '../../pages/sign_in_page.dart';
+import '../../pages/todos_page.dart';
 import 'app_route.dart';
 
 /// AppRoute インスタンスの一覧
@@ -15,6 +16,11 @@ final appRoutes = <AppRoute>[
     path: MainPage.path,
     name: MainPage.name,
     builder: (context, state) => const MainPage(key: ValueKey(MainPage.name)),
+  ),
+  AppRoute(
+    path: TodosPage.path,
+    name: TodosPage.name,
+    builder: (context, state) => const TodosPage(key: ValueKey(TodosPage.name)),
   ),
   AppRoute(
     path: AboutPage.path,
