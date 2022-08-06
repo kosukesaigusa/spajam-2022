@@ -159,7 +159,7 @@ class __$$_AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_AppUser extends _AppUser {
   const _$_AppUser(
-      {required this.userId,
+      {this.userId = '',
       this.name = '',
       @unionTimestampConverter
           this.createdAt = const UnionTimestamp.serverTimestamp(),
@@ -171,6 +171,7 @@ class _$_AppUser extends _AppUser {
       _$$_AppUserFromJson(json);
 
   @override
+  @JsonKey()
   final String userId;
   @override
   @JsonKey()
@@ -224,7 +225,7 @@ class _$_AppUser extends _AppUser {
 
 abstract class _AppUser extends AppUser {
   const factory _AppUser(
-      {required final String userId,
+      {final String userId,
       final String name,
       @unionTimestampConverter
           final UnionTimestamp createdAt,

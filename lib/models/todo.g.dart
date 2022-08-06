@@ -13,8 +13,8 @@ _$_Todo _$$_TodoFromJson(Map json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = _$_Todo(
-          todoId: $checkedConvert('todoId', (v) => v as String),
-          userId: $checkedConvert('userId', (v) => v as String),
+          todoId: $checkedConvert('todoId', (v) => v as String? ?? ''),
+          userId: $checkedConvert('userId', (v) => v as String? ?? ''),
           title: $checkedConvert('title', (v) => v as String? ?? ''),
           description:
               $checkedConvert('description', (v) => v as String? ?? ''),

@@ -187,8 +187,8 @@ class __$$_TodoCopyWithImpl<$Res> extends _$TodoCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Todo extends _Todo {
   const _$_Todo(
-      {required this.todoId,
-      required this.userId,
+      {this.todoId = '',
+      this.userId = '',
       this.title = '',
       this.description = '',
       @timestampConverter
@@ -201,8 +201,10 @@ class _$_Todo extends _Todo {
   factory _$_Todo.fromJson(Map<String, dynamic> json) => _$$_TodoFromJson(json);
 
   @override
+  @JsonKey()
   final String todoId;
   @override
+  @JsonKey()
   final String userId;
   @override
   @JsonKey()
@@ -269,8 +271,8 @@ class _$_Todo extends _Todo {
 
 abstract class _Todo extends Todo {
   const factory _Todo(
-      {required final String todoId,
-      required final String userId,
+      {final String todoId,
+      final String userId,
       final String title,
       final String description,
       @timestampConverter

@@ -38,6 +38,12 @@ extension DateTimeExtension on DateTime {
             ).format(this)
           : DateFormat('yyyy${delimiter}MM${delimiter}dd HH:mm').format(this);
 
+  /// 「2022年01月01日 (月) 00:00」のような文字列に変換する
+  String toJaYYYYMMDDHHMM({bool withJapaneseWeekDay = true}) =>
+      withJapaneseWeekDay
+          ? DateFormat('yyyy年MM月dd日 ($japaneseWeekDay) HH:mm').format(this)
+          : DateFormat('yyyy年MM月dd日 HH:mm').format(this);
+
   /// 入力日の日本の曜日を返す
   String get japaneseWeekDay => japaneseWeekdays[_weekDayInt(this) - 1];
 

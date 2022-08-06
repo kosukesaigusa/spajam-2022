@@ -10,8 +10,8 @@ part 'todo.g.dart';
 @freezed
 class Todo with _$Todo {
   const factory Todo({
-    required String todoId,
-    required String userId,
+    @Default('') String todoId,
+    @Default('') String userId,
     @Default('') String title,
     @Default('') String description,
     @timestampConverter DateTime? dueDateTime,
@@ -26,8 +26,8 @@ class Todo with _$Todo {
   factory Todo.fromDocumentSnapshot(DocumentSnapshot ds) {
     final data = ds.data()! as Map<String, dynamic>;
     return Todo.fromJson(<String, dynamic>{
-      'todoId': ds.id,
       ...data,
+      'todoId': ds.id,
     });
   }
 

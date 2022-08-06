@@ -13,7 +13,7 @@ _$_AppUser _$$_AppUserFromJson(Map json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = _$_AppUser(
-          userId: $checkedConvert('userId', (v) => v as String),
+          userId: $checkedConvert('userId', (v) => v as String? ?? ''),
           name: $checkedConvert('name', (v) => v as String? ?? ''),
           createdAt: $checkedConvert(
               'createdAt',

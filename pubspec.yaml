@@ -21,6 +21,7 @@ dependencies:
   firebase_storage:
   flutter:
     sdk: flutter
+  flutter_datetime_picker:
   flutter_hooks:
   flutter_localizations:
     sdk: flutter
