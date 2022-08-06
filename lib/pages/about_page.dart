@@ -27,12 +27,13 @@ class AboutPage extends HookConsumerWidget {
           children: [
             Text('App Name: ${_getAppNameText(packageInfo)}'),
             Text('Version: ${_getVersionInfoText(packageInfo)}'),
-            if (ref.watch(isSignedInProvider).value ?? false)
+            if (ref.watch(isSignedInProvider).value ?? false) ...[
+              Text(ref.watch(userIdProvider).value ?? ''),
               ElevatedButton(
                 onPressed: () => ref.read(signOutProvider)(),
                 child: const Text('サインアウト'),
               )
-            else
+            ] else
               ElevatedButton(
                 onPressed: () => ref.read(signInAnonymouslyProvider)(),
                 child: const Text('匿名サインイン'),
@@ -45,7 +46,7 @@ class AboutPage extends HookConsumerWidget {
           try {
             final appUser = await ref
                 .read(appUserRepositoryProvider)
-                .fetchAppUser(appUserId: 'test');
+                .fetchAppUser(userId: 'test');
             logger.info(appUser.toString());
           } on FirebaseException catch (e) {
             logger.warning(e.toString());

@@ -40,7 +40,7 @@ final bottomTabIconProvider =
     Provider.family<Widget, BottomTabEnum>((ref, bottomTabEnum) {
   switch (bottomTabEnum) {
     case BottomTabEnum.todos:
-      return const FaIcon(FontAwesomeIcons.check);
+      return const FaIcon(FontAwesomeIcons.list);
     case BottomTabEnum.about:
       return const FaIcon(FontAwesomeIcons.ellipsis);
   }

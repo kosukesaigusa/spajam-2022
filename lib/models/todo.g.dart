@@ -18,8 +18,8 @@ _$_Todo _$$_TodoFromJson(Map json) => $checkedCreate(
           title: $checkedConvert('title', (v) => v as String? ?? ''),
           description:
               $checkedConvert('description', (v) => v as String? ?? ''),
-          dueDateTime: $checkedConvert('dueDateTime',
-              (v) => v == null ? null : DateTime.parse(v as String)),
+          dueDateTime: $checkedConvert(
+              'dueDateTime', (v) => timestampConverter.fromJson(v)),
           isDone: $checkedConvert('isDone', (v) => v as bool? ?? false),
           updatedAt: $checkedConvert(
               'updatedAt',
@@ -37,7 +37,7 @@ Map<String, dynamic> _$$_TodoToJson(_$_Todo instance) => <String, dynamic>{
       'userId': instance.userId,
       'title': instance.title,
       'description': instance.description,
-      'dueDateTime': instance.dueDateTime?.toIso8601String(),
+      'dueDateTime': timestampConverter.toJson(instance.dueDateTime),
       'isDone': instance.isDone,
       'updatedAt': alwaysUseServerTimestampUnionTimestampConverter
           .toJson(instance.updatedAt),

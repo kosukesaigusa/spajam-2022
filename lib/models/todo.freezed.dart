@@ -24,6 +24,7 @@ mixin _$Todo {
   String get userId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  @timestampConverter
   DateTime? get dueDateTime => throw _privateConstructorUsedError;
   bool get isDone => throw _privateConstructorUsedError;
   @alwaysUseServerTimestampUnionTimestampConverter
@@ -43,7 +44,8 @@ abstract class $TodoCopyWith<$Res> {
       String userId,
       String title,
       String description,
-      DateTime? dueDateTime,
+      @timestampConverter
+          DateTime? dueDateTime,
       bool isDone,
       @alwaysUseServerTimestampUnionTimestampConverter
           UnionTimestamp updatedAt});
@@ -119,7 +121,8 @@ abstract class _$$_TodoCopyWith<$Res> implements $TodoCopyWith<$Res> {
       String userId,
       String title,
       String description,
-      DateTime? dueDateTime,
+      @timestampConverter
+          DateTime? dueDateTime,
       bool isDone,
       @alwaysUseServerTimestampUnionTimestampConverter
           UnionTimestamp updatedAt});
@@ -188,7 +191,8 @@ class _$_Todo extends _Todo {
       required this.userId,
       this.title = '',
       this.description = '',
-      this.dueDateTime,
+      @timestampConverter
+          this.dueDateTime,
       this.isDone = false,
       @alwaysUseServerTimestampUnionTimestampConverter
           this.updatedAt = const UnionTimestamp.serverTimestamp()})
@@ -207,6 +211,7 @@ class _$_Todo extends _Todo {
   @JsonKey()
   final String description;
   @override
+  @timestampConverter
   final DateTime? dueDateTime;
   @override
   @JsonKey()
@@ -268,7 +273,8 @@ abstract class _Todo extends Todo {
       required final String userId,
       final String title,
       final String description,
-      final DateTime? dueDateTime,
+      @timestampConverter
+          final DateTime? dueDateTime,
       final bool isDone,
       @alwaysUseServerTimestampUnionTimestampConverter
           final UnionTimestamp updatedAt}) = _$_Todo;
@@ -285,6 +291,7 @@ abstract class _Todo extends Todo {
   @override
   String get description;
   @override
+  @timestampConverter
   DateTime? get dueDateTime;
   @override
   bool get isDone;

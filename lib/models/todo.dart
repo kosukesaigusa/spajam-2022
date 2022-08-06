@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../utils/json_converters/timestamp.dart';
 import '../utils/json_converters/union_timestamp.dart';
 
 part 'todo.freezed.dart';
@@ -13,7 +14,7 @@ class Todo with _$Todo {
     required String userId,
     @Default('') String title,
     @Default('') String description,
-    DateTime? dueDateTime,
+    @timestampConverter DateTime? dueDateTime,
     @Default(false) bool isDone,
     @alwaysUseServerTimestampUnionTimestampConverter
     @Default(UnionTimestamp.serverTimestamp())

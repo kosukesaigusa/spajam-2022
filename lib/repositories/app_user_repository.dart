@@ -11,9 +11,9 @@ final appUserRepositoryProvider =
 class AppUserRepository {
   /// 指定した AppUser を取得する。
   Future<AppUser?> fetchAppUser({
-    required String appUserId,
+    required String userId,
   }) async {
-    final ds = await appUserRef(appUserId: appUserId).get();
+    final ds = await appUserRef(userId: userId).get();
     if (!ds.exists) {
       logger.warning('Document not found: ${ds.reference.path}');
       return null;
@@ -23,7 +23,7 @@ class AppUserRepository {
 
   /// 指定した userId のユーザーを `SetOptions(merge: true)` で作成する。
   Future<void> setUser({required String userId}) async {
-    await appUserRef(appUserId: userId)
-        .set(AppUser(appUserId: userId, name: userId), SetOptions(merge: true));
+    await appUserRef(userId: userId)
+        .set(AppUser(userId: userId, name: userId), SetOptions(merge: true));
   }
 }
