@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../features/auth/auth.dart';
-
 class SignInPage extends HookConsumerWidget {
   const SignInPage({super.key});
 
@@ -19,12 +17,6 @@ class SignInPage extends HookConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () => ref.read(signInAnonymouslyProvider)(),
-                child: const Text('匿名サインイン'),
-              ),
-            ],
           ),
         ),
       ),

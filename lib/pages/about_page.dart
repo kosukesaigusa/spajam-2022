@@ -27,10 +27,16 @@ class AboutPage extends HookConsumerWidget {
           children: [
             Text('App Name: ${_getAppNameText(packageInfo)}'),
             Text('Version: ${_getVersionInfoText(packageInfo)}'),
-            ElevatedButton(
-              onPressed: () => ref.read(signOutProvider)(),
-              child: const Text('サインアウト'),
-            ),
+            if (ref.watch(isSignedInProvider).value ?? false)
+              ElevatedButton(
+                onPressed: () => ref.read(signOutProvider)(),
+                child: const Text('サインアウト'),
+              )
+            else
+              ElevatedButton(
+                onPressed: () => ref.read(signInAnonymouslyProvider)(),
+                child: const Text('匿名サインイン'),
+              ),
           ],
         ),
       ),
@@ -50,12 +56,8 @@ class AboutPage extends HookConsumerWidget {
   }
 
   /// バージョン番号のテキストを取得する
-  String _getAppNameText(PackageInfo? packageInfo) {
-    if (packageInfo == null) {
-      return '';
-    }
-    return packageInfo.appName;
-  }
+  String _getAppNameText(PackageInfo? packageInfo) =>
+      packageInfo?.appName ?? '';
 
   /// バージョン番号のテキストを取得する
   String _getVersionInfoText(PackageInfo? packageInfo) {
