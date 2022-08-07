@@ -16,6 +16,10 @@ final userIdProvider = Provider<AsyncValue<String?>>(
   (ref) => ref.watch(authUserProvider).whenData((user) => user?.uid),
 );
 
+final isSignedInProvider = Provider(
+  (ref) => ref.watch(userIdProvider).whenData((userId) => userId != null),
+);
+
 /// FirebaseAuth の匿名ログインを行って、そのユーザー ID でユーザードキュメントを作成する。
 final signInAnonymouslyProvider = Provider.autoDispose<Future<void> Function()>(
   (ref) => () async {

@@ -9,7 +9,7 @@ part 'app_user.g.dart';
 @freezed
 class AppUser with _$AppUser {
   const factory AppUser({
-    required String appUserId,
+    @Default('') String userId,
     @Default('') String name,
     @unionTimestampConverter
     @Default(UnionTimestamp.serverTimestamp())
@@ -25,8 +25,8 @@ class AppUser with _$AppUser {
   factory AppUser.fromDocumentSnapshot(DocumentSnapshot ds) {
     final data = ds.data()! as Map<String, dynamic>;
     return AppUser.fromJson(<String, dynamic>{
-      'appUserId': ds.id,
       ...data,
+      'appUserId': ds.id,
     });
   }
 

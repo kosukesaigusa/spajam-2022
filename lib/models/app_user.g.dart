@@ -13,7 +13,7 @@ _$_AppUser _$$_AppUserFromJson(Map json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = _$_AppUser(
-          appUserId: $checkedConvert('appUserId', (v) => v as String),
+          userId: $checkedConvert('userId', (v) => v as String? ?? ''),
           name: $checkedConvert('name', (v) => v as String? ?? ''),
           createdAt: $checkedConvert(
               'createdAt',
@@ -33,7 +33,7 @@ _$_AppUser _$$_AppUserFromJson(Map json) => $checkedCreate(
 
 Map<String, dynamic> _$$_AppUserToJson(_$_AppUser instance) =>
     <String, dynamic>{
-      'appUserId': instance.appUserId,
+      'userId': instance.userId,
       'name': instance.name,
       'createdAt': unionTimestampConverter.toJson(instance.createdAt),
       'updatedAt': alwaysUseServerTimestampUnionTimestampConverter

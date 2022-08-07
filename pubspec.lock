@@ -377,6 +377,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_datetime_picker_bdaya:
+    dependency: "direct main"
+    description:
+      name: flutter_datetime_picker_bdaya
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   flutter_hooks:
     dependency: "direct main"
     description:
@@ -845,6 +852,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.4"
+  uuid:
+    dependency: "direct main"
+    description:
+      name: uuid
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.6"
   vector_math:
     dependency: transitive
     description:

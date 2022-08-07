@@ -24,6 +24,7 @@ mixin _$Todo {
   String get userId => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
+  @timestampConverter
   DateTime? get dueDateTime => throw _privateConstructorUsedError;
   bool get isDone => throw _privateConstructorUsedError;
   @alwaysUseServerTimestampUnionTimestampConverter
@@ -43,7 +44,8 @@ abstract class $TodoCopyWith<$Res> {
       String userId,
       String title,
       String description,
-      DateTime? dueDateTime,
+      @timestampConverter
+          DateTime? dueDateTime,
       bool isDone,
       @alwaysUseServerTimestampUnionTimestampConverter
           UnionTimestamp updatedAt});
@@ -119,7 +121,8 @@ abstract class _$$_TodoCopyWith<$Res> implements $TodoCopyWith<$Res> {
       String userId,
       String title,
       String description,
-      DateTime? dueDateTime,
+      @timestampConverter
+          DateTime? dueDateTime,
       bool isDone,
       @alwaysUseServerTimestampUnionTimestampConverter
           UnionTimestamp updatedAt});
@@ -184,11 +187,12 @@ class __$$_TodoCopyWithImpl<$Res> extends _$TodoCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Todo extends _Todo {
   const _$_Todo(
-      {required this.todoId,
-      required this.userId,
+      {this.todoId = '',
+      this.userId = '',
       this.title = '',
       this.description = '',
-      this.dueDateTime,
+      @timestampConverter
+          this.dueDateTime,
       this.isDone = false,
       @alwaysUseServerTimestampUnionTimestampConverter
           this.updatedAt = const UnionTimestamp.serverTimestamp()})
@@ -197,8 +201,10 @@ class _$_Todo extends _Todo {
   factory _$_Todo.fromJson(Map<String, dynamic> json) => _$$_TodoFromJson(json);
 
   @override
+  @JsonKey()
   final String todoId;
   @override
+  @JsonKey()
   final String userId;
   @override
   @JsonKey()
@@ -207,6 +213,7 @@ class _$_Todo extends _Todo {
   @JsonKey()
   final String description;
   @override
+  @timestampConverter
   final DateTime? dueDateTime;
   @override
   @JsonKey()
@@ -264,11 +271,12 @@ class _$_Todo extends _Todo {
 
 abstract class _Todo extends Todo {
   const factory _Todo(
-      {required final String todoId,
-      required final String userId,
+      {final String todoId,
+      final String userId,
       final String title,
       final String description,
-      final DateTime? dueDateTime,
+      @timestampConverter
+          final DateTime? dueDateTime,
       final bool isDone,
       @alwaysUseServerTimestampUnionTimestampConverter
           final UnionTimestamp updatedAt}) = _$_Todo;
@@ -285,6 +293,7 @@ abstract class _Todo extends Todo {
   @override
   String get description;
   @override
+  @timestampConverter
   DateTime? get dueDateTime;
   @override
   bool get isDone;
