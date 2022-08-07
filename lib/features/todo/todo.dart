@@ -36,16 +36,6 @@ class TodoFormStateNotifier extends StateNotifier<Todo> {
   String get title => titleController.value.text;
   String get description => descriptionController.value.text;
 
-  /// Todo のタイトルを更新する。
-  void updateTitle(String title) {
-    state = state.copyWith(title: title);
-  }
-
-  /// Todo の説明を更新する。
-  void updateDescription(String title) {
-    state = state.copyWith(title: title);
-  }
-
   /// Todo の期限を更新する。
   void updateDueDate(DateTime dueDateTime) {
     state = state.copyWith(dueDateTime: dueDateTime);

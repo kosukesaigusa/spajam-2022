@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../utils/json_converters/timestamp.dart';
@@ -32,4 +33,8 @@ class Todo with _$Todo {
   }
 
   const Todo._();
+
+  /// isDone のステータスに応じてチェックボックスの IconData を返す。
+  IconData get iconData =>
+      isDone ? Icons.check_box_outline_blank : Icons.check_box;
 }

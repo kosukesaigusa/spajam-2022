@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../features/auth/auth.dart';
 import '../features/todo/todo.dart';
 import '../models/todo.dart';
+import '../repositories/todo_repository.dart';
 import '../utils/extensions/date_time.dart';
 import '../utils/loading.dart';
 import '../utils/scaffold_messenger_service.dart';
@@ -29,7 +30,8 @@ class TodosPage extends HookConsumerWidget {
           ? const SizedBox()
           : ref.watch(todosStreamProvider).when(
                 data: (todos) {
-                  return ListView.builder(
+                  return ListView.separated(
+                    separatorBuilder: (context, index) => const Divider(),
                     itemCount: todos.length,
                     itemBuilder: (context, index) => Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -94,8 +96,9 @@ class TodoItem extends HookConsumerWidget {
           ],
         ),
         IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.check_box),
+          onPressed: () =>
+              ref.read(todoRepositoryProvider).toggleTodoStatus(todo),
+          icon: Icon(todo.iconData),
         ),
       ],
     );

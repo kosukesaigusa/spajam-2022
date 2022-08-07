@@ -39,4 +39,10 @@ class TodoRepository {
     await todoRef(userId: todo.userId, todoId: todo.todoId)
         .set(todo, setOptions);
   }
+
+  /// 指定した Todo の isDone を切り替える
+  Future<void> toggleTodoStatus(Todo todo) async {
+    await todoRef(userId: todo.userId, todoId: todo.todoId)
+        .set(todo.copyWith(isDone: !todo.isDone), SetOptions(merge: true));
+  }
 }
