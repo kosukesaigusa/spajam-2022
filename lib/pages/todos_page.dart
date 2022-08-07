@@ -99,23 +99,37 @@ class TodoItem extends HookConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TodoStatusBudge(todo: todo),
-            Text(todo.title, style: context.titleLarge),
-            if (todo.description.isNotEmpty) ...[
-              const Gap(2),
-              Text(todo.description, style: context.bodySmall),
-            ],
-            if (todo.dueDateTime != null) ...[
-              const Gap(2),
+        Flexible(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TodoStatusBudge(todo: todo),
               Text(
-                '期限：${todo.dueDateTime!.toYYYYMMDDHHMM()}',
-                style: context.bodySmall,
+                todo.title,
+                style: context.titleLarge,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
-            ]
-          ],
+              if (todo.description.isNotEmpty) ...[
+                const Gap(2),
+                Text(
+                  todo.description,
+                  style: context.bodySmall,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+              if (todo.dueDateTime != null) ...[
+                const Gap(2),
+                Text(
+                  '期限：${todo.dueDateTime!.toYYYYMMDDHHMM()}',
+                  style: context.bodySmall,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ]
+            ],
+          ),
         ),
         IconButton(
           onPressed: () =>
