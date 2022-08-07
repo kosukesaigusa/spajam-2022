@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+/// GitHub のリポジトリ一覧ページ。
 class GitHubReposPage extends HookConsumerWidget {
   const GitHubReposPage({super.key});
 
