@@ -55,19 +55,24 @@ class TodosPage extends HookConsumerWidget {
           await ref
               .read(scaffoldMessengerServiceProvider)
               .showDialogByBuilder<void>(
+                barrierDismissible: false,
                 builder: (context) => AlertDialog(
                   title: const Text('Todo の作成'),
                   content: CommonAlertDialogContent(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        TodoTitleTextField(),
-                        Gap(16),
-                        TodoDescriptionTextField(),
-                        Gap(16),
-                        TodoDateTimePicker(),
-                        Gap(32),
-                        SubmitButton(),
+                      children: [
+                        const TodoTitleTextField(),
+                        const Gap(16),
+                        const TodoDescriptionTextField(),
+                        const Gap(16),
+                        const TodoDateTimePicker(),
+                        const Gap(32),
+                        const SubmitButton(),
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text('キャンセル', style: context.labelSmall),
+                        ),
                       ],
                     ),
                   ),
@@ -100,11 +105,11 @@ class TodoItem extends HookConsumerWidget {
             TodoStatusBudge(todo: todo),
             Text(todo.title, style: context.titleLarge),
             if (todo.description.isNotEmpty) ...[
-              const Gap(4),
+              const Gap(2),
               Text(todo.description, style: context.bodySmall),
             ],
             if (todo.dueDateTime != null) ...[
-              const Gap(4),
+              const Gap(2),
               Text(
                 '期限：${todo.dueDateTime!.toYYYYMMDDHHMM()}',
                 style: context.bodySmall,
@@ -144,7 +149,7 @@ class TodoStatusBudge extends StatelessWidget {
   }
 }
 
-/// 絞り込み条件を選択する AlertDialog を表示する処理を提供する Provider。
+/// 絞り込み条件を選択する ModalBottomSheet を表示する処理を提供する Provider。
 final showTodoFilterDialogProvider = Provider<Future<void> Function()>(
   (ref) => () async {
     final todoFilter = await ref
