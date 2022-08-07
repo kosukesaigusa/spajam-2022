@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../features/todo/todo.dart';
-import '../models/todo.dart';
-import '../utils/firestore_refs.dart';
-import '../utils/logger.dart';
+import '../../features/todo/todo.dart';
+import '../../models/todo.dart';
+import '../../utils/firestore_refs.dart';
+import '../../utils/logger.dart';
 
 final todoRepositoryProvider = Provider.autoDispose((_) => TodoRepository());
 

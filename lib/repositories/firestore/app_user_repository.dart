@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../models/app_user.dart';
-import '../utils/firestore_refs.dart';
-import '../utils/logger.dart';
+import '../../models/app_user.dart';
+import '../../utils/firestore_refs.dart';
+import '../../utils/logger.dart';
 
 final appUserRepositoryProvider =
     Provider.autoDispose((_) => AppUserRepository());

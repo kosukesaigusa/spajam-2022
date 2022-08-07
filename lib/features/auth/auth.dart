@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import '../../repositories/app_user_repository.dart';
+import '../../repositories/firestore/app_user_repository.dart';
 import '../../utils/exceptions/base.dart';
 import '../../utils/loading.dart';
 import '../../utils/logger.dart';

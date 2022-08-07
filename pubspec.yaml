@@ -9,9 +9,14 @@ environment:
   sdk: '>=2.17.6 <3.0.0'
 
 dependencies:
+  cached_network_image:
   cloud_firestore:
   cloud_functions:
+  connectivity_plus:
+  cookie_jar:
   cupertino_icons:
+  dio:
+  dio_cookie_manager:
   firebase_analytics:
   firebase_auth:
   firebase_core:
@@ -21,7 +26,6 @@ dependencies:
   firebase_storage:
   flutter:
     sdk: flutter
-  # flutter_datetime_picker:
   flutter_datetime_picker_bdaya:
   flutter_hooks:
   flutter_localizations:
@@ -33,7 +37,9 @@ dependencies:
   hooks_riverpod:
   intl:
   package_info_plus: ^1.4.3
+  path_provider:
   path_to_regexp:
+  shimmer:
   simple_logger:
   tuple:
   uuid:

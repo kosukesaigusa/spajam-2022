@@ -7,7 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../features/auth/auth.dart';
 import '../features/todo/todo.dart';
 import '../models/todo.dart';
-import '../repositories/todo_repository.dart';
+import '../repositories/firestore/todo_repository.dart';
 import '../utils/extensions/build_context.dart';
 import '../utils/extensions/date_time.dart';
 import '../utils/loading.dart';
