@@ -36,5 +36,12 @@ class Todo with _$Todo {
 
   /// isDone のステータスに応じてチェックボックスの IconData を返す。
   IconData get iconData =>
-      isDone ? Icons.check_box_outline_blank : Icons.check_box;
+      isDone ? Icons.check_box : Icons.check_box_outline_blank;
+
+  /// isDone のステータスに対応する文言。
+  String get statusLabel => isDone ? '完了' : '未完了';
+
+  /// isDone のステータスに対応する色。
+  Color get statusColor =>
+      isDone ? ThemeData().primaryColor : ThemeData().disabledColor;
 }

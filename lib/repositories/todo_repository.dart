@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../features/todo/todo.dart';
 import '../models/todo.dart';
 import '../utils/firestore_refs.dart';
 import '../utils/logger.dart';
@@ -21,11 +22,13 @@ class TodoRepository {
     return ds.data()!;
   }
 
-  /// 指定したユーザーの Todo 一覧を購読する。
+  /// 指定したユーザー かつ TodoFilter の条件で絞り込んだ Todo 一覧を購読する。
   Stream<List<Todo>> subscribeTodos({
     required String userId,
+    required TodoFilter todoFilter,
   }) {
-    final collectionStream = todosRef(userId: userId).snapshots();
+    final collectionStream =
+        todoFilter.queryBuilder(todosRef(userId: userId)).snapshots();
     return collectionStream.map(
       (qs) => qs.docs.map((qds) => qds.data()).toList(),
     );

@@ -8,6 +8,7 @@ import '../features/auth/auth.dart';
 import '../features/todo/todo.dart';
 import '../models/todo.dart';
 import '../repositories/todo_repository.dart';
+import '../utils/extensions/build_context.dart';
 import '../utils/extensions/date_time.dart';
 import '../utils/loading.dart';
 import '../utils/scaffold_messenger_service.dart';
@@ -25,7 +26,15 @@ class TodosPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userId = ref.watch(userIdProvider).value;
     return Scaffold(
-      appBar: AppBar(title: const Text('Todo 一覧')),
+      appBar: AppBar(
+        title: const Text('Todo 一覧'),
+        actions: [
+          IconButton(
+            onPressed: () => ref.read(showTodoFilterDialogProvider)(),
+            icon: const Icon(Icons.sort),
+          ),
+        ],
+      ),
       body: userId == null
           ? const SizedBox()
           : ref.watch(todosStreamProvider).when(
@@ -33,10 +42,9 @@ class TodosPage extends HookConsumerWidget {
                   return ListView.separated(
                     separatorBuilder: (context, index) => const Divider(),
                     itemCount: todos.length,
-                    itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: TodoItem(todo: todos[index]),
-                    ),
+                    padding: const EdgeInsets.all(16),
+                    itemBuilder: (context, index) =>
+                        TodoItem(todo: todos[index]),
                   );
                 },
                 error: (_, __) => const SizedBox(),
@@ -89,21 +97,93 @@ class TodoItem extends HookConsumerWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(todo.title),
-            if (todo.description.isNotEmpty) Text(todo.description),
-            if (todo.dueDateTime != null)
-              Text('期限：${todo.dueDateTime!.toYYYYMMDDHHMM()}')
+            TodoStatusBudge(todo: todo),
+            Text(todo.title, style: context.titleLarge),
+            if (todo.description.isNotEmpty) ...[
+              const Gap(4),
+              Text(todo.description, style: context.bodySmall),
+            ],
+            if (todo.dueDateTime != null) ...[
+              const Gap(4),
+              Text(
+                '期限：${todo.dueDateTime!.toYYYYMMDDHHMM()}',
+                style: context.bodySmall,
+              ),
+            ]
           ],
         ),
         IconButton(
           onPressed: () =>
               ref.read(todoRepositoryProvider).toggleTodoStatus(todo),
-          icon: Icon(todo.iconData),
+          icon: Icon(todo.iconData, color: todo.statusColor),
         ),
       ],
     );
   }
 }
+
+/// 完了 or 未完了 のバッジ。
+class TodoStatusBudge extends StatelessWidget {
+  const TodoStatusBudge({super.key, required this.todo});
+
+  final Todo todo;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: todo.statusColor,
+      ),
+      child: Text(
+        todo.statusLabel,
+        style: context.labelSmall!.copyWith(color: Colors.white),
+      ),
+    );
+  }
+}
+
+/// 絞り込み条件を選択する AlertDialog を表示する処理を提供する Provider。
+final showTodoFilterDialogProvider = Provider<Future<void> Function()>(
+  (ref) => () async {
+    final todoFilter = await ref
+        .read(scaffoldMessengerServiceProvider)
+        .showModalBottomSheetByBuilder<TodoFilter>(
+          builder: (context) => ListView(
+            children: [
+              const Gap(16),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Text('絞り込み条件を選択してください'),
+              ),
+              const Gap(16),
+              ...TodoFilter.values
+                  .map(
+                    (todoFilter) => ListTile(
+                      leading: ref.watch(todoFilterProvider) == todoFilter
+                          ? Icon(
+                              Icons.check_circle,
+                              color: context.theme.primaryColor,
+                            )
+                          : Icon(
+                              Icons.circle_outlined,
+                              color: context.theme.disabledColor,
+                            ),
+                      title: Text(todoFilter.label),
+                      onTap: () => Navigator.pop(context, todoFilter),
+                    ),
+                  )
+                  .toList(),
+            ],
+          ),
+        );
+    if (todoFilter == null) {
+      return;
+    }
+    ref.read(todoFilterProvider.notifier).update((state) => todoFilter);
+  },
+);
 
 /// Todo のタイトルを入力する TextField。
 class TodoTitleTextField extends HookConsumerWidget {
