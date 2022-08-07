@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/todo.dart';
-import '../../repositories/todo_repository.dart';
+import '../../repositories/firestore/todo_repository.dart';
 import '../../utils/exceptions/base.dart';
 import '../../utils/firestore_refs.dart';
 import '../../utils/loading.dart';
