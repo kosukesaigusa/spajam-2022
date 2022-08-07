@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../pages/about_page.dart';
+import '../../pages/github_repos_page.dart';
 import '../../pages/main_page.dart';
 import '../../pages/not_found_page.dart';
 import '../../pages/sign_in_page.dart';
@@ -21,6 +22,12 @@ final appRoutes = <AppRoute>[
     path: TodosPage.path,
     name: TodosPage.name,
     builder: (context, state) => const TodosPage(key: ValueKey(TodosPage.name)),
+  ),
+  AppRoute(
+    path: GitHubReposPage.path,
+    name: GitHubReposPage.name,
+    builder: (context, state) =>
+        const GitHubReposPage(key: ValueKey(GitHubReposPage.name)),
   ),
   AppRoute(
     path: AboutPage.path,

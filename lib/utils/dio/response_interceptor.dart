@@ -5,15 +5,17 @@ import 'package:flutter/material.dart';
 class ResponseInterceptor extends Interceptor {
   @override
   void onResponse(
-    Response response,
+    Response<dynamic> response,
     ResponseInterceptorHandler handler,
   ) {
-    final stringBuffer = StringBuffer();
-    debugPrint('*** Response ***');
     final requestOptions = response.requestOptions;
-    stringBuffer
-        .writeln('${requestOptions.method} ${requestOptions.baseUrl}${requestOptions.path}');
-    stringBuffer.writeln('${response.statusCode} ${response.statusMessage}');
+    debugPrint('*** Response ***');
+    final stringBuffer = StringBuffer()
+      ..writeln(
+        '${requestOptions.method} '
+        '${requestOptions.baseUrl}${requestOptions.path}',
+      )
+      ..writeln('${response.statusCode} ${response.statusMessage}');
     // stringBuffer.write(response.headers.toString());
     // stringBuffer.write(response.data.toString());
     debugPrint(stringBuffer.toString());
