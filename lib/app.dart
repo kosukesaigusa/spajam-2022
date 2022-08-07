@@ -9,7 +9,9 @@ class App extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
+      key: UniqueKey(),
       title: 'SPAJAM 2022',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(primarySwatch: Colors.blue).copyWith(
         textTheme: TextTheme(
           displayLarge: context.textTheme.displayLarge!.copyWith(

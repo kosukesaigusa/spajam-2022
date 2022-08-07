@@ -242,7 +242,7 @@ class SearchTextField extends HookConsumerWidget {
         border: searchTextFieldBorder,
       ),
       onSubmitted: (q) async {
-        ref.read(searchWordProvider.notifier).update((state) => q);
+        ref.read(searchReposServiceProvider).refresh();
       },
     );
   }

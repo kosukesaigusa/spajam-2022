@@ -240,8 +240,10 @@ class TodoDescriptionTextField extends HookConsumerWidget {
       keyboardType: TextInputType.name,
       textInputAction: TextInputAction.done,
       cursorWidth: 1,
+      minLines: 3,
+      maxLines: 5,
       decoration: const InputDecoration(
-        hintText: '説明を入力',
+        hintText: '説明を入力（任意）',
         border: OutlineInputBorder(),
         contentPadding: EdgeInsets.all(12),
         isDense: true,
