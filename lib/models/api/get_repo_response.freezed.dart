@@ -127,7 +127,8 @@ class __$$_GetRepoResponseCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _$_GetRepoResponse implements _GetRepoResponse {
   const _$_GetRepoResponse(
       {this.success = true, this.message = '', this.repo = Repo.defaultValue});

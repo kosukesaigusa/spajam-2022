@@ -8,6 +8,7 @@ part 'get_repo_response.g.dart';
 
 @freezed
 class GetRepoResponse with _$GetRepoResponse {
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory GetRepoResponse({
     @Default(true) bool success,
     @Default('') String message,

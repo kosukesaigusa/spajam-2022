@@ -11,6 +11,8 @@ errors:
   # https://github.com/rrousselGit/freezed/issues/488
   # freezed モデルの invalid_annotation_target の警告を消す目的
   invalid_annotation_target: ignore
+  lines_longer_than_80_chars: ignore
+  flutter_style_todos: ignore
 
 linter:
   rules:

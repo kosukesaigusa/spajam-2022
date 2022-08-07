@@ -9,3 +9,6 @@ const connectionTimeoutMilliSeconds = 100000;
 
 /// APIレスポンスタイムアウトまでの時間 (ms)
 const receiveTimeoutMilliSeconds = 100000;
+
+/// Search GitHub Repositories API の 1 ページあたりの取得サイズ。
+const searchReposParPage = 30;

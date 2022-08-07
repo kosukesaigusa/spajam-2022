@@ -119,7 +119,8 @@ class __$$_OwnerCopyWithImpl<$Res> extends _$OwnerCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _$_Owner implements _Owner {
   const _$_Owner(
       {this.id = 0, this.login = '', this.avatarUrl = '', this.htmlUrl = ''});

@@ -7,6 +7,7 @@ part 'github_repo.g.dart';
 
 @freezed
 class Repo with _$Repo {
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory Repo({
     @Default(0) int id,
     @Default('') String name,

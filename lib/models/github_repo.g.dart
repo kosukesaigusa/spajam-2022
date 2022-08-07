@@ -20,18 +20,25 @@ _$_Repo _$$_RepoFromJson(Map json) => $checkedCreate(
               (v) => v == null
                   ? Owner.defaultValue
                   : Owner.fromJson(Map<String, dynamic>.from(v as Map))),
-          htmlUrl: $checkedConvert('htmlUrl', (v) => v as String? ?? ''),
+          htmlUrl: $checkedConvert('html_url', (v) => v as String? ?? ''),
           description:
               $checkedConvert('description', (v) => v as String? ?? ''),
-          updatedAt: $checkedConvert('updatedAt',
+          updatedAt: $checkedConvert('updated_at',
               (v) => v == null ? null : DateTime.parse(v as String)),
           stargazersCount:
-              $checkedConvert('stargazersCount', (v) => v as int? ?? 0),
-          forksCount: $checkedConvert('forksCount', (v) => v as int? ?? 0),
+              $checkedConvert('stargazers_count', (v) => v as int? ?? 0),
+          forksCount: $checkedConvert('forks_count', (v) => v as int? ?? 0),
           watchersCount:
-              $checkedConvert('watchersCount', (v) => v as int? ?? 0),
+              $checkedConvert('watchers_count', (v) => v as int? ?? 0),
         );
         return val;
+      },
+      fieldKeyMap: const {
+        'htmlUrl': 'html_url',
+        'updatedAt': 'updated_at',
+        'stargazersCount': 'stargazers_count',
+        'forksCount': 'forks_count',
+        'watchersCount': 'watchers_count'
       },
     );
 
@@ -39,10 +46,10 @@ Map<String, dynamic> _$$_RepoToJson(_$_Repo instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'owner': instance.owner.toJson(),
-      'htmlUrl': instance.htmlUrl,
+      'html_url': instance.htmlUrl,
       'description': instance.description,
-      'updatedAt': instance.updatedAt?.toIso8601String(),
-      'stargazersCount': instance.stargazersCount,
-      'forksCount': instance.forksCount,
-      'watchersCount': instance.watchersCount,
+      'updated_at': instance.updatedAt?.toIso8601String(),
+      'stargazers_count': instance.stargazersCount,
+      'forks_count': instance.forksCount,
+      'watchers_count': instance.watchersCount,
     };

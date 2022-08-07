@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/api/get_repo_response.dart';
 import '../../models/api/search_repos_response.dart';
 import '../../utils/api/api_client.dart';
+import '../../utils/constants/number.dart';
 import '../../utils/exceptions/base.dart';
 
 final repoRepositoryProvider = Provider.autoDispose(
@@ -18,14 +19,13 @@ class RepoRepository {
   Future<SearchReposResponse> searchRepos({
     required String q,
     int page = 1,
-    int perPage = 10,
   }) async {
     final responseResult = await _client.get(
       '/search/repositories',
       queryParameters: <String, dynamic>{
         'q': q,
         'page': page,
-        'per_page': perPage,
+        'per_page': searchReposParPage,
       },
     );
     return responseResult.when<SearchReposResponse>(

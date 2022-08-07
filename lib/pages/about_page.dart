@@ -1,12 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../features/auth/auth.dart';
-import '../repositories/firestore/app_user_repository.dart';
 import '../utils/hooks/package_info_state.dart';
-import '../utils/logger.dart';
 
 class AboutPage extends HookConsumerWidget {
   const AboutPage({super.key});
@@ -40,18 +37,6 @@ class AboutPage extends HookConsumerWidget {
               ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          try {
-            final appUser = await ref
-                .read(appUserRepositoryProvider)
-                .fetchAppUser(userId: 'test');
-            logger.info(appUser.toString());
-          } on FirebaseException catch (e) {
-            logger.warning(e.toString());
-          }
-        },
       ),
     );
   }

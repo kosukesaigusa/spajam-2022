@@ -37,6 +37,7 @@ dependencies:
   hooks_riverpod:
   intl:
   package_info_plus: ^1.4.3
+  path_provider:
   path_to_regexp:
   shimmer:
   simple_logger:

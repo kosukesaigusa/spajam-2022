@@ -148,7 +148,8 @@ class __$$_SearchReposResponseCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _$_SearchReposResponse implements _SearchReposResponse {
   const _$_SearchReposResponse(
       {this.success = true,

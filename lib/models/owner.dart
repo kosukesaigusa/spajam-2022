@@ -5,6 +5,7 @@ part 'owner.g.dart';
 
 @freezed
 class Owner with _$Owner {
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory Owner({
     @Default(0) int id,
     @Default('') String login,
