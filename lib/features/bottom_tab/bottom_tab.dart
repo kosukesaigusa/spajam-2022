@@ -11,9 +11,9 @@ final bottomTabStateProvider = StateProvider<BottomTab>((_) => bottomTabs[0]);
 
 /// BottomTab の種別。
 enum BottomTabEnum {
-  todos(label: TodosPage.name, location: TodosPage.location),
-  github(label: GitHubReposPage.name, location: GitHubReposPage.location),
-  about(label: AboutPage.name, location: AboutPage.location);
+  todos(label: 'Todos', location: TodosPage.location),
+  github(label: 'Repos', location: GitHubReposPage.location),
+  about(label: 'About', location: AboutPage.location);
 
   const BottomTabEnum({
     required this.label,
