@@ -68,10 +68,15 @@ class TodosPage extends HookConsumerWidget {
                         const Gap(16),
                         const TodoDateTimePicker(),
                         const Gap(32),
-                        const SubmitButton(),
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text('キャンセル', style: context.labelSmall),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text('キャンセル', style: context.labelSmall),
+                            ),
+                            const SubmitButton(),
+                          ],
                         ),
                       ],
                     ),
