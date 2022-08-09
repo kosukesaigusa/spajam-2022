@@ -25,7 +25,7 @@ final signInAnonymouslyProvider = Provider.autoDispose<Future<void> Function()>(
   (ref) => () async {
     try {
       ref.read(overlayLoadingProvider.notifier).update((state) => true);
-      final userCredential = await FirebaseAuth.instance.signInAnonymously();
+      final userCredential = await ref.watch(_authProvider).signInAnonymously();
       final user = userCredential.user;
       if (user == null) {
         throw const AppException(message: '匿名サインインに失敗しました。');
@@ -46,7 +46,7 @@ final signOutProvider = Provider.autoDispose<Future<void> Function()>(
   (ref) => () async {
     try {
       ref.read(overlayLoadingProvider.notifier).update((state) => true);
-      await FirebaseAuth.instance.signOut();
+      await ref.watch(_authProvider).signOut();
     } finally {
       ref.read(overlayLoadingProvider.notifier).update((state) => false);
     }
