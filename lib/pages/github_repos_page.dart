@@ -179,8 +179,8 @@ class GitHubReposListView extends HookConsumerWidget {
           );
         } else {
           final hasPrevious = ref.watch(searchReposPageProvider) > 1;
-          final hasNext = (ref.watch(searchReposMaxPageProvider) ?? 0) >
-              ref.watch(searchReposPageProvider);
+          final hasNext =
+              (ref.watch(searchReposMaxPageProvider) ?? 0) > ref.watch(searchReposPageProvider);
           return Padding(
             padding: const EdgeInsets.only(top: 16),
             child: PagerWidget(

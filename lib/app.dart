@@ -59,23 +59,36 @@ class App extends ConsumerWidget {
             fontSize: 12,
             fontWeight: FontWeight.w600,
           ),
-          bodyLarge: context.textTheme.bodyLarge!
-              .copyWith(color: Colors.black87, fontSize: 16),
-          bodyMedium: context.textTheme.bodyMedium!
-              .copyWith(color: Colors.black87, fontSize: 14),
-          bodySmall: context.textTheme.bodySmall!
-              .copyWith(color: Colors.black87, fontSize: 12),
-          labelLarge: context.textTheme.labelLarge!
-              .copyWith(color: Colors.black54, fontSize: 16),
-          labelMedium: context.textTheme.labelMedium!
-              .copyWith(color: Colors.black54, fontSize: 14),
-          labelSmall: context.textTheme.labelSmall!
-              .copyWith(color: Colors.black54, fontSize: 12),
+          bodyLarge: context.textTheme.bodyLarge!.copyWith(
+            color: Colors.black87,
+            fontSize: 16,
+          ),
+          bodyMedium: context.textTheme.bodyMedium!.copyWith(
+            color: Colors.black87,
+            fontSize: 14,
+          ),
+          bodySmall: context.textTheme.bodySmall!.copyWith(
+            color: Colors.black87,
+            fontSize: 12,
+          ),
+          labelLarge: context.textTheme.labelLarge!.copyWith(
+            color: Colors.black54,
+            fontSize: 16,
+          ),
+          labelMedium: context.textTheme.labelMedium!.copyWith(
+            color: Colors.black54,
+            fontSize: 14,
+          ),
+          labelSmall: context.textTheme.labelSmall!.copyWith(
+            color: Colors.black54,
+            fontSize: 12,
+          ),
         ),
         cardTheme: const CardTheme(margin: EdgeInsets.zero),
         scaffoldBackgroundColor: Colors.white,
-        textSelectionTheme:
-            const TextSelectionThemeData(cursorColor: Colors.black12),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Colors.black12,
+        ),
       ),
       home: const RootNavigator(),
       builder: (context, child) {

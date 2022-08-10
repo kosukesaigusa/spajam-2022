@@ -60,3 +60,6 @@ app.*.map.json
 # Firebase related
 **/android/app/google-services.json
 **/ios/GoogleService-Info.plist
+
+# fabfile
+fabfile/**

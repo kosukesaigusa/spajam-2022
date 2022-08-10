@@ -38,8 +38,7 @@ class BottomTab {
 }
 
 /// BottomNavigationBarItem.icon に表示するウィジェットを提供するプロバイダ。
-final bottomTabIconProvider =
-    Provider.family<Widget, BottomTabEnum>((ref, bottomTabEnum) {
+final bottomTabIconProvider = Provider.family<Widget, BottomTabEnum>((ref, bottomTabEnum) {
   switch (bottomTabEnum) {
     case BottomTabEnum.todos:
       return const FaIcon(FontAwesomeIcons.list);

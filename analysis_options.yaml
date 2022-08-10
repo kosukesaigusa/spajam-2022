@@ -5,6 +5,9 @@ analyzer:
     implicit-casts: false
     implicit-dynamic: false
 
+  exclude:
+    - lib/firebase_options.dart
+
   errors:
     # Remi さんの推奨設定
     # https://github.com/dart-lang/sdk/issues/46844

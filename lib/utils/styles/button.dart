@@ -31,8 +31,7 @@ class AppButtonStyle {
     textStyle: MaterialStateProperty.all<TextStyle>(
       const TextStyle(color: Colors.white),
     ),
-    backgroundColor:
-        MaterialStateProperty.all<Color>(ThemeData().disabledColor),
+    backgroundColor: MaterialStateProperty.all<Color>(ThemeData().disabledColor),
     foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
     overlayColor: MaterialStateProperty.all<Color>(Colors.white12),
   );
@@ -81,8 +80,7 @@ class AppButtonStyle {
 
   /// 背景なしのフォントサイズ小さめ、余白小さめ。
   static ButtonStyle primaryTextSmall = ButtonStyle(
-    textStyle:
-        MaterialStateProperty.all<TextStyle>(const TextStyle(fontSize: 12)),
+    textStyle: MaterialStateProperty.all<TextStyle>(const TextStyle(fontSize: 12)),
     padding: MaterialStateProperty.all(const EdgeInsets.all(4)),
     minimumSize: MaterialStateProperty.all(Size.zero),
     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -90,8 +88,7 @@ class AppButtonStyle {
 
   /// 背景なしのフォントサイズ小さめ、余白なし
   static ButtonStyle primaryTextSmallWithoutPadding = ButtonStyle(
-    textStyle:
-        MaterialStateProperty.all<TextStyle>(const TextStyle(fontSize: 12)),
+    textStyle: MaterialStateProperty.all<TextStyle>(const TextStyle(fontSize: 12)),
     padding: MaterialStateProperty.all(EdgeInsets.zero),
     minimumSize: MaterialStateProperty.all(Size.zero),
     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -99,8 +96,7 @@ class AppButtonStyle {
 
   /// 背景なしのフォントサイズ小さめ、余白小さめ。
   static ButtonStyle secondaryTextSmall = ButtonStyle(
-    textStyle:
-        MaterialStateProperty.all<TextStyle>(const TextStyle(fontSize: 12)),
+    textStyle: MaterialStateProperty.all<TextStyle>(const TextStyle(fontSize: 12)),
     foregroundColor: MaterialStateProperty.all(ThemeData().disabledColor),
     padding: MaterialStateProperty.all(const EdgeInsets.all(4)),
     minimumSize: MaterialStateProperty.all(Size.zero),
@@ -109,8 +105,7 @@ class AppButtonStyle {
 
   /// 背景なしのフォントサイズ小さめ、余白なし
   static ButtonStyle secondaryTextSmallWithoutPadding = ButtonStyle(
-    textStyle:
-        MaterialStateProperty.all<TextStyle>(const TextStyle(fontSize: 12)),
+    textStyle: MaterialStateProperty.all<TextStyle>(const TextStyle(fontSize: 12)),
     foregroundColor: MaterialStateProperty.all(ThemeData().disabledColor),
     padding: MaterialStateProperty.all(EdgeInsets.zero),
     minimumSize: MaterialStateProperty.all(Size.zero),

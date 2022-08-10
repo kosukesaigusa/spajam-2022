@@ -15,8 +15,7 @@ class GetRepoResponse with _$GetRepoResponse {
     @Default(Repo.defaultValue) Repo repo,
   }) = _GetRepoResponse;
 
-  factory GetRepoResponse.fromJson(Map<String, dynamic> json) =>
-      _$GetRepoResponseFromJson(json);
+  factory GetRepoResponse.fromJson(Map<String, dynamic> json) => _$GetRepoResponseFromJson(json);
 
   factory GetRepoResponse.fromBaseResponseData(
     BaseResponseData baseResponseData,

@@ -43,8 +43,7 @@ class TodosPage extends HookConsumerWidget {
                     separatorBuilder: (context, index) => const Divider(),
                     itemCount: todos.length,
                     padding: const EdgeInsets.all(16),
-                    itemBuilder: (context, index) =>
-                        TodoItem(todo: todos[index]),
+                    itemBuilder: (context, index) => TodoItem(todo: todos[index]),
                   );
                 },
                 error: (_, __) => const SizedBox(),
@@ -52,9 +51,7 @@ class TodosPage extends HookConsumerWidget {
               ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          await ref
-              .read(scaffoldMessengerServiceProvider)
-              .showDialogByBuilder<void>(
+          await ref.read(scaffoldMessengerServiceProvider).showDialogByBuilder<void>(
                 barrierDismissible: false,
                 builder: (context) => AlertDialog(
                   title: const Text('Todo の作成'),
@@ -137,8 +134,7 @@ class TodoItem extends HookConsumerWidget {
           ),
         ),
         IconButton(
-          onPressed: () =>
-              ref.read(todoRepositoryProvider).toggleTodoStatus(todo),
+          onPressed: () => ref.read(todoRepositoryProvider).toggleTodoStatus(todo),
           icon: Icon(todo.iconData, color: todo.statusColor),
         ),
       ],
@@ -171,37 +167,36 @@ class TodoStatusBudge extends StatelessWidget {
 /// 絞り込み条件を選択する ModalBottomSheet を表示する処理を提供する Provider。
 final showTodoFilterDialogProvider = Provider<Future<void> Function()>(
   (ref) => () async {
-    final todoFilter = await ref
-        .read(scaffoldMessengerServiceProvider)
-        .showModalBottomSheetByBuilder<TodoFilter>(
-          builder: (context) => ListView(
-            children: [
-              const Gap(16),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Text('絞り込み条件を選択してください'),
+    final todoFilter =
+        await ref.read(scaffoldMessengerServiceProvider).showModalBottomSheetByBuilder<TodoFilter>(
+              builder: (context) => ListView(
+                children: [
+                  const Gap(16),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text('絞り込み条件を選択してください'),
+                  ),
+                  const Gap(16),
+                  ...TodoFilter.values
+                      .map(
+                        (todoFilter) => ListTile(
+                          leading: ref.watch(todoFilterProvider) == todoFilter
+                              ? Icon(
+                                  Icons.check_circle,
+                                  color: context.theme.primaryColor,
+                                )
+                              : Icon(
+                                  Icons.circle_outlined,
+                                  color: context.theme.disabledColor,
+                                ),
+                          title: Text(todoFilter.label),
+                          onTap: () => Navigator.pop(context, todoFilter),
+                        ),
+                      )
+                      .toList(),
+                ],
               ),
-              const Gap(16),
-              ...TodoFilter.values
-                  .map(
-                    (todoFilter) => ListTile(
-                      leading: ref.watch(todoFilterProvider) == todoFilter
-                          ? Icon(
-                              Icons.check_circle,
-                              color: context.theme.primaryColor,
-                            )
-                          : Icon(
-                              Icons.circle_outlined,
-                              color: context.theme.disabledColor,
-                            ),
-                      title: Text(todoFilter.label),
-                      onTap: () => Navigator.pop(context, todoFilter),
-                    ),
-                  )
-                  .toList(),
-            ],
-          ),
-        );
+            );
     if (todoFilter == null) {
       return;
     }
@@ -216,8 +211,7 @@ class TodoTitleTextField extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return TextField(
-      controller:
-          ref.watch(todoFormStateNotifierProvider.notifier).titleController,
+      controller: ref.watch(todoFormStateNotifierProvider.notifier).titleController,
       keyboardType: TextInputType.name,
       textInputAction: TextInputAction.next,
       cursorWidth: 1,
@@ -239,9 +233,7 @@ class TodoDescriptionTextField extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return TextField(
-      controller: ref
-          .watch(todoFormStateNotifierProvider.notifier)
-          .descriptionController,
+      controller: ref.watch(todoFormStateNotifierProvider.notifier).descriptionController,
       keyboardType: TextInputType.name,
       textInputAction: TextInputAction.done,
       cursorWidth: 1,
@@ -264,10 +256,7 @@ class TodoDateTimePicker extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dueDateString = ref
-        .watch(todoFormStateNotifierProvider)
-        .dueDateTime
-        ?.toJaYYYYMMDDHHMM();
+    final dueDateString = ref.watch(todoFormStateNotifierProvider).dueDateTime?.toJaYYYYMMDDHHMM();
     return Row(
       children: [
         const Text('期限'),
@@ -277,9 +266,8 @@ class TodoDateTimePicker extends HookConsumerWidget {
               context,
               minTime: DateTime.now(),
               locale: LocaleType.jp,
-              onConfirm: (dateTime) => ref
-                  .read(todoFormStateNotifierProvider.notifier)
-                  .updateDueDate(dateTime),
+              onConfirm: (dateTime) =>
+                  ref.read(todoFormStateNotifierProvider.notifier).updateDueDate(dateTime),
             );
           },
           child: Text(dueDateString ?? '設定しない'),

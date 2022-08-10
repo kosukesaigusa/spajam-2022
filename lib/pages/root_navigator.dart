@@ -14,24 +14,22 @@ class RootNavigator extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        body: Stack(
-          children: [
-            Navigator(
-              key: ref.watch(globalKeyProvider),
-              initialRoute: ref.watch(appRouterProvider).initialRoute,
-              onGenerateRoute: ref.watch(appRouterProvider).onGenerateRoute,
-              onUnknownRoute: (settings) {
-                final route = MaterialPageRoute<void>(
-                  settings: settings,
-                  builder: (context) => const NotFoundPage(),
-                );
-                return route;
-              },
-            ),
-            if (ref.watch(overlayLoadingProvider)) const OverlayLoadingWidget(),
-          ],
-        ),
+      child: Stack(
+        children: [
+          Navigator(
+            key: ref.watch(globalKeyProvider),
+            initialRoute: ref.watch(appRouterProvider).initialRoute,
+            onGenerateRoute: ref.watch(appRouterProvider).onGenerateRoute,
+            onUnknownRoute: (settings) {
+              final route = MaterialPageRoute<void>(
+                settings: settings,
+                builder: (context) => const NotFoundPage(),
+              );
+              return route;
+            },
+          ),
+          if (ref.watch(overlayLoadingProvider)) const OverlayLoadingWidget(),
+        ],
       ),
     );
   }

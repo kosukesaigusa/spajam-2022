@@ -42,8 +42,7 @@ class AboutPage extends HookConsumerWidget {
   }
 
   /// バージョン番号のテキストを取得する
-  String _getAppNameText(PackageInfo? packageInfo) =>
-      packageInfo?.appName ?? '';
+  String _getAppNameText(PackageInfo? packageInfo) => packageInfo?.appName ?? '';
 
   /// バージョン番号のテキストを取得する
   String _getVersionInfoText(PackageInfo? packageInfo) {

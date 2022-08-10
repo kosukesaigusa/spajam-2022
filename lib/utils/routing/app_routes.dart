@@ -6,7 +6,6 @@ import '../../pages/github_repo_detail_page.dart';
 import '../../pages/github_repos_page.dart';
 import '../../pages/main_page.dart';
 import '../../pages/not_found_page.dart';
-import '../../pages/sign_in_page.dart';
 import '../../pages/todos_page.dart';
 import 'app_route.dart';
 import 'app_router_state.dart';
@@ -29,16 +28,14 @@ final appRoutes = <AppRoute>[
   AppRoute(
     path: GitHubReposPage.path,
     name: GitHubReposPage.name,
-    builder: (context, state) =>
-        const GitHubReposPage(key: ValueKey(GitHubReposPage.name)),
+    builder: (context, state) => const GitHubReposPage(key: ValueKey(GitHubReposPage.name)),
   ),
   AppRoute(
     path: GitHubRepoDetailPage.path,
     name: GitHubRepoDetailPage.name,
     builder: (context, state) => ProviderScope(
       overrides: <Override>[appRouterStateProvider.overrideWithValue(state)],
-      child:
-          const GitHubRepoDetailPage(key: ValueKey(GitHubRepoDetailPage.name)),
+      child: const GitHubRepoDetailPage(key: ValueKey(GitHubRepoDetailPage.name)),
     ),
   ),
   AppRoute(
@@ -49,13 +46,6 @@ final appRoutes = <AppRoute>[
   AppRoute(
     path: NotFoundPage.path,
     name: NotFoundPage.name,
-    builder: (context, state) =>
-        const NotFoundPage(key: ValueKey(NotFoundPage.name)),
-  ),
-  AppRoute(
-    path: SignInPage.path,
-    name: SignInPage.name,
-    builder: (context, state) =>
-        const SignInPage(key: ValueKey(SignInPage.name)),
+    builder: (context, state) => const NotFoundPage(key: ValueKey(NotFoundPage.name)),
   ),
 ];

@@ -46,9 +46,7 @@ class ShimmerWidget extends StatelessWidget {
           width: width,
           decoration: BoxDecoration(
             color: baseColor,
-            borderRadius: borderRadius == null
-                ? null
-                : BorderRadius.circular(borderRadius!),
+            borderRadius: borderRadius == null ? null : BorderRadius.circular(borderRadius!),
             shape: shape,
           ),
         ),
@@ -108,9 +106,7 @@ class AlignedShimmerWidget extends StatelessWidget {
             width: width,
             decoration: BoxDecoration(
               color: baseColor,
-              borderRadius: borderRadius == null
-                  ? null
-                  : BorderRadius.circular(borderRadius!),
+              borderRadius: borderRadius == null ? null : BorderRadius.circular(borderRadius!),
               shape: shape,
             ),
           ),

@@ -6,8 +6,7 @@ import '../../repositories/api/repo_repository.dart';
 import '../../utils/constants/number.dart';
 
 /// GitHub リポジトリの検索キーワードの TextEditingController を提供する Provider。
-final searchWordTextEditingControllerProvider =
-    Provider.autoDispose<TextEditingController>(
+final searchWordTextEditingControllerProvider = Provider.autoDispose<TextEditingController>(
   (ref) => TextEditingController()..text = ref.watch(searchWordProvider),
 );
 
@@ -49,8 +48,7 @@ final searchReposResponseFutureProvider =
 });
 
 /// GitHub リポジトリの検索の Pager による操作などを提供する Provider
-final searchReposServiceProvider =
-    Provider.autoDispose<SearchReposService>(SearchReposService.new);
+final searchReposServiceProvider = Provider.autoDispose<SearchReposService>(SearchReposService.new);
 
 class SearchReposService {
   SearchReposService(this._ref);
@@ -72,9 +70,7 @@ class SearchReposService {
       return;
     }
     _ref.read(isSearchingProvider.notifier).update((state) => true);
-    _ref
-        .read(searchReposPageProvider.notifier)
-        .update((state) => previousPageNumber);
+    _ref.read(searchReposPageProvider.notifier).update((state) => previousPageNumber);
     _animateToTop();
   }
 
@@ -84,9 +80,7 @@ class SearchReposService {
       return;
     }
     _ref.read(isSearchingProvider.notifier).update((state) => true);
-    _ref
-        .read(searchReposPageProvider.notifier)
-        .update((state) => nextPageNumber);
+    _ref.read(searchReposPageProvider.notifier).update((state) => nextPageNumber);
     _animateToTop();
   }
 
