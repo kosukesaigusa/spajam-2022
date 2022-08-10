@@ -13,6 +13,7 @@ import '../utils/extensions/date_time.dart';
 import '../utils/loading.dart';
 import '../utils/scaffold_messenger_service.dart';
 import '../widgets/dialog.dart';
+import '../widgets/sign_in_required.dart';
 
 /// Todo 一覧ページ。
 class TodosPage extends HookConsumerWidget {
@@ -29,16 +30,31 @@ class TodosPage extends HookConsumerWidget {
       appBar: AppBar(
         title: const Text('Todo 一覧'),
         actions: [
-          IconButton(
-            onPressed: () => ref.read(showTodoFilterDialogProvider)(),
-            icon: const Icon(Icons.sort),
-          ),
+          if (userId != null)
+            IconButton(
+              onPressed: () => ref.read(showTodoFilterDialogProvider)(),
+              icon: const Icon(Icons.sort),
+            ),
         ],
       ),
       body: userId == null
-          ? const SizedBox()
+          ? const EmptyPlaceholderWidget(
+              message: 'この機能を利用するにはサインインが必要です。'
+                  '「About > 匿名サインイン」から匿名でのサインインを行ってください。',
+            )
           : ref.watch(todosStreamProvider).when(
                 data: (todos) {
+                  if (todos.isEmpty) {
+                    return EmptyPlaceholderWidget(
+                      widget: const FaIcon(
+                        FontAwesomeIcons.list,
+                        color: Colors.black45,
+                        size: 48,
+                      ),
+                      message: '${ref.watch(todoFilterProvider).emptyMessage}TODO がありません。'
+                          '右下のペンボタンから、TODO を登録してください。',
+                    );
+                  }
                   return ListView.separated(
                     separatorBuilder: (context, index) => const Divider(),
                     itemCount: todos.length,
@@ -49,40 +65,42 @@ class TodosPage extends HookConsumerWidget {
                 error: (_, __) => const SizedBox(),
                 loading: () => const PrimarySpinkitCircle(),
               ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await ref.read(scaffoldMessengerServiceProvider).showDialogByBuilder<void>(
-                barrierDismissible: false,
-                builder: (context) => AlertDialog(
-                  title: const Text('Todo の作成'),
-                  content: CommonAlertDialogContent(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const TodoTitleTextField(),
-                        const Gap(16),
-                        const TodoDescriptionTextField(),
-                        const Gap(16),
-                        const TodoDateTimePicker(),
-                        const Gap(32),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: Text('キャンセル', style: context.labelSmall),
-                            ),
-                            const SubmitButton(),
-                          ],
+      floatingActionButton: userId == null
+          ? null
+          : FloatingActionButton(
+              onPressed: () async {
+                await ref.read(scaffoldMessengerServiceProvider).showDialogByBuilder<void>(
+                      barrierDismissible: false,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Todo の作成'),
+                        content: CommonAlertDialogContent(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const TodoTitleTextField(),
+                              const Gap(16),
+                              const TodoDescriptionTextField(),
+                              const Gap(16),
+                              const TodoDateTimePicker(),
+                              const Gap(32),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text('キャンセル', style: context.labelSmall),
+                                  ),
+                                  const SubmitButton(),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-        },
-        child: const FaIcon(FontAwesomeIcons.pen),
-      ),
+                      ),
+                    );
+              },
+              child: const FaIcon(FontAwesomeIcons.pen),
+            ),
     );
   }
 }
