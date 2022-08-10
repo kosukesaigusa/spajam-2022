@@ -57,7 +57,6 @@ class GitHubReposPage extends HookConsumerWidget {
                         _dividerWithShadow,
                       ],
                       Expanded(child: GitHubReposListView(repos: repos)),
-                      const Gap(16),
                     ];
                   },
                   error: (_, __) => [],
