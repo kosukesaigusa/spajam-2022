@@ -25,6 +25,5 @@ enum Month {
   final String label;
 
   /// 指定した整数値が月として有効かどうか
-  static bool isValidMonth(int month) =>
-      values.map((e) => e.value).toList().contains(month);
+  static bool isValidMonth(int month) => values.map((e) => e.value).toList().contains(month);
 }

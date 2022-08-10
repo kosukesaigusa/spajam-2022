@@ -27,8 +27,7 @@ class TodoRepository {
     required String userId,
     required TodoFilter todoFilter,
   }) {
-    final collectionStream =
-        todoFilter.queryBuilder(todosRef(userId: userId)).snapshots();
+    final collectionStream = todoFilter.queryBuilder(todosRef(userId: userId)).snapshots();
     return collectionStream.map(
       (qs) => qs.docs.map((qds) => qds.data()).toList(),
     );
@@ -39,8 +38,7 @@ class TodoRepository {
     required Todo todo,
     SetOptions? setOptions,
   }) async {
-    await todoRef(userId: todo.userId, todoId: todo.todoId)
-        .set(todo, setOptions);
+    await todoRef(userId: todo.userId, todoId: todo.todoId).set(todo, setOptions);
   }
 
   /// 指定した Todo の isDone を切り替える

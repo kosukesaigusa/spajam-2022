@@ -21,9 +21,8 @@ final repoFutureProvider = FutureProvider.autoDispose<Repo>(
       final state = ref.read(appRouterStateProvider);
       final owner = state.params['owner']!;
       final repo = state.params['repo']!;
-      final fetchRepoResponse = await ref
-          .read(repoRepositoryProvider)
-          .fetchRepo(owner: owner, repo: repo);
+      final fetchRepoResponse =
+          await ref.read(repoRepositoryProvider).fetchRepo(owner: owner, repo: repo);
       return fetchRepoResponse.repo;
     } on Exception {
       throw const AppException(message: '指定したリポジトリは見つかりませんでした。');
@@ -43,8 +42,7 @@ class GitHubRepoDetailPage extends HookConsumerWidget {
 
   static const path = '/repo/:owner/:repo';
   static const name = 'GitHubRepoRepoDetailPage';
-  static String location({required String owner, required String repo}) =>
-      '/repo/$owner/$repo';
+  static String location({required String owner, required String repo}) => '/repo/$owner/$repo';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

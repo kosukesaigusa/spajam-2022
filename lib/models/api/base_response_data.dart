@@ -22,8 +22,7 @@ class BaseResponseData with _$BaseResponseData {
     @Default(emptyMap) @baseResponseDataConverter Map<String, dynamic> data,
   }) = _BaseResponseData;
 
-  factory BaseResponseData.fromJson(Map<String, dynamic> json) =>
-      _$BaseResponseDataFromJson(json);
+  factory BaseResponseData.fromJson(Map<String, dynamic> json) => _$BaseResponseDataFromJson(json);
 
   /// HTTP レスポンスのレスポンスデータの方は不定 (dynamic) なので、
   /// それらのレスポンスデータはすべてこの fromDynamic コンストラクタに渡して、

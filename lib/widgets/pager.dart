@@ -40,9 +40,8 @@ class PagerButton extends HookConsumerWidget {
       onPressed: onPressed,
       style: AppButtonStyle.white,
       child: Row(
-        children: buttonType == PagerButtonType.previous
-            ? _children
-            : List.from(_children.reversed),
+        children:
+            buttonType == PagerButtonType.previous ? _children : List.from(_children.reversed),
       ),
     );
   }
@@ -79,8 +78,7 @@ class PagerWidget extends HookConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        if (hasPrevious)
-          PagerButton.previous(onPressed: onPreviousButtonTapped),
+        if (hasPrevious) PagerButton.previous(onPressed: onPreviousButtonTapped),
         if (hasNext) PagerButton.next(onPressed: onNextButtonTapped),
       ],
     );

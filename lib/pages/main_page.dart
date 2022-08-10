@@ -21,8 +21,7 @@ class MainPage extends StatefulHookConsumerWidget {
   ConsumerState<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends ConsumerState<MainPage>
-    with WidgetsBindingObserver {
+class _MainPageState extends ConsumerState<MainPage> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -55,8 +54,7 @@ class _MainPageState extends ConsumerState<MainPage>
           type: BottomNavigationBarType.fixed,
           selectedItemColor: Theme.of(context).colorScheme.primary,
           selectedFontSize: 12,
-          onTap: (index) =>
-              ref.read(bottomNavigationBarItemOnTapProvider)(index),
+          onTap: (index) => ref.read(bottomNavigationBarItemOnTapProvider)(index),
           currentIndex: ref.watch(bottomTabStateProvider).index,
           items: bottomTabs
               .map(
@@ -102,11 +100,10 @@ class MainStackedPagesNavigator extends HookConsumerWidget {
       key: bottomTab.key,
       initialRoute: MainPage.location,
       // MainPage の StackedPages 上での Navigation の設定
-      onGenerateRoute: (routeSettings) =>
-          ref.watch(appRouterProvider).onGenerateRoute(
-                routeSettings,
-                bottomNavigationPath: bottomTab.bottomTabEnum.location,
-              ),
+      onGenerateRoute: (routeSettings) => ref.watch(appRouterProvider).onGenerateRoute(
+            routeSettings,
+            bottomNavigationPath: bottomTab.bottomTabEnum.location,
+          ),
       onUnknownRoute: (settings) {
         final route = MaterialPageRoute<void>(
           settings: settings,
