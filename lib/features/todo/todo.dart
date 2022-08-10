@@ -35,6 +35,18 @@ enum TodoFilter {
         return (query) => query.where('isDone', isEqualTo: true);
     }
   }
+
+  /// 絞りこみ結果が空の場合のメッセージ
+  String get emptyMessage {
+    switch (this) {
+      case all:
+        return '登録されている Todo がありません。';
+      case due:
+      case todo:
+      case done:
+        return '該当する Todo がありません。';
+    }
+  }
 }
 
 /// Todo 一覧の絞り込み条件を管理する StateProvider。

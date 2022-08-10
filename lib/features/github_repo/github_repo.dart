@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/api/search_repos_response.dart';
 import '../../repositories/api/repo_repository.dart';
 import '../../utils/constants/number.dart';
+import '../../utils/exceptions/base.dart';
 
 /// GitHub リポジトリの検索キーワードの TextEditingController を提供する Provider。
 final searchWordTextEditingControllerProvider = Provider.autoDispose<TextEditingController>(
@@ -13,9 +14,6 @@ final searchWordTextEditingControllerProvider = Provider.autoDispose<TextEditing
 /// GitHub リポジトリの検索画面の ScrollController
 final searchReposScrollController =
     Provider.autoDispose<ScrollController>((_) => ScrollController());
-
-/// GitHub リポジトリを検索（ロード）中であるかどうかを管理する StateProvider。
-final isSearchingProvider = StateProvider.autoDispose<bool>((_) => false);
 
 /// GitHub リポジトリの検索のページ番号を管理する StateProvider。
 final searchReposPageProvider = StateProvider.autoDispose<int>((_) => 1);
@@ -36,15 +34,16 @@ final searchWordProvider = StateProvider.autoDispose<String>((_) => 'flutter');
 /// そのレスポンスを提供する FutureProvider。
 final searchReposResponseFutureProvider =
     FutureProvider.autoDispose<SearchReposResponse>((ref) async {
-  try {
-    final response = await ref.read(repoRepositoryProvider).searchRepos(
-          q: ref.watch(searchWordTextEditingControllerProvider).value.text,
-          page: ref.watch(searchReposPageProvider),
-        );
-    return response;
-  } finally {
-    ref.read(isSearchingProvider.notifier).update((state) => false);
+  final q = ref.watch(searchWordTextEditingControllerProvider).value.text;
+  final page = ref.watch(searchReposPageProvider);
+  if (q.isEmpty) {
+    throw const AppException(message: 'キーワードを入力してください。');
   }
+  if (page < 1) {
+    throw const AppException(message: 'ページ番号が正しくありません。');
+  }
+  final response = await ref.read(repoRepositoryProvider).searchRepos(q: q, page: page);
+  return response;
 });
 
 /// GitHub リポジトリの検索の Pager による操作などを提供する Provider
@@ -58,7 +57,6 @@ class SearchReposService {
   /// 検索ワードを変更したときなどに、ページ番号やスクロール位置などをリセットして
   /// searchReposResponseFutureProvider をリフレッシュする。
   void refresh() {
-    _ref.read(isSearchingProvider.notifier).update((state) => true);
     _ref.read(searchReposPageProvider.notifier).update((state) => 1);
     _animateToTop();
     _ref.refresh(searchReposResponseFutureProvider);
@@ -69,7 +67,6 @@ class SearchReposService {
     if (previousPageNumber == null) {
       return;
     }
-    _ref.read(isSearchingProvider.notifier).update((state) => true);
     _ref.read(searchReposPageProvider.notifier).update((state) => previousPageNumber);
     _animateToTop();
   }
@@ -79,7 +76,6 @@ class SearchReposService {
     if (nextPageNumber == null) {
       return;
     }
-    _ref.read(isSearchingProvider.notifier).update((state) => true);
     _ref.read(searchReposPageProvider.notifier).update((state) => nextPageNumber);
     _animateToTop();
   }

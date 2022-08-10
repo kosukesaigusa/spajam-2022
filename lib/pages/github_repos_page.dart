@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,6 +12,7 @@ import '../utils/extensions/int.dart';
 import '../widgets/github_repo.dart';
 import '../widgets/pager.dart';
 import '../widgets/shimmer.dart';
+import '../widgets/sign_in_required.dart';
 import 'github_repo_detail_page.dart';
 
 /// GitHub のリポジトリ一覧ページ。
@@ -33,7 +35,7 @@ class GitHubReposPage extends HookConsumerWidget {
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: SearchTextField(),
           ),
-          if (ref.watch(isSearchingProvider)) ...[
+          if (ref.watch(searchReposResponseFutureProvider).isLoading) ...[
             const Gap(8),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
@@ -59,7 +61,15 @@ class GitHubReposPage extends HookConsumerWidget {
                       Expanded(child: GitHubReposListView(repos: repos)),
                     ];
                   },
-                  error: (_, __) => [],
+                  error: (e, __) => [
+                    Expanded(
+                      child: EmptyPlaceholderWidget(
+                        widget:
+                            const FaIcon(FontAwesomeIcons.github, color: Colors.black45, size: 48),
+                        message: e.toString(),
+                      ),
+                    ),
+                  ],
                   loading: () => [
                     const Expanded(child: GitHubReposListView.shimmer()),
                   ],
