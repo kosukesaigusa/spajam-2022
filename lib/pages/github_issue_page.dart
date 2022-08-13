@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -9,6 +10,30 @@ class GitHubIssuePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final titleController = useTextEditingController();
+    final commentController = useTextEditingController();
+    final titleFieldEmpty = useState<bool>(true);
+    final commentFieldEmpty = useState<bool>(true);
+
+    bool _titleFieldEmpty() => titleController.text.isEmpty;
+    bool _commentFieldEmpty() => commentController.text.isEmpty;
+
+    useEffect(
+      () {
+        titleController.addListener(
+          () => titleFieldEmpty.value = _titleFieldEmpty(),
+        );
+        commentController.addListener(
+          () => commentFieldEmpty.value = _commentFieldEmpty(),
+        );
+        return null;
+      },
+      [
+        titleController,
+        commentController,
+      ],
+    );
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: ListView(
@@ -25,9 +50,11 @@ class GitHubIssuePage extends HookConsumerWidget {
               SizedBox(
                 width: context.displaySize.width * 0.4,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // TODO(shimizu-saffle): TextFieldをクリアする
-                  },
+                  onPressed: !titleFieldEmpty.value || !commentFieldEmpty.value
+                      ? () {
+                          // TODO(shimizu-saffle): TextFieldをクリアする
+                        }
+                      : null,
                   style: ElevatedButton.styleFrom(
                     primary: Colors.red,
                     shape: const RoundedRectangleBorder(
@@ -45,9 +72,11 @@ class GitHubIssuePage extends HookConsumerWidget {
               SizedBox(
                 width: context.displaySize.width * 0.4,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // TODO(shimizu-saffle): issueを作成する
-                  },
+                  onPressed: !commentFieldEmpty.value && !titleFieldEmpty.value
+                      ? () {
+                          // TODO(shimizu-saffle): issueを作成する
+                        }
+                      : null,
                   style: ElevatedButton.styleFrom(
                     primary: Colors.green.shade500,
                     shape: const RoundedRectangleBorder(
@@ -66,6 +95,7 @@ class GitHubIssuePage extends HookConsumerWidget {
           ),
           const Gap(8),
           TextFormField(
+            controller: titleController,
             decoration: InputDecoration(
               hintText: 'Title',
               hintStyle: context.headlineMedium,
@@ -76,6 +106,7 @@ class GitHubIssuePage extends HookConsumerWidget {
             child: ConstrainedBox(
               constraints: BoxConstraints.expand(height: context.displaySize.height * 0.6),
               child: TextFormField(
+                controller: commentController,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
                 decoration: InputDecoration(
