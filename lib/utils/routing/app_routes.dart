@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../pages/about_page.dart';
+import '../../pages/github_page.dart';
 import '../../pages/github_repo_detail_page.dart';
 import '../../pages/github_repos_page.dart';
 import '../../pages/main_page.dart';
@@ -24,6 +25,11 @@ final appRoutes = <AppRoute>[
     path: TodosPage.path,
     name: TodosPage.name,
     builder: (context, state) => const TodosPage(key: ValueKey(TodosPage.name)),
+  ),
+  AppRoute(
+    path: GitHubPage.path,
+    name: GitHubPage.name,
+    builder: (context, state) => const GitHubPage(key: ValueKey(GitHubPage.name)),
   ),
   AppRoute(
     path: GitHubReposPage.path,

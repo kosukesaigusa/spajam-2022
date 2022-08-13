@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../pages/about_page.dart';
-import '../../pages/github_repos_page.dart';
+import '../../pages/github_page.dart';
 import '../../pages/todos_page.dart';
 
 /// 現在選択状態になっている下タブを管理する StateProvider。
@@ -12,7 +12,7 @@ final bottomTabStateProvider = StateProvider<BottomTab>((_) => bottomTabs[0]);
 /// BottomTab の種別。
 enum BottomTabEnum {
   todos(label: 'Todos', location: TodosPage.location),
-  github(label: 'Repos', location: GitHubReposPage.location),
+  github(label: 'GitHub', location: GitHubPage.location),
   about(label: 'About', location: AboutPage.location);
 
   const BottomTabEnum({
@@ -69,7 +69,8 @@ final bottomTabs = <BottomTab>[
 ];
 
 /// BottomNavigationBarItem をタップしたときの処理を提供する Provider。
-/// /// 現在表示している状態のタブをタップした場合は画面をすべて pop する。
+///
+/// 現在表示している状態のタブをタップした場合は画面をすべて pop する。
 final bottomNavigationBarItemOnTapProvider = Provider<void Function(int)>(
   (ref) => (index) {
     FocusManager.instance.primaryFocus?.unfocus();
