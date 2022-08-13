@@ -37,6 +37,7 @@ class GitHubIssuePage extends HookConsumerWidget {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: ListView(
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           const Gap(8),
           Text(
@@ -52,7 +53,8 @@ class GitHubIssuePage extends HookConsumerWidget {
                 child: ElevatedButton(
                   onPressed: !titleFieldEmpty.value || !commentFieldEmpty.value
                       ? () {
-                          // TODO(shimizu-saffle): TextFieldをクリアする
+                          titleController.clear();
+                          commentController.clear();
                         }
                       : null,
                   style: ElevatedButton.styleFrom(
