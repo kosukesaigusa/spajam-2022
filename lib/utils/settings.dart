@@ -3,6 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options/firebase_options_dev.dart' as dev_options;
 import 'firebase_options/firebase_options_prod.dart' as prod_options;
 
+/// GitHub API へのリクエストに使用する個人アクセストークン
+const gitHubToken = String.fromEnvironment('GITHUB_TOKEN');
+
 const flavorString = String.fromEnvironment('FLAVOR');
 final flavor = Flavor.values.firstWhere((f) => f.name == flavorString);
 
