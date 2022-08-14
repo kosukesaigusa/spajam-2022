@@ -6,35 +6,55 @@
       "program": "lib/main.dart",
       "request": "launch",
       "type": "dart",
-      "args": ["--debug", "--dart-define=FLAVOR=local"]
+      "args": [
+        "--debug",
+        "--dart-define=FLAVOR=local",
+        "--dart-define=GITHUB_TOKEN=<Your GitHub personal access token>"
+      ]
     },
     {
       "name": "Debug (dev)",
       "program": "lib/main.dart",
       "request": "launch",
       "type": "dart",
-      "args": ["--debug", "--dart-define=FLAVOR=dev"]
+      "args": [
+        "--debug",
+        "--dart-define=FLAVOR=dev",
+        "--dart-define=GITHUB_TOKEN=<Your GitHub personal access token>"
+      ]
     },
     {
       "name": "Release (dev)",
       "program": "lib/main.dart",
       "request": "launch",
       "type": "dart",
-      "args": ["--release", "--dart-define=FLAVOR=dev"]
+      "args": [
+        "--release",
+        "--dart-define=FLAVOR=dev",
+        "--dart-define=GITHUB_TOKEN=<Your GitHub personal access token>"
+      ]
     },
     {
       "name": "Debug (prod)",
       "program": "lib/main.dart",
       "request": "launch",
       "type": "dart",
-      "args": ["--debug", "--dart-define=FLAVOR=prod"]
+      "args": [
+        "--debug",
+        "--dart-define=FLAVOR=prod",
+        "--dart-define=GITHUB_TOKEN=<Your GitHub personal access token>"
+      ]
     },
     {
       "name": "Release (prod)",
       "program": "lib/main.dart",
       "request": "launch",
       "type": "dart",
-      "args": ["--release", "--dart-define=FLAVOR=prod"]
+      "args": [
+        "--release",
+        "--dart-define=FLAVOR=prod",
+        "--dart-define=GITHUB_TOKEN=<Your GitHub personal access token>"
+      ]
     },
     {
       "name": "Debug Functions (local)",
