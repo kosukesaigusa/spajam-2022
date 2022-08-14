@@ -5,6 +5,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'logger.dart';
+import 'navigation.dart';
+
+/// FCM の Payload に含まれる、通知タップ時に画面遷移を期待している時のキー名。
+const fcmPayloadLocationKey = 'location';
 
 /// FirebaseMessaging のインスタンスを提供するプロバイダ。ProviderScope.override で上書きする。
 final firebaseMessagingProvider = Provider<FirebaseMessaging>((_) => throw UnimplementedError());
@@ -31,7 +35,6 @@ final initializeFirebaseMessagingProvider = Provider.autoDispose<Future<void> Fu
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     await ref.read(_getInitialMessageProvider)();
     ref.read(_handleRemoteMessageProvider)();
-    // ref.read(firebaseMessagingServiceProvider);
   },
 );
 
@@ -49,11 +52,13 @@ final _getInitialMessageProvider = Provider.autoDispose<Future<void> Function()>
     final remoteMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (remoteMessage != null) {
       logger.info('🔥 Open app from FCM when terminated.');
-      final path = remoteMessage.data['path'] as String;
+      final location = remoteMessage.data[fcmPayloadLocationKey] as String;
       final data = remoteMessage.data;
-      logger.info('***\npath: $path, data: $data\n***');
-      if (remoteMessage.data.containsKey('path')) {
-        // await ref.read(navigationServiceProvider).pushOnCurrentTab(path: path, arguments: data);
+      logger.info('***\nlocation: $location, data: $data\n***');
+      if (remoteMessage.data.containsKey(fcmPayloadLocationKey)) {
+        await ref
+            .read(navigationServiceProvider)
+            .pushOnCurrentTab(location: location, arguments: data);
       }
     }
   },
@@ -70,17 +75,19 @@ final _remoteMessageStreamProvider = StreamProvider<RemoteMessage>(
 final _handleRemoteMessageProvider = Provider(
   (ref) => () => ref.listen<AsyncValue<RemoteMessage>>(
         _remoteMessageStreamProvider,
-        (previous, next) {
+        (previous, next) async {
           logger.info('🔥 FCM notification tapped.');
           final remoteMessage = next.value;
           if (remoteMessage == null) {
             return;
           }
-          if (remoteMessage.data.containsKey('path')) {
-            final path = remoteMessage.data['path'] as String;
+          if (remoteMessage.data.containsKey(fcmPayloadLocationKey)) {
+            final location = remoteMessage.data[fcmPayloadLocationKey] as String;
             final data = remoteMessage.data;
-            logger.info('***\npath: $path, data: $data\n***');
-            // await ref.read(navigationServiceProvider).pushOnCurrentTab(path: path, arguments: data);
+            logger.info('***\nlocation: $location, data: $data\n***');
+            await ref
+                .read(navigationServiceProvider)
+                .pushOnCurrentTab(location: location, arguments: data);
           }
         },
       ),
