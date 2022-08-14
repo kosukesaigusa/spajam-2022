@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../features/github_issue/github_issue.dart';
 import '../utils/extensions/build_context.dart';
 
 class GitHubIssuePage extends HookConsumerWidget {
@@ -75,7 +76,14 @@ class GitHubIssuePage extends HookConsumerWidget {
               child: ElevatedButton(
                 onPressed: !commentFieldEmpty.value && !titleFieldEmpty.value
                     ? () {
-                        // TODO(shimizu-saffle): issueを作成する
+                        ref.read(createIssueProvider).call(
+                          titleController.text,
+                          commentController.text,
+                          () {
+                            titleController.clear();
+                            commentController.clear();
+                          },
+                        );
                       }
                     : null,
                 style: ElevatedButton.styleFrom(
