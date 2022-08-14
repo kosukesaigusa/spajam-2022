@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin'
+import * as functions from 'firebase-functions-test'
 import * as serviceAccountKey from '../keys/service_account_key.json'
 
 // サービスアカウントを環境変数から取得
@@ -22,11 +23,11 @@ admin.initializeApp({
     databaseURL: `https://${serviceAccount.projectId}.firebaseio.com`
 })
 
-/**
- * ここでデプロイする関数をまとめる。
- * admin.initializeApp() の順序の問題でデプロイに失敗するため。
- *  */
-import { onCreateAppUser } from './firebase-functions/app-user/onCreateAppUser'
-
-/** index.ts で import してデプロイする関数一覧  */
-export { onCreateAppUser }
+export const testEnv = functions(
+    {
+        databaseURL: `https://${serviceAccount.projectId}.firebaseio.com`,
+        projectId: serviceAccount.projectId
+    }
+    // これを指定するとテストに失敗する
+    // `../../keys/service_account_key.json`
+)
