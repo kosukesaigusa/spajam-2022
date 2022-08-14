@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'app.dart';
 import 'utils/application_documents_directory.dart';
+import 'utils/firebase_messaging.dart';
 import 'utils/settings.dart';
 
 Future<void> main() async {
@@ -15,6 +16,9 @@ Future<void> main() async {
       overrides: <Override>[
         applicationDocumentsDirectoryProvider.overrideWithValue(
           await getApplicationDocumentsDirectory(),
+        ),
+        firebaseMessagingProvider.overrideWithValue(
+          await getFirebaseMessagingInstance,
         ),
       ],
       child: const App(),
