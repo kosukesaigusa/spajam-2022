@@ -118,16 +118,19 @@ final createTestNotificationRequestProvider = Provider.autoDispose<
       ref.read(scaffoldMessengerServiceProvider).showSnackBar('FCM トークンが取得できませんでした。');
       return;
     }
-    await ref.read(testNotificationRequestRepositoryProvider).create(
-          TestNotificationRequest(
-            token: token,
-            testNotificationRequestType: testNotificationRequestType,
-          ),
-        );
-    ref.read(scaffoldMessengerServiceProvider).showSnackBar(
-          'プッシュ通知 (${testNotificationRequestType.label}) をリクエストしました。'
-          '通知が届くまで数秒〜数十秒程度お待ちください。',
-        );
-    return;
+    try {
+      await ref.read(testNotificationRequestRepositoryProvider).create(
+            TestNotificationRequest(
+              token: token,
+              testNotificationRequestType: testNotificationRequestType,
+            ),
+          );
+      ref.read(scaffoldMessengerServiceProvider).showSnackBar(
+            'プッシュ通知 (${testNotificationRequestType.label}) をリクエストしました。'
+            '通知が届くまで数秒〜数十秒程度お待ちください。',
+          );
+    } on Exception catch (e) {
+      ref.read(scaffoldMessengerServiceProvider).showSnackBarByException(e);
+    }
   },
 );
