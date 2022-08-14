@@ -16,13 +16,13 @@ class IssueRepository {
   /// リポジトリに Issue を作成する。
   Future<void> createIssue({
     required String title,
-    required String body,
+    required String comment,
   }) async {
     final responseResult = await _client.post(
       '/repos/KosukeSaigusa/spajam-2022/issues',
       data: <String, dynamic>{
         'title': title,
-        'body': body,
+        'body': comment,
       },
     );
     responseResult.when<void>(
