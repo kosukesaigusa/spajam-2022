@@ -11,9 +11,39 @@ export const onCreateTestNotificationRequest = functions
     .onCreate(async (snapshot) => {
         const data = snapshot.data()
         const token = data.token
-        const title = `テスト通知`
-        const body = `これはテスト通知です。タップすると現在のタブ上で通知の受けページに遷移します。`
-        const path = `/test-notification`
-        await sendFCMByToken({ token, title, body, path })
+        const testNotificationRequestType: TestNotificationRequestType = data.testNotificationRequestType
+        await sendFCMByToken({
+            token,
+            title: getTitle(testNotificationRequestType),
+            body: getBody(testNotificationRequestType),
+            location: getLocation(testNotificationRequestType)
+        })
         functions.logger.log(`Test FCM notification succeeded.`)
     })
+
+const getTitle = (testNotificationRequestType: TestNotificationRequestType): string => {
+    if (testNotificationRequestType === `normal`) {
+        return `テスト通知（通常）`
+    } else if (testNotificationRequestType === `github`) {
+        return `テスト通知（GitHub)`
+    }
+    return `テスト通知`
+}
+
+const getBody = (testNotificationRequestType: TestNotificationRequestType): string => {
+    if (testNotificationRequestType === `normal`) {
+        return `これはテスト通知です。タップすると現在のタブ上で通知の受けページに遷移します。`
+    } else if (testNotificationRequestType === `github`) {
+        return `これはテスト通知です。タップすると現在のタブ上で GitHub の spajam-2022 リポジトリの詳細ページに遷移します。`
+    }
+    return `これはテスト通知です。タップすると現在のタブ上で通知の受けページに遷移します。`
+}
+
+const getLocation = (testNotificationRequestType: TestNotificationRequestType): RouteLocation => {
+    if (testNotificationRequestType === `normal`) {
+        return `/testNotification`
+    } else if (testNotificationRequestType === `github`) {
+        return `/repo/KosukeSaigusa/spajam-2022`
+    }
+    return `/testNotification`
+}

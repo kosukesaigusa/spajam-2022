@@ -6,3 +6,5 @@ interface FCMTarget {
     fcmTokens: string[]
     badgeNumber: number
 }
+
+type TestNotificationRequestType = `normal` | `github`

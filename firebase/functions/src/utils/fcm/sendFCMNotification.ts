@@ -21,13 +21,12 @@ export const sendFCMByTargets = async ({
     fcmTargets,
     title,
     body,
-    path,
-    documentId
+    location
 }: {
     fcmTargets: FCMTarget[]
     title: string
     body: string
-    path: RoutePath
+    location: RouteLocation
     documentId?: string
 }): Promise<void> => {
     for (const fcmTarget of fcmTargets) {
@@ -35,15 +34,11 @@ export const sendFCMByTargets = async ({
         for (let i = 0; i < twoDimensionTokens.length; i++) {
             const message: messaging.MulticastMessage = {
                 tokens: twoDimensionTokens[i],
-                notification: {
-                    title: title,
-                    body: body
-                },
+                notification: { title, body },
                 data: {
-                    title: title,
-                    body: body,
-                    path: path,
-                    documentId: documentId ?? ``,
+                    title,
+                    body,
+                    location,
                     click_action: `FLUTTER_NOTIFICATION_CLICK`,
                     id: `1`,
                     status: `done`
@@ -92,12 +87,12 @@ export const sendFCMByUserIds = async ({
     userIds,
     title,
     body,
-    path
+    location
 }: {
     userIds: string[]
     title: string
     body: string
-    path: RoutePath
+    location: RouteLocation
 }): Promise<void> => {
     const fcmTargets: FCMTarget[] = []
     for (const appUserId of userIds) {
@@ -111,7 +106,7 @@ export const sendFCMByUserIds = async ({
         const badgeNumber = 1
         fcmTargets.push({ fcmTokens, badgeNumber })
     }
-    await sendFCMByTargets({ fcmTargets, title, body, path })
+    await sendFCMByTargets({ fcmTargets, title, body, location })
 }
 
 /**
@@ -122,12 +117,12 @@ export const sendFCMByToken = async ({
     token,
     title,
     body,
-    path
+    location
 }: {
     token: string
     title: string
     body: string
-    path: RoutePath
+    location: RouteLocation
 }): Promise<void> => {
     const fcmTargets: FCMTarget[] = [
         {
@@ -135,5 +130,5 @@ export const sendFCMByToken = async ({
             badgeNumber: 1
         }
     ]
-    await sendFCMByTargets({ fcmTargets, title, body, path })
+    await sendFCMByTargets({ fcmTargets, title, body, location })
 }
