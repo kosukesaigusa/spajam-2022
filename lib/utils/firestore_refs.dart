@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/app_user.dart';
+import '../models/test_notification_request.dart';
 import '../models/todo.dart';
 
 final db = FirebaseFirestore.instance;
@@ -32,3 +33,9 @@ DocumentReference<Todo> todoRef({
   required String todoId,
 }) =>
     todosRef(userId: userId).doc(todoId);
+
+/// testNotificationRequest コレクションの参照。
+final testNotificationRequestsRef = db.collection('testNotificationRequests').withConverter(
+      fromFirestore: (ds, _) => TestNotificationRequest.fromDocumentSnapshot(ds),
+      toFirestore: (obj, _) => obj.toJson(),
+    );

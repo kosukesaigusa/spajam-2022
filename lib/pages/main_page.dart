@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../features/bottom_tab/bottom_tab.dart';
+import '../utils/firebase_messaging.dart';
 import '../utils/logger.dart';
 import '../utils/routing/app_router.dart';
 import '../utils/scaffold_messenger_service.dart';
@@ -29,10 +30,7 @@ class _MainPageState extends ConsumerState<MainPage> with WidgetsBindingObserver
 
     /// 必要な初期化処理を行う
     Future.wait<void>([
-      // MainPage 表示時に行いたい初期化処理はここで行う
-      // 将来的に書きそうな処理
-      // _initializePushNotification(),
-      // _initializeDynamicLinks(),
+      ref.read(initializeFirebaseMessagingProvider)(),
     ]);
   }
 
