@@ -1,22 +1,22 @@
-import 'package:flutter/scheduler.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../repositories/api/issue_repository.dart';
 import '../../utils/loading.dart';
 import '../../utils/scaffold_messenger_service.dart';
 
-/// [IssueRepository] の createIssue() をコールして、
-///
-/// リクエストの成否に応じたメッセージをスナックバーに表示する関数を提供する Provider。
-///
-/// String: Issue のタイトル
-///
-/// String: Issue のコメント
-///
-/// VoidCallback: リクエスト成功時のコールバック
-final createIssueProvider = Provider<Future<void> Function(String, String, VoidCallback)>(
+final createIssueProvider = Provider<
+    Future<void> Function({
+  required String comment,
+  required String title,
+  required VoidCallback onSuccess,
+})>(
   (ref) {
-    return (title, comment, onSuccess) async {
+    return ({
+      required title,
+      required comment,
+      required onSuccess,
+    }) async {
       try {
         ref.read(overlayLoadingProvider.notifier).update((state) => true);
         await ref.read(issueRepositoryProvider).createIssue(
