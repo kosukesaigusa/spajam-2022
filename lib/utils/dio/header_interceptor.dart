@@ -17,7 +17,9 @@ class HeaderInterceptor extends Interceptor {
     options.headers[referrer] = overwriteUrl ?? options.baseUrl;
     options.headers['Origin'] = options.baseUrl;
     options.headers['Accept'] = 'application/vnd.github.v3+json';
-    options.headers['Authorization'] = 'token $gitHubToken';
+    if (gitHubToken.isNotEmpty) {
+      options.headers['Authorization'] = 'token $gitHubToken';
+    }
     return handler.next(options);
   }
 }
