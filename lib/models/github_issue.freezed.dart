@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-GithubIssue _$GithubIssueFromJson(Map<String, dynamic> json) {
+Issue _$IssueFromJson(Map<String, dynamic> json) {
   return _GithubIssue.fromJson(json);
 }
 
 /// @nodoc
-mixin _$GithubIssue {
+mixin _$Issue {
   int get id => throw _privateConstructorUsedError;
   int get number => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
@@ -35,15 +35,13 @@ mixin _$GithubIssue {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $GithubIssueCopyWith<GithubIssue> get copyWith =>
-      throw _privateConstructorUsedError;
+  $IssueCopyWith<Issue> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $GithubIssueCopyWith<$Res> {
-  factory $GithubIssueCopyWith(
-          GithubIssue value, $Res Function(GithubIssue) then) =
-      _$GithubIssueCopyWithImpl<$Res>;
+abstract class $IssueCopyWith<$Res> {
+  factory $IssueCopyWith(Issue value, $Res Function(Issue) then) =
+      _$IssueCopyWithImpl<$Res>;
   $Res call(
       {int id,
       int number,
@@ -60,12 +58,12 @@ abstract class $GithubIssueCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$GithubIssueCopyWithImpl<$Res> implements $GithubIssueCopyWith<$Res> {
-  _$GithubIssueCopyWithImpl(this._value, this._then);
+class _$IssueCopyWithImpl<$Res> implements $IssueCopyWith<$Res> {
+  _$IssueCopyWithImpl(this._value, this._then);
 
-  final GithubIssue _value;
+  final Issue _value;
   // ignore: unused_field
-  final $Res Function(GithubIssue) _then;
+  final $Res Function(Issue) _then;
 
   @override
   $Res call({
@@ -136,8 +134,7 @@ class _$GithubIssueCopyWithImpl<$Res> implements $GithubIssueCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$$_GithubIssueCopyWith<$Res>
-    implements $GithubIssueCopyWith<$Res> {
+abstract class _$$_GithubIssueCopyWith<$Res> implements $IssueCopyWith<$Res> {
   factory _$$_GithubIssueCopyWith(
           _$_GithubIssue value, $Res Function(_$_GithubIssue) then) =
       __$$_GithubIssueCopyWithImpl<$Res>;
@@ -158,7 +155,7 @@ abstract class _$$_GithubIssueCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_GithubIssueCopyWithImpl<$Res> extends _$GithubIssueCopyWithImpl<$Res>
+class __$$_GithubIssueCopyWithImpl<$Res> extends _$IssueCopyWithImpl<$Res>
     implements _$$_GithubIssueCopyWith<$Res> {
   __$$_GithubIssueCopyWithImpl(
       _$_GithubIssue _value, $Res Function(_$_GithubIssue) _then)
@@ -294,7 +291,7 @@ class _$_GithubIssue implements _GithubIssue {
 
   @override
   String toString() {
-    return 'GithubIssue(id: $id, number: $number, title: $title, htmlUrl: $htmlUrl, state: $state, description: $description, body: $body, comments: $comments, assignee: $assignee, assignees: $assignees, updatedAt: $updatedAt, closedAt: $closedAt)';
+    return 'Issue(id: $id, number: $number, title: $title, htmlUrl: $htmlUrl, state: $state, description: $description, body: $body, comments: $comments, assignee: $assignee, assignees: $assignees, updatedAt: $updatedAt, closedAt: $closedAt)';
   }
 
   @override
@@ -348,7 +345,7 @@ class _$_GithubIssue implements _GithubIssue {
   }
 }
 
-abstract class _GithubIssue implements GithubIssue {
+abstract class _GithubIssue implements Issue {
   const factory _GithubIssue(
       {required final int id,
       required final int number,

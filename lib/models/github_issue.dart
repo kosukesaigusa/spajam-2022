@@ -4,9 +4,9 @@ part 'github_issue.freezed.dart';
 part 'github_issue.g.dart';
 
 @freezed
-class GithubIssue with _$GithubIssue {
+class Issue with _$Issue {
   @JsonSerializable(fieldRename: FieldRename.snake)
-  const factory GithubIssue({
+  const factory Issue({
     required int id,
     required int number,
     required String title,
@@ -21,5 +21,5 @@ class GithubIssue with _$GithubIssue {
     DateTime? closedAt,
   }) = _GithubIssue;
 
-  factory GithubIssue.fromJson(Map<String, dynamic> json) => _$GithubIssueFromJson(json);
+  factory Issue.fromJson(Map<String, dynamic> json) => _$IssueFromJson(json);
 }
