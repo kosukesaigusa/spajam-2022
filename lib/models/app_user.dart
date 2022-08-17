@@ -23,7 +23,7 @@ class AppUser with _$AppUser {
     final data = ds.data()! as Map<String, dynamic>;
     return AppUser.fromJson(<String, dynamic>{
       ...data,
-      'appUserId': ds.id,
+      'userId': ds.id,
     });
   }
 
