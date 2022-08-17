@@ -5,6 +5,9 @@ import '../../repositories/api/issue_repository.dart';
 import '../../utils/loading.dart';
 import '../../utils/scaffold_messenger_service.dart';
 
+/// [IssueRepository] の createIssue() をコールして、
+///
+/// リクエストの成否に応じたメッセージをスナックバーに表示する関数を提供する Provider。
 final createIssueProvider = Provider<
     Future<void> Function({
   required String comment,
