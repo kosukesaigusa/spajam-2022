@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../widgets/sign_in_required.dart';
+import '../widgets/empty_placeholder.dart';
 
 class TestNotificationPage extends StatelessWidget {
   const TestNotificationPage({super.key});
