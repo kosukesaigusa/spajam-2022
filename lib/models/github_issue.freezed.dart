@@ -237,11 +237,11 @@ class __$$_GithubIssueCopyWithImpl<$Res> extends _$IssueCopyWithImpl<$Res>
 @JsonSerializable(fieldRename: FieldRename.snake)
 class _$_GithubIssue implements _GithubIssue {
   const _$_GithubIssue(
-      {required this.id,
-      required this.number,
-      required this.title,
-      required this.htmlUrl,
-      required this.state,
+      {this.id = 0,
+      this.number = 0,
+      this.title = '',
+      this.htmlUrl = '',
+      this.state = '',
       this.description = '',
       this.body = '',
       this.comments = 0,
@@ -255,14 +255,19 @@ class _$_GithubIssue implements _GithubIssue {
       _$$_GithubIssueFromJson(json);
 
   @override
+  @JsonKey()
   final int id;
   @override
+  @JsonKey()
   final int number;
   @override
+  @JsonKey()
   final String title;
   @override
+  @JsonKey()
   final String htmlUrl;
   @override
+  @JsonKey()
   final String state;
   @override
   @JsonKey()
@@ -347,11 +352,11 @@ class _$_GithubIssue implements _GithubIssue {
 
 abstract class _GithubIssue implements Issue {
   const factory _GithubIssue(
-      {required final int id,
-      required final int number,
-      required final String title,
-      required final String htmlUrl,
-      required final String state,
+      {final int id,
+      final int number,
+      final String title,
+      final String htmlUrl,
+      final String state,
       final String description,
       final String body,
       final int comments,

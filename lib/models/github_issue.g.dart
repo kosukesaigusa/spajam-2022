@@ -13,11 +13,11 @@ _$_GithubIssue _$$_GithubIssueFromJson(Map json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = _$_GithubIssue(
-          id: $checkedConvert('id', (v) => v as int),
-          number: $checkedConvert('number', (v) => v as int),
-          title: $checkedConvert('title', (v) => v as String),
-          htmlUrl: $checkedConvert('html_url', (v) => v as String),
-          state: $checkedConvert('state', (v) => v as String),
+          id: $checkedConvert('id', (v) => v as int? ?? 0),
+          number: $checkedConvert('number', (v) => v as int? ?? 0),
+          title: $checkedConvert('title', (v) => v as String? ?? ''),
+          htmlUrl: $checkedConvert('html_url', (v) => v as String? ?? ''),
+          state: $checkedConvert('state', (v) => v as String? ?? ''),
           description:
               $checkedConvert('description', (v) => v as String? ?? ''),
           body: $checkedConvert('body', (v) => v as String? ?? ''),

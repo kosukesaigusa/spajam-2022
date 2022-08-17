@@ -7,11 +7,11 @@ part 'github_issue.g.dart';
 class Issue with _$Issue {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory Issue({
-    required int id,
-    required int number,
-    required String title,
-    required String htmlUrl,
-    required String state,
+    @Default(0) int id,
+    @Default(0) int number,
+    @Default('') String title,
+    @Default('') String htmlUrl,
+    @Default('') String state,
     @Default('') String description,
     @Default('') String body,
     @Default(0) int comments,
@@ -22,4 +22,6 @@ class Issue with _$Issue {
   }) = _GithubIssue;
 
   factory Issue.fromJson(Map<String, dynamic> json) => _$IssueFromJson(json);
+
+  static const defaultValue = Issue();
 }
