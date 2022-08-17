@@ -1,8 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../models/api/post_issue_response.dart';
 import '../../utils/api/api_client.dart';
 import '../../utils/exceptions/base.dart';
-import '../../utils/logger.dart';
 
 final issueRepositoryProvider = Provider.autoDispose(
   (ref) => IssueRepository(ref.read(apiClientProvider)),
@@ -14,7 +14,7 @@ class IssueRepository {
 
   /// POST repos/KosukeSaigusa/spajam-2022/issues API をコールして、
   /// リポジトリに Issue を作成する。
-  Future<void> createIssue({
+  Future<PostIssueResponse> createIssue({
     required String title,
     required String comment,
   }) async {
@@ -25,8 +25,8 @@ class IssueRepository {
         'body': comment,
       },
     );
-    responseResult.when<void>(
-      success: (data) => logger.info('$data'),
+    return responseResult.when<PostIssueResponse>(
+      success: PostIssueResponse.fromBaseResponseData,
       failure: (message) => throw AppException(message: message),
     );
   }

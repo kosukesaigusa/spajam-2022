@@ -24,7 +24,7 @@ class PostIssueResponse with _$PostIssueResponse {
         <String, dynamic>{
           'success': baseResponseData.success,
           'message': baseResponseData.message,
-          'repo': baseResponseData.data,
+          'issue': baseResponseData.data,
         },
       );
 }
