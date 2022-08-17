@@ -77,13 +77,13 @@ class GitHubIssuePage extends HookConsumerWidget {
                 onPressed: !commentFieldEmpty.value && !titleFieldEmpty.value
                     ? () {
                         ref.read(createIssueProvider).call(
-                          titleController.text,
-                          commentController.text,
-                          () {
-                            titleController.clear();
-                            commentController.clear();
-                          },
-                        );
+                              comment: commentController.text,
+                              title: titleController.text,
+                              onSuccess: () {
+                                titleController.clear();
+                                commentController.clear();
+                              },
+                            );
                       }
                     : null,
                 style: ElevatedButton.styleFrom(
