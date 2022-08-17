@@ -9,10 +9,10 @@ import '../models/github_repo.dart';
 import '../utils/constants/style.dart';
 import '../utils/extensions/build_context.dart';
 import '../utils/extensions/int.dart';
+import '../widgets/empty_placeholder.dart';
 import '../widgets/github_repo.dart';
 import '../widgets/pager.dart';
 import '../widgets/shimmer.dart';
-import '../widgets/sign_in_required.dart';
 import 'github_repo_detail_page.dart';
 
 /// GitHub のリポジトリ一覧ページ。
