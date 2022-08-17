@@ -13,7 +13,7 @@ class IssueRepository {
   final ApiClient _client;
 
   /// POST repos/KosukeSaigusa/spajam-2022/issues API をコールして、
-  /// リポジトリに Issue を作成する。
+  /// GitHub リポジトリに Issue を作成する。
   Future<PostIssueResponse> createIssue({
     required String title,
     required String comment,
