@@ -26,7 +26,6 @@ class GitHubReposPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: const Text('GitHub Repos')),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

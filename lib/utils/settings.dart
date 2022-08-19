@@ -3,7 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options/firebase_options_dev.dart' as dev_options;
 import 'firebase_options/firebase_options_prod.dart' as prod_options;
 
-/// dart-define で設定した flavor 文字列。
+/// GitHub API へのリクエストに使用する個人アクセストークン
+const gitHubToken = String.fromEnvironment('GITHUB_TOKEN');
 const flavorString = String.fromEnvironment('FLAVOR');
 
 /// dart-define で設定した flavor 文字列から特定される Flavor 変数。
