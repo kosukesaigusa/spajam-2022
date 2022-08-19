@@ -13,8 +13,8 @@ class GitHubIssuePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final titleController = useTextEditingController();
     final commentController = useTextEditingController();
-    final titleFieldEmpty = useState<bool>(true);
-    final commentFieldEmpty = useState<bool>(true);
+    final isTitleEmpty = useState<bool>(true);
+    final isCommentEmpty = useState<bool>(true);
 
     bool _titleFieldEmpty() => titleController.text.isEmpty;
     bool _commentFieldEmpty() => commentController.text.isEmpty;
@@ -22,10 +22,10 @@ class GitHubIssuePage extends HookConsumerWidget {
     useEffect(
       () {
         titleController.addListener(
-          () => titleFieldEmpty.value = _titleFieldEmpty(),
+          () => isTitleEmpty.value = _titleFieldEmpty(),
         );
         commentController.addListener(
-          () => commentFieldEmpty.value = _commentFieldEmpty(),
+          () => isCommentEmpty.value = _commentFieldEmpty(),
         );
         return null;
       },
@@ -51,7 +51,7 @@ class GitHubIssuePage extends HookConsumerWidget {
             SizedBox(
               width: context.displaySize.width * 0.4,
               child: ElevatedButton(
-                onPressed: !titleFieldEmpty.value || !commentFieldEmpty.value
+                onPressed: !isTitleEmpty.value || !isCommentEmpty.value
                     ? () {
                         titleController.clear();
                         commentController.clear();
@@ -74,7 +74,7 @@ class GitHubIssuePage extends HookConsumerWidget {
             SizedBox(
               width: context.displaySize.width * 0.4,
               child: ElevatedButton(
-                onPressed: !commentFieldEmpty.value && !titleFieldEmpty.value
+                onPressed: !isCommentEmpty.value && !isTitleEmpty.value
                     ? () {
                         ref.read(createIssueProvider).call(
                               comment: commentController.text,
