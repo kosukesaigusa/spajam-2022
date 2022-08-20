@@ -25,7 +25,7 @@ final _roomIdProvider = Provider.autoDispose<String>(
   ],
 );
 
-/// roomId を取得してから返す Provider。
+/// votingEventId を取得してから返す Provider。
 final _votingEventIdProvider = Provider.autoDispose<String>(
   (ref) {
     try {
