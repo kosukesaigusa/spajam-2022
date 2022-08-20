@@ -56,8 +56,8 @@ class VotingPage extends HookConsumerWidget {
         padding: const EdgeInsets.all(16),
         children: <Widget>[
           // TODO(yamatatsu): 確認用なので後で消す
-          Text(arguments.roomId),
-          Text(arguments.votingEventId),
+          Text('roomId: ${arguments.roomId}'),
+          Text('votingEventId: ${arguments.votingEventId}'),
           for (final vote in VoteEnum.values)
             ElevatedButton(
               child: Column(
