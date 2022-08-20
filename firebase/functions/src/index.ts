@@ -27,8 +27,9 @@ admin.initializeApp({
  * admin.initializeApp() の順序の問題でデプロイに失敗するため。
  *  */
 import { onCreateAppUser } from './firebase-functions/app-user/onCreateAppUser'
+import { onCreateFeeling } from './firebase-functions/feeling/onCreateFeeling'
 import { onCreateTestNotificationRequest } from './firebase-functions/test-notification/onCreateTestNotificationRequest'
 import { onCreateVote } from './firebase-functions/vote/onCreateVote'
 
 /** index.ts で import してデプロイする関数一覧  */
-export { onCreateAppUser, onCreateTestNotificationRequest, onCreateVote }
+export { onCreateAppUser, onCreateTestNotificationRequest, onCreateVote, onCreateFeeling }
