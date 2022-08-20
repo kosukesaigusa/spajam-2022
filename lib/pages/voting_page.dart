@@ -5,6 +5,7 @@ import '../features/voting_event/vote.dart';
 import '../models/vote_enum.dart';
 import '../utils/exceptions/base.dart';
 import '../utils/routing/app_router_state.dart';
+import 'result_page.dart';
 
 /// VotingPageArguments インスタンスを取得してから返す Provider。
 final votingPageArgumentsProvider = Provider.autoDispose<VotingPageArguments>(
@@ -72,8 +73,14 @@ class VotingPage extends HookConsumerWidget {
                       votingEventId: arguments.votingEventId,
                       vote: vote,
                     );
-                // TODO: 完了画面へ遷移
-                Navigator.pop(context);
+
+                await Navigator.pushNamed<void>(
+                  context,
+                  ResultPage.location(
+                    roomId: arguments.roomId,
+                    votingEventId: arguments.votingEventId,
+                  ),
+                );
               },
             ),
         ],
