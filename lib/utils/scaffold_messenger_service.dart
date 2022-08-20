@@ -87,4 +87,31 @@ class ScaffoldMessengerService {
       '[${e.code}]: ${e.message ?? 'FirebaseException が発生しました。'}',
     );
   }
+
+  ScaffoldFeatureController<MaterialBanner, MaterialBannerClosedReason>
+      showMaterialBanner(
+    String message, {
+    IconData leadingIconData = Icons.info,
+    Color backgroundColor = Colors.red,
+    bool removeCurrentSnackBar = true,
+    List<Widget> actions = const <Widget>[],
+  }) {
+    final scaffoldMessengerState = scaffoldMessengerKey.currentState!;
+    if (removeCurrentSnackBar) {
+      scaffoldMessengerState.removeCurrentSnackBar();
+    }
+    return scaffoldMessengerState.showMaterialBanner(
+      MaterialBanner(
+        content: const Text('Hello, I am a Material Banner'),
+        leading: const Icon(Icons.info),
+        backgroundColor: Colors.orange,
+        actions: [
+          TextButton(
+            child: const Text('Dismiss'),
+            onPressed: () {},
+          ),
+        ],
+      ),
+    );
+  }
 }

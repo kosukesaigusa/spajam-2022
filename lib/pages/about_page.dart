@@ -51,33 +51,12 @@ class AboutPage extends HookConsumerWidget {
               onPressed: () => ref.read(showFCMTokenProvider)(),
               child: const Text('FCM トークンを表示'),
             ),
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamed<void>(
-              context,
-              RoomPage.location(
-                // TODO: RoomsPage から値を取得
-                roomId: 'gxdmunvBcT5noyAP5FbJ',
-              ),
-            ),
-              child: const Text('room_pageへ'),
-            ),
             for (final t in TestNotificationRequestType.values)
               ElevatedButton(
                 onPressed: () =>
                     ref.read(createTestNotificationRequestProvider)(t),
                 child: Text('プッシュ通知をリクエスト (${t.label})'),
               ),
-            // TODO(yamatatsu): 削除
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamed<void>(
-                context,
-                VotingPage.location(
-                  roomId: 'CqZUgBbHXHaycv345YCC',
-                  votingEventId: 'whLZfYf5apCqWL7dPwsz',
-                ),
-              ),
-              child: const Text('投票ページ'),
-            ),
           ],
         ),
       ),
