@@ -15,4 +15,6 @@ class Feeling with _$Feeling {
   }) = _Feeling;
 
   factory Feeling.fromJson(Map<String, dynamic> json) => _$FeelingFromJson(json);
+
+  static const defaultValue = Feeling();
 }
