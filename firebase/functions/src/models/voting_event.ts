@@ -3,7 +3,7 @@ import { Vote } from "./vote"
 
 export class VotingEvent {
     votingEventId:string = ``
-    votingUserId:string = ``
+    votingUserIds:string[] = []
     status:VotingEventStatus = `peace`
     feelings: Feeling[] = []
     votes:Vote[] = []

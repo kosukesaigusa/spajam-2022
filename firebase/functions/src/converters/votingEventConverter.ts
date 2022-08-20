@@ -6,7 +6,7 @@ export const votingEventConverter: FirestoreDataConverter<VotingEvent> = {
         const data = qds.data()
         return {
             votingEventId: qds.id,
-            votingUserId: data.votingUserId,
+            votingUserIds: data.votingUserIds,
             status: data.status,
             feelings: data.feelings,
             votes: data.votes,
@@ -17,7 +17,7 @@ export const votingEventConverter: FirestoreDataConverter<VotingEvent> = {
     toFirestore(votingEvent: VotingEvent): FirebaseFirestore.DocumentData {
         return {
             votingEventId: votingEvent.votingEventId,
-            votingUserId: votingEvent.votingUserId,
+            votingUserIds: votingEvent.votingUserIds,
             status: votingEvent.status,
             feelings: votingEvent.feelings,
             votes: votingEvent.votes,
