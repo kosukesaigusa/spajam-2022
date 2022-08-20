@@ -5,6 +5,7 @@ import { Vote } from '~/src/models/vote'
 import { sendFCMByUserIds } from '~/src/utils/fcm/sendFCMNotification'
 import { VotingEventRepository } from '~/src/repositories/votingEvent'
 import { RoomRepository } from '~/src/repositories/room'
+import { average } from '~/src/utils/calculation'
 
 /**
  * 新しい vote ドキュメントが作成されたときに発火する。
@@ -21,7 +22,6 @@ export const onCreateVote = functions
     .region(`asia-northeast1`)
     .firestore.document(`/rooms/{roomId}/votingEvents/{votingEventId}/votes/{voteId}`)
     .onCreate(async (_, context) => {
-        functions.logger.info(`あああああ`)
         const { roomId, votingEventId } = context.params
         // votingEventのuserIdsを取得
         const votingEventRepository = new VotingEventRepository()
@@ -77,10 +77,41 @@ export const onCreateVote = functions
         }
     })
 
+/** 結果を決定する。 */
 function calculateResult(votes: Vote[]): VoteEnum {
-    // TODO: 'votes' is defined but never used. が出るので仮で設置した。後で消す。
-    functions.logger.info(`${votes}`)
-    return `hot`
+    const averagePoint = average(votes.map((vote) => getPointByVoteEnum(vote.vote)))
+    return getVoteEnumByPoint(averagePoint)
+}
+
+/** VoteEnum ごとの特典を取得する。 */
+function getPointByVoteEnum(voteEnum: VoteEnum): number {
+    switch (voteEnum) {
+        case `extremelyCold`:
+            return -2
+        case `cold`:
+            return -1
+        case `comfortable`:
+            return 0
+        case `hot`:
+            return 1
+        case `extremelyHot`:
+            return 2
+    }
+}
+
+/** 特典から VoteEnum を決定する。 */
+function getVoteEnumByPoint(point: number): VoteEnum {
+    if (point > 1.5) {
+        return `extremelyHot`
+    } else if (point > 0.5) {
+        return `hot`
+    } else if (point > -0.5) {
+        return `comfortable`
+    } else if (point > -1.5) {
+        return `cold`
+    } else {
+        return `extremelyCold`
+    }
 }
 
 /** タイトルとボディ文字列の末尾を取得する */

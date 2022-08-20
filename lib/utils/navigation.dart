@@ -25,6 +25,18 @@ class NavigationService {
   /// 指定したタブをアクティブにして、その上で指定したパスのページを push する。
   /// 指定したパスが MainPage のいずれかのページのパスと一致する場合には push せず、
   /// そのタブをアクティブにするだけで終わりにする。
+  void popUntilFirstRoute() {
+    final currentContext = _read(bottomTabStateProvider).key.currentContext;
+    if (currentContext == null) {
+      return;
+    }
+    Navigator.popUntil(currentContext, (route) => route.isFirst);
+  }
+
+  /// 一度 MainPage まで画面を pop した上で、
+  /// 指定したタブをアクティブにして、その上で指定したパスのページを push する。
+  /// 指定したパスが MainPage のいずれかのページのパスと一致する場合には push せず、
+  /// そのタブをアクティブにするだけで終わりにする。
   Future<void> popUntilFirstRouteAndPushOnSpecifiedTab<T extends Object>({
     required BottomTab bottomTab,
     required String location,

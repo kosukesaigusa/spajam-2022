@@ -8,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'logger.dart';
 import 'navigation.dart';
+import 'routing/app_router.dart';
 import 'settings.dart';
 
 /// FCM の Payload に含まれる、通知タップ時に画面遷移を期待している時のキー名。
@@ -193,11 +194,16 @@ final _handleNotificationDataProvider =
     Provider.autoDispose<Future<void> Function(Map<String, dynamic>)>(
   (ref) => (data) async {
     final location = data[fcmPayloadLocationKey] as String;
-    logger.info('***\nlocation: $location, data: $data\n***');
+    logger.info('location: $location, data: $data');
     if (data.containsKey(fcmPayloadLocationKey)) {
-      await ref
-          .read(navigationServiceProvider)
-          .pushOnCurrentTab(location: location, arguments: data);
+      // location: `/` の場合は、すべての画面を取り除く
+      if (location == ref.read(appRouterProvider).initialRoute) {
+        ref.read(navigationServiceProvider).popUntilFirstRoute();
+      } else {
+        await ref
+            .read(navigationServiceProvider)
+            .pushOnCurrentTab(location: location, arguments: data);
+      }
     }
   },
 );
