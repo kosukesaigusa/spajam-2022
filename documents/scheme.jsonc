@@ -1,0 +1,39 @@
+{
+  "collection: rooms": {
+    "document: {roomId}": {
+      "roomId": "{roomId}",
+      "roomName": "Flutter Lovers",
+      "createdAt": "2022-08-22 15:00",
+      "userIds": ["{userId-1}", "{userId-2}", "{userId-3}"],
+      "collection: votingEvents": {
+        "document {votingEventId}": {
+          "votingUserIds": ["{userId-1}", "{userId-2}", "{userId-3}"], // status が voting になった時点の、userIds をコピーしてきて、有権者とする
+          "votingEventId": "{votingEventId}",
+          "createdAt": "2022-08-22 15:00",
+          "status": "voting", // VotingEventStatus（投票ステータス文字列） "peace", "waiting", "voting", "finished" （デフォルト peace）
+          "collection: feelings": {
+            "document: {feelingId}": {
+              "userId": "{userId}",
+              "isComfortable": false,
+              "createdAt": "2022-08-22 15:00"
+            }
+          },
+          "collection: votes": {
+            "document: {voteId}": {
+              "voteId": "{voteId}",
+              "userId": "userId",
+              "vote": "hot" // VoteEnum（投票種別文字列） "extremelyHot", "hot", "comfortable", "cold", "extremelyCold"（デフォルト comfortable）
+            }
+          },
+          "result": "hot" // VoteEnum（投票種別文字列） "extremelyHot", "hot", "comfortable", "cold", "extremelyCold"
+        }
+      }
+    }
+  },
+  "collection: appUsers": {
+    "document: {userId}": {
+      "userId": "userId",
+      "fcmToken": "{fcmToken}"
+    }
+  }
+}
