@@ -25,14 +25,6 @@ _$_Rooms _$$_RoomsFromJson(Map json) => $checkedCreate(
               (v) =>
                   (v as List<dynamic>?)?.map((e) => e as String).toList() ??
                   const <String>[]),
-          votingEvents: $checkedConvert(
-              'votingEvents',
-              (v) =>
-                  (v as List<dynamic>?)
-                      ?.map((e) => VotingEvent.fromJson(
-                          Map<String, dynamic>.from(e as Map)))
-                      .toList() ??
-                  const <VotingEvent>[]),
         );
         return val;
       },
@@ -43,5 +35,4 @@ Map<String, dynamic> _$$_RoomsToJson(_$_Rooms instance) => <String, dynamic>{
       'roomName': instance.roomName,
       'createdAt': unionTimestampConverter.toJson(instance.createdAt),
       'userIds': instance.userIds,
-      'votingEvents': instance.votingEvents.map((e) => e.toJson()).toList(),
     };

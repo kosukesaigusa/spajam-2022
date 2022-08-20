@@ -1,8 +1,10 @@
+import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
-import { VotingEventRepository } from '~/src/repositories/voting_event'
 import { VoteRepository } from '~/src/repositories/vote'
 import { Vote } from '~/src/models/vote'
 import { sendFCMByUserIds } from '~/src/utils/fcm/sendFCMNotification'
+import { VotingEventRepository } from '~/src/repositories/votingEvent'
+import { RoomRepository } from '~/src/repositories/room'
 
 /**
  * 新しい vote ドキュメントが作成されたときに発火する。
@@ -17,9 +19,9 @@ import { sendFCMByUserIds } from '~/src/utils/fcm/sendFCMNotification'
  */
 export const onCreateVote = functions
     .region(`asia-northeast1`)
-    // .runWith({failurePolicy:true})
     .firestore.document(`/rooms/{roomId}/votingEvents/{votingEventId}/votes/{voteId}`)
     .onCreate(async (_, context) => {
+        functions.logger.info(`あああああ`)
         const { roomId, votingEventId } = context.params
         // votingEventのuserIdsを取得
         const votingEventRepository = new VotingEventRepository()
@@ -36,33 +38,42 @@ export const onCreateVote = functions
         const votes = await voteRepository.fetchVotes({ roomId, votingEventId })
         // 比較
         if (votes.length < userIds.length) {
+            functions.logger.info(`まだ全員の回答が終わっていないので終了します。`)
             return
         }
+        functions.logger.info(`全員の回答が終わりました、結果を算出します。`)
 
         // 算出ロジックの実行
         const result = calculateResult(votes)
+        functions.logger.info(`算出結果：${result}`)
 
-        //resultを更新
         try {
-            await votingEventRepository.updateResult({ roomId, votingEventId, result })
+            await votingEventRepository.completeVotingEvent({ roomId, votingEventId, result })
         } catch (e) {
             functions.logger.error(`resultの更新に失敗しました: { roomId: ${roomId}, votingEventId: ${votingEventId} }`)
             return
         }
 
-        // votingEvent.votingUserIdsにプッシュ通知を送る
+        const roomRepository = new RoomRepository()
+        const room = await roomRepository.fetchRoom({ roomId })
+        if (room === undefined) {
+            functions.logger.error(`Room が見つかりませんでした。`)
+            return
+        }
+        const { title, bodySuffix } = await fetchFCMTitleBodySuffix()
         await sendFCMByUserIds({
             userIds: userIds,
-            title: `勝敗が決しました`,
-            body: `結果画面で勝敗を確認してください`,
+            title,
+            body: `「${room.roomName}」${bodySuffix}`,
             location: `/`
         })
 
         try {
-            // 新しいvotingEventドキュメントを作成する
-            await votingEventRepository.createNewVotingEvent({ roomId })
+            // 新しい votingEvent ドキュメントを作成する
+            await votingEventRepository.createVotingEvent({ roomId })
+            functions.logger.info(`新しい votingEvent を作成しました。`)
         } catch (e) {
-            functions.logger.error(`新規VotingEventドキュメントの作成に失敗しました: ${e}`)
+            functions.logger.error(`新規 VotingEvent ドキュメントの作成に失敗しました: ${e}`)
         }
     })
 
@@ -70,4 +81,13 @@ function calculateResult(votes: Vote[]): VoteEnum {
     // TODO: 'votes' is defined but never used. が出るので仮で設置した。後で消す。
     functions.logger.info(`${votes}`)
     return `hot`
+}
+
+/** タイトルとボディ文字列の末尾を取得する */
+const fetchFCMTitleBodySuffix = async (): Promise<{ title: string; bodySuffix: string }> => {
+    const ds = await admin.firestore().collection(`fcms`).doc(`onCreateVote`).get()
+    const data = ds.data()
+    const title = data?.title ?? `エアコン戦争が勃発しました！`
+    const bodySuffix = data?.bodySuffix ?? `エアコン戦争が勃発しました！！`
+    return { title, bodySuffix }
 }

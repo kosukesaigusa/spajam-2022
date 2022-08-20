@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../features/auth/auth.dart';
 import '../features/room/room.dart';
+import '../features/voting_event/voting_event.dart';
 import '../utils/extensions/build_context.dart';
 import '../utils/loading.dart';
 import '../widgets/empty_placeholder.dart';
@@ -23,7 +24,7 @@ class RoomsPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'SPA株式会社',
+          'SPAJAM 株式会社',
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -59,6 +60,18 @@ class RoomsPage extends HookConsumerWidget {
                     padding: const EdgeInsets.all(16),
                     itemBuilder: (context, index) {
                       final room = rooms[index];
+                      final votingEventMood =
+                          ref.watch(latestVotingEventStreamProvider(room.roomId)).when(
+                                data: (data) => Text(
+                                  data.status.mood,
+                                  style: const TextStyle(
+                                    fontSize: 70,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                error: (_, __) => const SizedBox(),
+                                loading: () => const PrimarySpinkitCircle(),
+                              );
                       return InkWell(
                         onTap: () => Navigator.pushNamed<void>(
                           context,
@@ -74,15 +87,8 @@ class RoomsPage extends HookConsumerWidget {
                             children: [
                               SizedBox(
                                 height: context.displaySize.width * 0.3,
-                                child: const Center(
-                                  child: Text(
-                                    // TODO(shimizu-saffle): VotingEventStatus で表示する絵文字を変更する。
-                                    '😌',
-                                    style: TextStyle(
-                                      fontSize: 70,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
+                                child: Center(
+                                  child: votingEventMood,
                                 ),
                               ),
                               Text(

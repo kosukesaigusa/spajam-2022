@@ -54,35 +54,67 @@ class VotingPage extends HookConsumerWidget {
     final arguments = ref.watch(votingPageArgumentsProvider);
     return Scaffold(
       appBar: AppBar(title: const Text('投票')),
-      body: ListView(
+      body: Padding(
         padding: const EdgeInsets.all(16),
-        children: <Widget>[
-          // TODO(yamatatsu): 確認用なので後で消す
-          Text('roomId: ${arguments.roomId}'),
-          Text('votingEventId: ${arguments.votingEventId}'),
-          for (final vote in VoteEnum.values)
-            ElevatedButton(
-              child: Column(
-                children: [
-                  Text(vote.label),
-                ],
-              ),
-              onPressed: () async {
-                final navigator = Navigator.of(context);
-                await ref.read(voteProvider).call(
-                      roomId: arguments.roomId,
-                      votingEventId: arguments.votingEventId,
-                      vote: vote,
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: <Widget>[
+            // TODO(yamatatsu): 確認用なので後で消す
+            Text('roomId: ${arguments.roomId}'),
+            Text('votingEventId: ${arguments.votingEventId}'),
+            for (final vote in VoteEnum.values)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(10),
+                  onTap: () async {
+                    final navigator = Navigator.of(context);
+                    await ref.read(voteProvider).call(
+                          roomId: arguments.roomId,
+                          votingEventId: arguments.votingEventId,
+                          vote: vote,
+                        );
+                    await navigator.pushReplacementNamed(
+                      ResultPage.location(
+                        roomId: arguments.roomId,
+                        votingEventId: arguments.votingEventId,
+                      ),
                     );
-                await navigator.pushNamed<void>(
-                  ResultPage.location(
-                    roomId: arguments.roomId,
-                    votingEventId: arguments.votingEventId,
+                  },
+                  splashColor: vote.color,
+                  child: Card(
+                    elevation: 8,
+                    color: vote.color.withOpacity(0.9),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: DecoratedBox(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 64,
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(vote.emoji),
+                              const SizedBox(width: 16),
+                              Text(
+                                vote.label,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                );
-              },
-            ),
-        ],
+                ),
+              )
+          ],
+        ),
       ),
     );
   }

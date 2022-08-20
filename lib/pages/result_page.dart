@@ -57,9 +57,7 @@ class ResultPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final roomId = ref.watch(_roomIdProvider);
     final votingEventId = ref.watch(_votingEventIdProvider);
-    return ref
-        .watch(votingEventStreamProvider(Tuple2(roomId, votingEventId)))
-        .when(
+    return ref.watch(votingEventStreamProvider(Tuple2(roomId, votingEventId))).when(
           data: (votingEvent) {
             if (votingEvent == null) {
               return Scaffold(
@@ -85,7 +83,11 @@ class ResultPage extends HookConsumerWidget {
             }
           },
           error: (error, stackTrace) => Scaffold(
-            appBar: AppBar(title: const Text('投票結果')),
+            appBar: AppBar(
+              title: const Text('投票結果'),
+              automaticallyImplyLeading: false,
+              leading: const SizedBox(),
+            ),
             body: Center(
               child: Text(error.toString()),
             ),
@@ -106,16 +108,20 @@ class VotingWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          children: const [
-            Text('投票中'),
-          ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Column(
+            children: const [
+              Text('投票中'),
+            ],
+          ),
+          automaticallyImplyLeading: false,
         ),
-      ),
-      body: const Center(
-        child: PrimarySpinkitCircle(),
+        body: const Center(
+          child: PrimarySpinkitCircle(),
+        ),
       ),
     );
   }
@@ -127,19 +133,24 @@ class FinishedWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('投票終了')),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('投票終了'),
-            ElevatedButton(
-              onPressed: () =>
-                  Navigator.popUntil(context, (route) => route.isFirst),
-              child: const Text('戻る'),
-            )
-          ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('投票終了'),
+          automaticallyImplyLeading: false,
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('投票終了'),
+              ElevatedButton(
+                onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
+                child: const Text('戻る'),
+              )
+            ],
+          ),
         ),
       ),
     );
