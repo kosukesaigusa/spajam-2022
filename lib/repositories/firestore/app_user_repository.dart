@@ -22,7 +22,6 @@ class AppUserRepository {
 
   /// 指定した userId のユーザーを `SetOptions(merge: true)` で作成する。
   Future<void> setUser({required String userId}) async {
-    await appUserRef(userId: userId)
-        .set(AppUser(userId: userId, name: userId), SetOptions(merge: true));
+    await appUserRef(userId: userId).set(AppUser(userId: userId), SetOptions(merge: true));
   }
 }
