@@ -1,4 +1,4 @@
-import {FirestoreDataConverter } from '@google-cloud/firestore'
+import { FirestoreDataConverter } from '@google-cloud/firestore'
 import { Vote } from '../models/vote'
 
 export const voteConverter: FirestoreDataConverter<Vote> = {
@@ -7,14 +7,14 @@ export const voteConverter: FirestoreDataConverter<Vote> = {
         return {
             voteId: qds.id,
             userId: data.userId,
-            vote: data.vote,
+            vote: data.vote
         }
     },
     toFirestore(vote: Vote): FirebaseFirestore.DocumentData {
         return {
             voteId: vote.voteId,
             userId: vote.userId,
-            vote: vote.vote,
+            vote: vote.vote
         }
     }
 }

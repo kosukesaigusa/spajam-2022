@@ -15,7 +15,7 @@ describe(`onCrateAppUser のテスト`, () => {
     test(`新しい appUser ドキュメントが作成されると、Todo ドキュメントが作成される。`, async () => {
         const userId = `test-user-id`
         const path = `appUsers/${userId}`
-        const appUser = new AppUser({ userId, name: userId })
+        const appUser = new AppUser({ userId })
         const snapshot = testEnv.firestore.makeDocumentSnapshot(appUser, path)
 
         // ラップした onCreateAppUser 関数を模擬的に実行する

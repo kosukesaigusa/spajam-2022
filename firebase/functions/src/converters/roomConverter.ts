@@ -9,7 +9,7 @@ export const roomConverter: FirestoreDataConverter<Room> = {
             roomName: data.roomName,
             userIds: data.userIds,
             votingEvents: data.votingEvents,
-            createdAt: data.createdAt,
+            createdAt: data.createdAt
         }
     },
     toFirestore(room: Room): FirebaseFirestore.DocumentData {
@@ -18,7 +18,7 @@ export const roomConverter: FirestoreDataConverter<Room> = {
             roomName: room.roomName,
             userIds: room.userIds,
             votingEvents: room.votingEvents,
-            createdAt: FieldValue.serverTimestamp(),
+            createdAt: FieldValue.serverTimestamp()
         }
     }
 }

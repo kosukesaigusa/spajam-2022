@@ -1,8 +1,8 @@
-import { VotingEvent } from "./voting_event"
+import { VotingEvent } from './voting_event'
 
 export class Room {
-    roomId:string = ``
-    roomName:string = ``
+    roomId = ``
+    roomName = ``
     userIds: string[] = []
     votingEvents: VotingEvent[] = []
     createdAt?: FirebaseFirestore.Timestamp

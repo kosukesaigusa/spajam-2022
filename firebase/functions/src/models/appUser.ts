@@ -1,6 +1,6 @@
 export class AppUser {
-    userId:string = ``
-    fcmToken: string = ``
+    userId = ``
+    fcmTokens: string[] = []
 
     constructor(partial?: Partial<AppUser>) {
         Object.assign(this, partial)
