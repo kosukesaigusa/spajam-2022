@@ -11,7 +11,6 @@ import '../models/voting_event.dart';
 import '../models/voting_event_status.dart';
 import '../repositories/firestore/feeling_repository.dart';
 import '../utils/exceptions/base.dart';
-import '../utils/loading.dart';
 import '../utils/routing/app_router_state.dart';
 import '../utils/scaffold_messenger_service.dart';
 import '../widgets/empty_placeholder.dart';
@@ -167,14 +166,8 @@ class RoomPage extends HookConsumerWidget {
                       ),
                     );
                   },
-                  error: (e, _) => baseScaffold(
-                    Text(e.toString()),
-                  ),
-                  loading: () => baseScaffold(
-                    const Center(
-                      child: PrimarySpinkitCircle(),
-                    ),
-                  ),
+                  error: (e, _) => baseScaffold(Text(e.toString())),
+                  loading: () => const SizedBox(),
                 );
           },
           error: (e, _) => Center(
@@ -184,11 +177,7 @@ class RoomPage extends HookConsumerWidget {
               ),
             ),
           ),
-          loading: () => baseScaffold(
-            const Center(
-              child: PrimarySpinkitCircle(),
-            ),
-          ),
+          loading: () => const SizedBox(),
         );
   }
 

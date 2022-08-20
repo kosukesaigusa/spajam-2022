@@ -25,7 +25,6 @@ final isSignedInProvider = Provider(
 final signInAnonymouslyProvider = Provider.autoDispose<Future<void> Function()>(
   (ref) => () async {
     try {
-      ref.read(overlayLoadingProvider.notifier).update((state) => true);
       final userCredential = await ref.watch(_authProvider).signInAnonymously();
       final user = userCredential.user;
       if (user == null) {
@@ -37,8 +36,6 @@ final signInAnonymouslyProvider = Provider.autoDispose<Future<void> Function()>(
       logger.warning(e.toString());
     } on AppException catch (e) {
       logger.warning(e.toString());
-    } finally {
-      ref.read(overlayLoadingProvider.notifier).update((state) => false);
     }
   },
 );
