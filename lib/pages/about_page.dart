@@ -12,6 +12,7 @@ import '../utils/hooks/package_info_state.dart';
 import '../utils/loading.dart';
 import '../utils/scaffold_messenger_service.dart';
 import 'room_page.dart';
+import 'voting_page.dart';
 
 class AboutPage extends HookConsumerWidget {
   const AboutPage({super.key});
@@ -62,9 +63,21 @@ class AboutPage extends HookConsumerWidget {
             ),
             for (final t in TestNotificationRequestType.values)
               ElevatedButton(
-                onPressed: () => ref.read(createTestNotificationRequestProvider)(t),
+                onPressed: () =>
+                    ref.read(createTestNotificationRequestProvider)(t),
                 child: Text('プッシュ通知をリクエスト (${t.label})'),
               ),
+            // TODO(yamatatsu): 削除
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed<void>(
+                context,
+                VotingPage.location(
+                  roomId: 'CqZUgBbHXHaycv345YCC',
+                  votingEventId: 'whLZfYf5apCqWL7dPwsz',
+                ),
+              ),
+              child: const Text('投票ページ'),
+            ),
           ],
         ),
       ),
@@ -72,7 +85,8 @@ class AboutPage extends HookConsumerWidget {
   }
 
   /// バージョン番号のテキストを取得する
-  String _getAppNameText(PackageInfo? packageInfo) => packageInfo?.appName ?? '';
+  String _getAppNameText(PackageInfo? packageInfo) =>
+      packageInfo?.appName ?? '';
 
   /// バージョン番号のテキストを取得する
   String _getVersionInfoText(PackageInfo? packageInfo) {
@@ -89,7 +103,9 @@ final showFCMTokenProvider = Provider.autoDispose<Future<void> Function()>(
     try {
       ref.read(overlayLoadingProvider.notifier).update((state) => true);
       final token = await ref.read(getFcmTokenProvider)();
-      await ref.read(scaffoldMessengerServiceProvider).showDialogByBuilder<void>(
+      await ref
+          .read(scaffoldMessengerServiceProvider)
+          .showDialogByBuilder<void>(
             builder: (context) => AlertDialog(
               title: const Text('FCM トークン'),
               content: Column(
@@ -122,11 +138,15 @@ final showFCMTokenProvider = Provider.autoDispose<Future<void> Function()>(
 
 /// テスト通知を受け取るためのドキュメントを作成する。
 final createTestNotificationRequestProvider = Provider.autoDispose<
-    Future<void> Function(TestNotificationRequestType testNotificationRequestType)>(
+    Future<void> Function(
+  TestNotificationRequestType testNotificationRequestType,
+)>(
   (ref) => (testNotificationRequestType) async {
     final token = await ref.read(getFcmTokenProvider)();
     if (token == null) {
-      ref.read(scaffoldMessengerServiceProvider).showSnackBar('FCM トークンが取得できませんでした。');
+      ref
+          .read(scaffoldMessengerServiceProvider)
+          .showSnackBar('FCM トークンが取得できませんでした。');
       return;
     }
     try {

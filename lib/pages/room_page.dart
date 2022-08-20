@@ -13,9 +13,9 @@ import '../widgets/empty_placeholder.dart';
 class RoomPage extends HookConsumerWidget {
   const RoomPage({super.key});
 
-  static const path = '/room/:roomId';
+  static const path = '/rooms/:roomId';
   static const name = 'RoomPage';
-  static String location({required String roomId}) => '/room/$roomId';
+  static String location({required String roomId}) => '/rooms/$roomId';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
