@@ -11,7 +11,7 @@ class VotingEventRepository {
   /// Room が作成されたときに、必ず１つの VotingEvent が作成されている
   Stream<VotingEvent> subscribeVotingEvent({required String roomId}) {
     final collectionStream = votingEventsRef(roomId: roomId)
-        .orderBy('createdAt')
+        .orderBy('createdAt', descending: true)
         .limit(1)
         .snapshots();
     return collectionStream.map(
