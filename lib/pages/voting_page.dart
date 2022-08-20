@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../features/voting_event/vote.dart';
 import '../models/vote_enum.dart';
 import '../utils/exceptions/base.dart';
 import '../utils/routing/app_router_state.dart';
@@ -65,8 +66,13 @@ class VotingPage extends HookConsumerWidget {
                   Text(vote.label),
                 ],
               ),
-              onPressed: () {
-                // TODO: 画面遷移
+              onPressed: () async {
+                await ref.read(voteProvider).call(
+                      roomId: arguments.roomId,
+                      votingEventId: arguments.votingEventId,
+                      vote: vote,
+                    );
+                // TODO: 完了画面へ遷移
                 Navigator.pop(context);
               },
             ),
