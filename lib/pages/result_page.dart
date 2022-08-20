@@ -109,17 +109,20 @@ class VotingWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          children: const [
-            Text('投票中'),
-          ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Column(
+            children: const [
+              Text('投票中'),
+            ],
+          ),
+          automaticallyImplyLeading: false,
         ),
-        automaticallyImplyLeading: false,
-      ),
-      body: const Center(
-        child: PrimarySpinkitCircle(),
+        body: const Center(
+          child: PrimarySpinkitCircle(),
+        ),
       ),
     );
   }
@@ -134,7 +137,10 @@ class FinishedWidget extends HookConsumerWidget {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        appBar: AppBar(title: const Text('投票終了')),
+        appBar: AppBar(
+          title: const Text('投票終了'),
+          automaticallyImplyLeading: false,
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
