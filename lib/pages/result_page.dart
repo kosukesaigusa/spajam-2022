@@ -6,6 +6,7 @@ import '../models/voting_event_status.dart';
 import '../utils/exceptions/base.dart';
 import '../utils/loading.dart';
 import '../utils/routing/app_router_state.dart';
+import '../widgets/empty_placeholder.dart';
 
 /// roomId を取得してから返す Provider。
 final _roomIdProvider = Provider.autoDispose<String>(
@@ -38,19 +39,21 @@ class ResultPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final roomId = ref.watch(_roomIdProvider);
-    return ref.watch(votingEventStreamProvider(roomId)).when(
-          data: (voteEvent) {
-            switch (voteEvent.status) {
+    // TODO:  VotingEventRepository.subscribeVotingEvent() の方を使う StreamProvider を
+    //  このファイルに定義してしまって使用する。
+    return ref.watch(latestVotingEventStreamProvider(roomId)).when(
+          data: (votingEvent) {
+            switch (votingEvent.status) {
               case VotingEventStatus.voting:
                 return const VotingWidget();
               case VotingEventStatus.finished:
                 return const FinishedWidget();
-              // ignore: no_default_cases
-              default:
+              case VotingEventStatus.peace:
+              case VotingEventStatus.waiting:
                 return Scaffold(
                   appBar: AppBar(title: const Text('エラー')),
-                  body: const Center(
-                    child: Text('投票結果ページには投票中または終了済みのイベントに対してのみ表示できます。'),
+                  body: const EmptyPlaceholderWidget(
+                    message: '投票結果ページには投票中または終了済みのイベントに対してのみ表示できます。',
                   ),
                 );
             }
@@ -107,8 +110,7 @@ class FinishedWidget extends HookConsumerWidget {
           children: [
             const Text('投票終了'),
             ElevatedButton(
-              onPressed: () =>
-                  Navigator.popUntil(context, (route) => route.isFirst),
+              onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
               child: const Text('戻る'),
             )
           ],

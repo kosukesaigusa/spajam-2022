@@ -68,14 +68,13 @@ class VotingPage extends HookConsumerWidget {
                 ],
               ),
               onPressed: () async {
+                final navigator = Navigator.of(context);
                 await ref.read(voteProvider).call(
                       roomId: arguments.roomId,
                       votingEventId: arguments.votingEventId,
                       vote: vote,
                     );
-
-                await Navigator.pushNamed<void>(
-                  context,
+                await navigator.pushNamed<void>(
                   ResultPage.location(
                     roomId: arguments.roomId,
                     votingEventId: arguments.votingEventId,
