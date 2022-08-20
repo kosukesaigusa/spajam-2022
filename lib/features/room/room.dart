@@ -7,7 +7,7 @@ import '../../models/room.dart';
 import '../../repositories/firestore/room_repository.dart';
 import '../auth/auth.dart';
 
-/// 指定したユーザーの Todo 一覧を購読する StreamProvider。
+/// Room 一覧を購読する StreamProvider。
 final roomsStreamProvider = StreamProvider.autoDispose((ref) {
   final userId = ref.watch(userIdProvider).value;
   if (userId == null) {
