@@ -1,1 +1,1 @@
-type VoteEnum = `extremelyHot` | `hot`| `comfortable`| `cold` |`extremelyCold`
+type VoteEnum = `extremelyHot` | `hot` | `comfortable` | `cold` | `extremelyCold`
