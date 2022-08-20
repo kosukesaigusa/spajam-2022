@@ -28,6 +28,9 @@ admin.initializeApp({
  *  */
 import { onCreateAppUser } from './firebase-functions/app-user/onCreateAppUser'
 import { onCreateTestNotificationRequest } from './firebase-functions/test-notification/onCreateTestNotificationRequest'
+import { onCreateVote } from './firebase-functions/vote/onCreateVote'
+
+
 
 /** index.ts で import してデプロイする関数一覧  */
-export { onCreateAppUser, onCreateTestNotificationRequest }
+export { onCreateAppUser, onCreateTestNotificationRequest,onCreateVote }
