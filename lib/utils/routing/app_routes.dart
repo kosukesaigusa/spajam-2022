@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../pages/about_page.dart';
 import '../../pages/main_page.dart';
 import '../../pages/not_found_page.dart';
+import '../../pages/room_page.dart';
 import '../../pages/rooms_page.dart';
 import '../../pages/test_notification_page.dart';
 import '../../pages/voting_page.dart';
@@ -29,6 +30,11 @@ final appRoutes = <AppRoute>[
     path: AboutPage.path,
     name: AboutPage.name,
     builder: (context, state) => const AboutPage(key: ValueKey(AboutPage.name)),
+  ),
+  AppRoute(
+    path: RoomPage.path,
+    name: RoomPage.name,
+    builder: (context, state) => const RoomPage(key: ValueKey(RoomPage.name)),
   ),
   AppRoute(
     path: NotFoundPage.path,

@@ -1,6 +1,3 @@
-// Room の読み取りの StreamProvider とか FutureProvider とか。
-
-// roomsStreamProvider
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../models/room.dart';
