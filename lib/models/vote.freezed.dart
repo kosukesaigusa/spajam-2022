@@ -22,7 +22,7 @@ Vote _$VoteFromJson(Map<String, dynamic> json) {
 mixin _$Vote {
   String get voteId => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
-  VoteEnum? get vote => throw _privateConstructorUsedError;
+  VoteEnum get vote => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,7 +33,7 @@ mixin _$Vote {
 abstract class $VoteCopyWith<$Res> {
   factory $VoteCopyWith(Vote value, $Res Function(Vote) then) =
       _$VoteCopyWithImpl<$Res>;
-  $Res call({String voteId, String userId, VoteEnum? vote});
+  $Res call({String voteId, String userId, VoteEnum vote});
 }
 
 /// @nodoc
@@ -62,7 +62,7 @@ class _$VoteCopyWithImpl<$Res> implements $VoteCopyWith<$Res> {
       vote: vote == freezed
           ? _value.vote
           : vote // ignore: cast_nullable_to_non_nullable
-              as VoteEnum?,
+              as VoteEnum,
     ));
   }
 }
@@ -72,7 +72,7 @@ abstract class _$$_VoteCopyWith<$Res> implements $VoteCopyWith<$Res> {
   factory _$$_VoteCopyWith(_$_Vote value, $Res Function(_$_Vote) then) =
       __$$_VoteCopyWithImpl<$Res>;
   @override
-  $Res call({String voteId, String userId, VoteEnum? vote});
+  $Res call({String voteId, String userId, VoteEnum vote});
 }
 
 /// @nodoc
@@ -102,7 +102,7 @@ class __$$_VoteCopyWithImpl<$Res> extends _$VoteCopyWithImpl<$Res>
       vote: vote == freezed
           ? _value.vote
           : vote // ignore: cast_nullable_to_non_nullable
-              as VoteEnum?,
+              as VoteEnum,
     ));
   }
 }
@@ -110,7 +110,8 @@ class __$$_VoteCopyWithImpl<$Res> extends _$VoteCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Vote implements _Vote {
-  _$_Vote({this.voteId = '', this.userId = '', this.vote});
+  _$_Vote(
+      {this.voteId = '', this.userId = '', this.vote = VoteEnum.comfortable});
 
   factory _$_Vote.fromJson(Map<String, dynamic> json) => _$$_VoteFromJson(json);
 
@@ -121,7 +122,8 @@ class _$_Vote implements _Vote {
   @JsonKey()
   final String userId;
   @override
-  final VoteEnum? vote;
+  @JsonKey()
+  final VoteEnum vote;
 
   @override
   String toString() {
@@ -163,7 +165,7 @@ abstract class _Vote implements Vote {
   factory _Vote(
       {final String voteId,
       final String userId,
-      final VoteEnum? vote}) = _$_Vote;
+      final VoteEnum vote}) = _$_Vote;
 
   factory _Vote.fromJson(Map<String, dynamic> json) = _$_Vote.fromJson;
 
@@ -172,7 +174,7 @@ abstract class _Vote implements Vote {
   @override
   String get userId;
   @override
-  VoteEnum? get vote;
+  VoteEnum get vote;
   @override
   @JsonKey(ignore: true)
   _$$_VoteCopyWith<_$_Vote> get copyWith => throw _privateConstructorUsedError;

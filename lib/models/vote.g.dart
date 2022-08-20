@@ -16,7 +16,10 @@ _$_Vote _$$_VoteFromJson(Map json) => $checkedCreate(
           voteId: $checkedConvert('voteId', (v) => v as String? ?? ''),
           userId: $checkedConvert('userId', (v) => v as String? ?? ''),
           vote: $checkedConvert(
-              'vote', (v) => $enumDecodeNullable(_$VoteEnumEnumMap, v)),
+              'vote',
+              (v) =>
+                  $enumDecodeNullable(_$VoteEnumEnumMap, v) ??
+                  VoteEnum.comfortable),
         );
         return val;
       },
@@ -25,7 +28,7 @@ _$_Vote _$$_VoteFromJson(Map json) => $checkedCreate(
 Map<String, dynamic> _$$_VoteToJson(_$_Vote instance) => <String, dynamic>{
       'voteId': instance.voteId,
       'userId': instance.userId,
-      'vote': _$VoteEnumEnumMap[instance.vote],
+      'vote': _$VoteEnumEnumMap[instance.vote]!,
     };
 
 const _$VoteEnumEnumMap = {

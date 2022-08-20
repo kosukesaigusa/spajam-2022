@@ -10,7 +10,7 @@ class Vote with _$Vote {
   factory Vote({
     @Default('') String voteId,
     @Default('') String userId,
-    VoteEnum? vote,
+    @Default(VoteEnum.comfortable) VoteEnum vote,
   }) = _Vote;
 
   factory Vote.fromJson(Map<String, dynamic> json) => _$VoteFromJson(json);
