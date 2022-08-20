@@ -29,6 +29,7 @@ admin.initializeApp({
 import { onCreateAppUser } from './firebase-functions/app-user/onCreateAppUser'
 import { onCreateFeeling } from './firebase-functions/feeling/onCreateFeeling'
 import { onCreateTestNotificationRequest } from './firebase-functions/test-notification/onCreateTestNotificationRequest'
+import { onCreateVote } from './firebase-functions/vote/onCreateVote'
 
 /** index.ts で import してデプロイする関数一覧  */
-export { onCreateAppUser, onCreateTestNotificationRequest, onCreateFeeling }
+export { onCreateAppUser, onCreateTestNotificationRequest, onCreateVote, onCreateFeeling }

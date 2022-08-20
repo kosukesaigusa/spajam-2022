@@ -21,7 +21,18 @@ class AppUserRepository {
   }
 
   /// 指定した userId のユーザーを `SetOptions(merge: true)` で作成する。
-  Future<void> setUser({required String userId}) async {
-    await appUserRef(userId: userId).set(AppUser(userId: userId), SetOptions(merge: true));
+  /// 通知を受け取るために必要な fcmToken も登録する。
+  Future<void> setUser({
+    required String userId,
+    String? fcmToken,
+  }) async {
+    await appUserRef(userId: userId).set(
+      AppUser(
+        userId: userId,
+        // 本当は FieldValue.arrayUnion を使うべきだが、いったんこれで。
+        fcmTokens: fcmToken == null ? [] : <String>[fcmToken],
+      ),
+      SetOptions(merge: true),
+    );
   }
 }

@@ -11,8 +11,6 @@ import '../utils/firebase_messaging.dart';
 import '../utils/hooks/package_info_state.dart';
 import '../utils/loading.dart';
 import '../utils/scaffold_messenger_service.dart';
-import 'room_page.dart';
-import 'voting_page.dart';
 
 class AboutPage extends HookConsumerWidget {
   const AboutPage({super.key});
@@ -51,33 +49,11 @@ class AboutPage extends HookConsumerWidget {
               onPressed: () => ref.read(showFCMTokenProvider)(),
               child: const Text('FCM トークンを表示'),
             ),
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamed<void>(
-              context,
-              RoomPage.location(
-                // TODO: RoomsPage から値を取得
-                roomId: 'gxdmunvBcT5noyAP5FbJ',
-              ),
-            ),
-              child: const Text('room_pageへ'),
-            ),
             for (final t in TestNotificationRequestType.values)
               ElevatedButton(
-                onPressed: () =>
-                    ref.read(createTestNotificationRequestProvider)(t),
+                onPressed: () => ref.read(createTestNotificationRequestProvider)(t),
                 child: Text('プッシュ通知をリクエスト (${t.label})'),
               ),
-            // TODO(yamatatsu): 削除
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamed<void>(
-                context,
-                VotingPage.location(
-                  roomId: 'CqZUgBbHXHaycv345YCC',
-                  votingEventId: 'whLZfYf5apCqWL7dPwsz',
-                ),
-              ),
-              child: const Text('投票ページ'),
-            ),
           ],
         ),
       ),
@@ -85,8 +61,7 @@ class AboutPage extends HookConsumerWidget {
   }
 
   /// バージョン番号のテキストを取得する
-  String _getAppNameText(PackageInfo? packageInfo) =>
-      packageInfo?.appName ?? '';
+  String _getAppNameText(PackageInfo? packageInfo) => packageInfo?.appName ?? '';
 
   /// バージョン番号のテキストを取得する
   String _getVersionInfoText(PackageInfo? packageInfo) {
@@ -103,9 +78,7 @@ final showFCMTokenProvider = Provider.autoDispose<Future<void> Function()>(
     try {
       ref.read(overlayLoadingProvider.notifier).update((state) => true);
       final token = await ref.read(getFcmTokenProvider)();
-      await ref
-          .read(scaffoldMessengerServiceProvider)
-          .showDialogByBuilder<void>(
+      await ref.read(scaffoldMessengerServiceProvider).showDialogByBuilder<void>(
             builder: (context) => AlertDialog(
               title: const Text('FCM トークン'),
               content: Column(
@@ -144,9 +117,7 @@ final createTestNotificationRequestProvider = Provider.autoDispose<
   (ref) => (testNotificationRequestType) async {
     final token = await ref.read(getFcmTokenProvider)();
     if (token == null) {
-      ref
-          .read(scaffoldMessengerServiceProvider)
-          .showSnackBar('FCM トークンが取得できませんでした。');
+      ref.read(scaffoldMessengerServiceProvider).showSnackBar('FCM トークンが取得できませんでした。');
       return;
     }
     try {
