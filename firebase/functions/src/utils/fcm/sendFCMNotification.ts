@@ -26,7 +26,7 @@ export const sendFCMByTargets = async ({
     fcmTargets: FCMTarget[]
     title: string
     body: string
-    location: RouteLocation
+    location: string
     documentId?: string
 }): Promise<void> => {
     for (const fcmTarget of fcmTargets) {
@@ -92,7 +92,7 @@ export const sendFCMByUserIds = async ({
     userIds: string[]
     title: string
     body: string
-    location: RouteLocation
+    location: string
 }): Promise<void> => {
     const fcmTargets: FCMTarget[] = []
     for (const appUserId of userIds) {
@@ -122,7 +122,7 @@ export const sendFCMByToken = async ({
     token: string
     title: string
     body: string
-    location: RouteLocation
+    location: string
 }): Promise<void> => {
     const fcmTargets: FCMTarget[] = [
         {

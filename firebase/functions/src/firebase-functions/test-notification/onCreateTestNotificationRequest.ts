@@ -39,7 +39,7 @@ const getBody = (testNotificationRequestType: TestNotificationRequestType): stri
     return `これはテスト通知です。タップすると現在のタブ上で通知の受けページに遷移します。`
 }
 
-const getLocation = (testNotificationRequestType: TestNotificationRequestType): RouteLocation => {
+const getLocation = (testNotificationRequestType: TestNotificationRequestType): string => {
     if (testNotificationRequestType === `normal`) {
         return `/testNotification`
     } else if (testNotificationRequestType === `github`) {
