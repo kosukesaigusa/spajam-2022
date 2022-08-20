@@ -1,4 +1,8 @@
 PODS:
+  - cloud_firestore (3.4.3):
+    - Firebase/Firestore (= 9.3.0)
+    - firebase_core
+    - Flutter
   - cloud_functions (3.3.3):
     - Firebase/Functions (= 9.3.0)
     - firebase_core
@@ -22,6 +26,9 @@ PODS:
   - Firebase/DynamicLinks (9.3.0):
     - Firebase/CoreOnly
     - FirebaseDynamicLinks (~> 9.3.0)
+  - Firebase/Firestore (9.3.0):
+    - Firebase/CoreOnly
+    - FirebaseFirestore (~> 9.3.0)
   - Firebase/Functions (9.3.0):
     - Firebase/CoreOnly
     - FirebaseFunctions (~> 9.3.0)
@@ -215,6 +222,7 @@ PODS:
     - FMDB (>= 2.7.5)
 
 DEPENDENCIES:
+  - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - cloud_functions (from `.symlinks/plugins/cloud_functions/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
@@ -262,6 +270,8 @@ SPEC REPOS:
     - ReachabilitySwift
 
 EXTERNAL SOURCES:
+  cloud_firestore:
+    :path: ".symlinks/plugins/cloud_firestore/ios"
   cloud_functions:
     :path: ".symlinks/plugins/cloud_functions/ios"
   connectivity_plus:
@@ -302,6 +312,7 @@ CHECKOUT OPTIONS:
     :tag: 9.3.0
 
 SPEC CHECKSUMS:
+  cloud_firestore: 08093e207dfb2e6c82a6b272def699e022548786
   cloud_functions: 646a1d8ecc5868b97e6c41cb2bc10b7509ba611c
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
   Firebase: ef75abb1cdbc746d5a38f4e26c422c807b189b8c

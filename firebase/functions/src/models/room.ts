@@ -1,4 +1,4 @@
-import { VotingEvent } from './voting_event'
+import { VotingEvent } from './votingEvent'
 
 export class Room {
     roomId = ``
