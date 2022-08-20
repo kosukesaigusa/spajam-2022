@@ -50,7 +50,6 @@ class RoomsPage extends HookConsumerWidget {
                         onTap: () => Navigator.pushNamed<void>(
                           context,
                           RoomPage.location(roomId: room.roomId),
-                          arguments: room,
                         ),
                       );
                     },
