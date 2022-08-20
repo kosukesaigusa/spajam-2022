@@ -20,7 +20,6 @@ Vote _$VoteFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Vote {
-  String get voteId => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   VoteEnum get vote => throw _privateConstructorUsedError;
 
@@ -33,7 +32,7 @@ mixin _$Vote {
 abstract class $VoteCopyWith<$Res> {
   factory $VoteCopyWith(Vote value, $Res Function(Vote) then) =
       _$VoteCopyWithImpl<$Res>;
-  $Res call({String voteId, String userId, VoteEnum vote});
+  $Res call({String userId, VoteEnum vote});
 }
 
 /// @nodoc
@@ -46,15 +45,10 @@ class _$VoteCopyWithImpl<$Res> implements $VoteCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? voteId = freezed,
     Object? userId = freezed,
     Object? vote = freezed,
   }) {
     return _then(_value.copyWith(
-      voteId: voteId == freezed
-          ? _value.voteId
-          : voteId // ignore: cast_nullable_to_non_nullable
-              as String,
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -72,7 +66,7 @@ abstract class _$$_VoteCopyWith<$Res> implements $VoteCopyWith<$Res> {
   factory _$$_VoteCopyWith(_$_Vote value, $Res Function(_$_Vote) then) =
       __$$_VoteCopyWithImpl<$Res>;
   @override
-  $Res call({String voteId, String userId, VoteEnum vote});
+  $Res call({String userId, VoteEnum vote});
 }
 
 /// @nodoc
@@ -86,15 +80,10 @@ class __$$_VoteCopyWithImpl<$Res> extends _$VoteCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? voteId = freezed,
     Object? userId = freezed,
     Object? vote = freezed,
   }) {
     return _then(_$_Vote(
-      voteId: voteId == freezed
-          ? _value.voteId
-          : voteId // ignore: cast_nullable_to_non_nullable
-              as String,
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -110,14 +99,10 @@ class __$$_VoteCopyWithImpl<$Res> extends _$VoteCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_Vote implements _Vote {
-  _$_Vote(
-      {this.voteId = '', this.userId = '', this.vote = VoteEnum.comfortable});
+  _$_Vote({this.userId = '', this.vote = VoteEnum.comfortable});
 
   factory _$_Vote.fromJson(Map<String, dynamic> json) => _$$_VoteFromJson(json);
 
-  @override
-  @JsonKey()
-  final String voteId;
   @override
   @JsonKey()
   final String userId;
@@ -127,7 +112,7 @@ class _$_Vote implements _Vote {
 
   @override
   String toString() {
-    return 'Vote(voteId: $voteId, userId: $userId, vote: $vote)';
+    return 'Vote(userId: $userId, vote: $vote)';
   }
 
   @override
@@ -135,7 +120,6 @@ class _$_Vote implements _Vote {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Vote &&
-            const DeepCollectionEquality().equals(other.voteId, voteId) &&
             const DeepCollectionEquality().equals(other.userId, userId) &&
             const DeepCollectionEquality().equals(other.vote, vote));
   }
@@ -144,7 +128,6 @@ class _$_Vote implements _Vote {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(voteId),
       const DeepCollectionEquality().hash(userId),
       const DeepCollectionEquality().hash(vote));
 
@@ -162,15 +145,10 @@ class _$_Vote implements _Vote {
 }
 
 abstract class _Vote implements Vote {
-  factory _Vote(
-      {final String voteId,
-      final String userId,
-      final VoteEnum vote}) = _$_Vote;
+  factory _Vote({final String userId, final VoteEnum vote}) = _$_Vote;
 
   factory _Vote.fromJson(Map<String, dynamic> json) = _$_Vote.fromJson;
 
-  @override
-  String get voteId;
   @override
   String get userId;
   @override

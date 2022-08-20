@@ -9,7 +9,6 @@ part 'vote.g.dart';
 @freezed
 class Vote with _$Vote {
   factory Vote({
-    @Default('') String voteId,
     @Default('') String userId,
     @Default(VoteEnum.comfortable) VoteEnum vote,
   }) = _Vote;
