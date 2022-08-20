@@ -51,7 +51,8 @@ class RoomsPage extends HookConsumerWidget {
                   }
                   return GridView.builder(
                     shrinkWrap: true,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 20,
@@ -60,26 +61,30 @@ class RoomsPage extends HookConsumerWidget {
                     padding: const EdgeInsets.all(16),
                     itemBuilder: (context, index) {
                       final room = rooms[index];
-                      final votingEventMood =
-                          ref.watch(latestVotingEventStreamProvider(room.roomId)).when(
-                                data: (data) => Text(
-                                  data.status.mood,
-                                  style: const TextStyle(
-                                    fontSize: 70,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                error: (_, __) => const SizedBox(),
-                                loading: () => const PrimarySpinkitCircle(),
-                              );
+                      final votingEventMood = ref
+                          .watch(latestVotingEventStreamProvider(room.roomId))
+                          .when(
+                            data: (data) => Text(
+                              data.status.mood,
+                              style: const TextStyle(
+                                fontSize: 70,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            error: (_, __) => const SizedBox(),
+                            loading: () => const PrimarySpinkitCircle(),
+                          );
                       return InkWell(
+                        borderRadius: BorderRadius.circular(10),
                         onTap: () => Navigator.pushNamed<void>(
                           context,
                           RoomPage.location(roomId: room.roomId),
                         ),
+                        splashColor: Colors.grey,
                         child: Card(
+                          color: Colors.white.withOpacity(0.9),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                           elevation: 8,
                           child: Column(
