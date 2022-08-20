@@ -1,5 +1,3 @@
-// VotingEventRepository を定義する
-
 import { votingEventsRef } from '../firestore-refs/firestoreRefs'
 import { VotingEvent } from '../models/voting_event'
 
