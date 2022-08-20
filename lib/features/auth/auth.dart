@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../repositories/firestore/app_user_repository.dart';
 import '../../utils/exceptions/base.dart';
+import '../../utils/firebase_messaging.dart';
 import '../../utils/loading.dart';
 import '../../utils/logger.dart';
 
@@ -30,7 +31,8 @@ final signInAnonymouslyProvider = Provider.autoDispose<Future<void> Function()>(
       if (user == null) {
         throw const AppException(message: '匿名サインインに失敗しました。');
       }
-      await ref.read(appUserRepositoryProvider).setUser(userId: user.uid);
+      final fcmToken = await ref.read(getFcmTokenProvider)();
+      await ref.read(appUserRepositoryProvider).setUser(userId: user.uid, fcmToken: fcmToken);
     } on FirebaseException catch (e) {
       logger.warning(e.toString());
     } on AppException catch (e) {
