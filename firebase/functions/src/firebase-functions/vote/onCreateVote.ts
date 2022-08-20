@@ -1,7 +1,6 @@
 import * as functions from 'firebase-functions'
 import { VotingEventRepository } from '~/src/repositories/voting_event'
 import { VoteRepository } from '~/src/repositories/vote'
-import { isNil } from 'lodash'
 import { Vote } from '~/src/models/vote'
 import { sendFCMByUserIds } from '~/src/utils/fcm/sendFCMNotification'
 
@@ -20,12 +19,12 @@ export const onCreateVote = functions
     .region(`asia-northeast1`)
     // .runWith({failurePolicy:true})
     .firestore.document(`/rooms/{roomId}/votingEvents/{votingEventId}/votes/{voteId}`)
-    .onCreate(async (snapshot,context) => {
+    .onCreate(async (_,context) => {
         const {roomId, votingEventId} = context.params
         // votingEventのuserIdsを取得
         const votingEventRepository = new VotingEventRepository()
         const votingEvent = await votingEventRepository.fetchVotingEvent({ roomId,votingEventId })
-        if(isNil(votingEvent)){
+        if(votingEvent === undefined){
             functions.logger.error(`指定のVotingEventが存在しません: { roomId: ${roomId}, votingEventId: ${votingEventId} }`)
             return; 
         }
