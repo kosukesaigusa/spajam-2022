@@ -1,7 +1,7 @@
 export class Vote {
-    voteId = ``
-    userId = ``
-    vote = `comfortable`
+    voteId:string = ``
+    userId:string = ``
+    vote: VoteEnum = `comfortable`
 
     constructor(partial?: Partial<Vote>) {
         Object.assign(this, partial)

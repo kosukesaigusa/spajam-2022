@@ -1,10 +1,13 @@
+import { Feeling } from "./feeling"
+import { Vote } from "./vote"
+
 export class VotingEvent {
-    votingEventId = ``
-    votingUserId = ``
-    status = `peace`
-    feelings = []
-    votes = []
-    result = `comfortable`
+    votingEventId:string = ``
+    votingUserId:string = ``
+    status:VotingEventStatus = `peace`
+    feelings: Feeling[] = []
+    votes:Vote[] = []
+    result:VoteEnum = `comfortable`
     createdAt?: FirebaseFirestore.Timestamp
 
     constructor(partial?: Partial<VotingEvent>) {

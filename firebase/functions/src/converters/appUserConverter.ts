@@ -6,13 +6,13 @@ export const appUserConverter: FirestoreDataConverter<AppUser> = {
         const data = qds.data()
         return {
             userId: qds.id,
-            fcmTokens: data.fcmTokens ?? []
+            fcmToken: data.fcmToken
         }
     },
     toFirestore(appUser: AppUser): FirebaseFirestore.DocumentData {
         return {
             userId: appUser.userId,
-            fcmTokens: appUser.fcmTokens ?? []
+            fcmToken: appUser.fcmToken
         }
     }
 }
