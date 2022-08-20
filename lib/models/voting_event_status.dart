@@ -1,7 +1,7 @@
 enum VotingEventStatus {
   peace(label: 'peace', mood: '😌'),
   waiting(label: 'waiting', mood: '😒'),
-  voting(label: 'voting', mood: '🗳'),
+  voting(label: 'voting', mood: '🔥'),
   finished(label: 'finished', mood: '🎉');
 
   const VotingEventStatus({
