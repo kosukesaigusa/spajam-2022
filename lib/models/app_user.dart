@@ -10,14 +10,11 @@ part 'app_user.g.dart';
 class AppUser with _$AppUser {
   const factory AppUser({
     @Default('') String userId,
-    @Default('') String name,
-    @unionTimestampConverter @Default(UnionTimestamp.serverTimestamp()) UnionTimestamp createdAt,
-    @alwaysUseServerTimestampUnionTimestampConverter
-    @Default(UnionTimestamp.serverTimestamp())
-        UnionTimestamp updatedAt,
+    @Default('') String fcmToken,
   }) = _AppUser;
 
-  factory AppUser.fromJson(Map<String, dynamic> json) => _$AppUserFromJson(json);
+  factory AppUser.fromJson(Map<String, dynamic> json) =>
+      _$AppUserFromJson(json);
 
   factory AppUser.fromDocumentSnapshot(DocumentSnapshot ds) {
     final data = ds.data()! as Map<String, dynamic>;
