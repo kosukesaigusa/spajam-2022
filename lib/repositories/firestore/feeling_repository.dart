@@ -7,7 +7,7 @@ final feelingRepositoryProvider =
     Provider.autoDispose((_) => FeelingRepository());
 
 class FeelingRepository {
-  /// 指定した userId のユーザーを `SetOptions(merge: true)` で作成する。
+  /// 指定した Feeling を作成する。
   Future<void> setFeeling({
     required String roomId,
     required String votingEventId,
