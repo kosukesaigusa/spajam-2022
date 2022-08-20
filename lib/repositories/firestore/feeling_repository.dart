@@ -20,4 +20,28 @@ class FeelingRepository {
       userId: userId,
     ).set(feeling);
   }
+
+  /// 指定したvotingEventのFeelings一覧を取得する
+  Future<List<Feeling>> getFeelings({
+    required String roomId,
+    required String votingEventId,
+  }) async {
+    final collection =
+        await feelingsRef(roomId: roomId, votingEventId: votingEventId)
+            .snapshots()
+            .first;
+    return collection.docs.map((doc) => doc.data()).toList();
+  }
+
+  Future<List<Feeling>> getFeelingsByUserId({
+    required String roomId,
+    required String votingEventId,
+    required String userId,
+  }) async {
+    final collection = await feelingsRef(
+      roomId: roomId,
+      votingEventId: votingEventId,
+    ).where('userId', isEqualTo: userId).snapshots().first;
+    return collection.docs.map((doc) => doc.data()).toList();
+  }
 }
