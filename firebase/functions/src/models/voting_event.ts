@@ -4,6 +4,7 @@ export class VotingEvent {
     status = `peace`
     feelings = []
     votes = []
+    result = `comfortable`
     createdAt?: FirebaseFirestore.Timestamp
 
     constructor(partial?: Partial<VotingEvent>) {
