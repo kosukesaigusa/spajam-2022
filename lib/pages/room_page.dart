@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lottie/lottie.dart';
+import 'package:tuple/tuple.dart';
 
 import '../features/auth/auth.dart';
+import '../features/voting_event/feeling.dart';
 import '../features/voting_event/voting_event.dart';
 import '../models/feeling.dart';
+import '../models/voting_event.dart';
 import '../models/voting_event_status.dart';
 import '../repositories/firestore/feeling_repository.dart';
 import '../utils/exceptions/base.dart';
 import '../utils/loading.dart';
 import '../utils/routing/app_router_state.dart';
 import '../utils/scaffold_messenger_service.dart';
-import '../widgets/dialog.dart';
 import '../widgets/empty_placeholder.dart';
 import 'voting_page.dart';
 
@@ -46,8 +48,13 @@ class RoomPage extends HookConsumerWidget {
 
     Widget baseScaffold(Widget body, {Widget? floatingActionButton}) {
       return Scaffold(
-        appBar: AppBar(title: const Text('ルーム')),
+        appBar: AppBar(
+          title: const Text('ルーム'),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
         floatingActionButton: floatingActionButton,
+        extendBodyBehindAppBar: true,
         body: body,
       );
     }
@@ -61,83 +68,251 @@ class RoomPage extends HookConsumerWidget {
     }
 
     return ref.watch(latestVotingEventStreamProvider(roomId)).when(
-          data: (votingEvent) => Center(
-            child: baseScaffold(
-              Column(
-                children: [
-                  if (votingEvent.status == VotingEventStatus.voting)
-                    GestureDetector(
-                      onTap: () => Navigator.pushNamed<void>(
-                        context,
-                        VotingPage.location(
-                          roomId: roomId,
-                          votingEventId: votingEvent.votingEventId,
-                        ),
-                      ),
-                      child: const ColoredBox(
-                        color: Colors.red,
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: 50,
-                          child: Center(child: Text('戦争勃発！！')),
-                        ),
-                      ),
-                    )
-                  else
-                    const Gap(16),
-                  Text(votingEvent.toString()),
-                ],
+          data: (votingEvent) {
+            final backgroundColors = _getBackGroundColors(votingEvent.status);
+            final lottie = _getLottieAnimation(votingEvent.status);
+            final lableText = _getText(votingEvent.status);
+
+            final async = ref.watch(
+              myFeelingsProvider(
+                Tuple3(roomId, votingEvent.votingEventId, userId),
               ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () async {
-                  final isComfortable =
-                      await ref.read(scaffoldMessengerServiceProvider).showDialogByBuilder<bool>(
-                            builder: (context) => AlertDialog(
-                              content: CommonAlertDialogContent(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    // コンテンツ領域
-                                    SimpleDialogOption(
-                                      onPressed: () => Navigator.pop(context, true),
-                                      child: const Text('快適'),
+            );
+            return async.when(
+              data: (feelings) {
+                final hasFeeling = feelings.isNotEmpty;
+                var emoji = '';
+                if (hasFeeling) {
+                  emoji = _getIconString(feelings.first.isComfortable);
+                }
+
+                return baseScaffold(
+                  Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            colors: backgroundColors,
+                          ),
+                        ),
+                        child: Center(child: lottie),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            lableText,
+                            const SizedBox(height: 100),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        right: 24,
+                        bottom: 30,
+                        child: !hasFeeling
+                            ? FloatingActionButton(
+                                onPressed: () => _onTapFeeling(
+                                  context,
+                                  ref,
+                                  userId,
+                                  roomId,
+                                  votingEvent,
+                                ),
+                                child: const Icon(
+                                  Icons.message,
+                                ),
+                              )
+                            : Text(
+                                emoji,
+                                style: const TextStyle(
+                                  fontSize: 60,
+                                ),
+                              ),
+                      ),
+                      if (votingEvent.status == VotingEventStatus.voting)
+                        Stack(
+                          children: [
+                            Center(
+                              child: LottieBuilder.asset(
+                                'assets/lotties/fight.json',
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 80),
+                                child: ElevatedButton(
+                                  onPressed: () =>
+                                      Navigator.of(context).pushNamed<void>(
+                                    VotingPage.location(
+                                      roomId: roomId,
+                                      votingEventId: votingEvent.votingEventId,
                                     ),
-                                    SimpleDialogOption(
-                                      onPressed: () => Navigator.pop(context, false),
-                                      child: const Text('不快'),
-                                    ),
-                                  ],
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.red,
+                                    onPrimary: Colors.black,
+                                    shape: const StadiumBorder(),
+                                  ),
+                                  child: const Text('投票に進む'),
                                 ),
                               ),
                             ),
-                          );
-                  if (isComfortable == null) {
-                    return;
-                  }
-                  try {
-                    await ref.read(feelingRepositoryProvider).setFeeling(
-                          roomId: roomId,
-                          votingEventId: votingEvent.votingEventId,
-                          userId: userId,
-                          feeling: Feeling(
-                            userId: userId,
-                            isComfortable: isComfortable,
-                          ),
-                        );
-                  } on Exception catch (e) {
-                    ref.read(scaffoldMessengerServiceProvider).showSnackBarByException(e);
-                  }
-                },
-                child: const Icon(
-                  Icons.message,
+                          ],
+                        )
+                    ],
+                  ),
+                );
+              },
+              error: (e, _) => baseScaffold(
+                Text(
+                  e.toString(),
                 ),
+              ),
+              loading: () => baseScaffold(
+                const Center(
+                  child: PrimarySpinkitCircle(),
+                ),
+              ),
+            );
+          },
+          error: (e, _) => Center(
+            child: baseScaffold(
+              Text(
+                e.toString(),
               ),
             ),
           ),
-          error: (e, _) => Center(
-            child: baseScaffold(Text(e.toString())),
+          loading: () => baseScaffold(
+            const Center(
+              child: PrimarySpinkitCircle(),
+            ),
           ),
-          loading: () => baseScaffold(const Center(child: PrimarySpinkitCircle())),
         );
+  }
+
+  Future<void> _onTapFeeling(
+    BuildContext context,
+    WidgetRef ref,
+    String userId,
+    String roomId,
+    VotingEvent votingEvent,
+  ) async {
+// 後でお手製
+    final isComfortable = await ref
+        .read(scaffoldMessengerServiceProvider)
+        .showDialogByBuilder<bool>(
+          builder: (context) => AlertDialog(
+            content: Row(
+              // mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                // コンテンツ領域
+                TextButton(
+                  onPressed: () => Navigator.pop(context, true),
+                  child: const Text(
+                    '😄',
+                    style: TextStyle(fontSize: 72),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: const Text(
+                    '😣',
+                    style: TextStyle(fontSize: 72),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+
+    if (isComfortable == null) {
+      return;
+    }
+    try {
+      await ref.read(feelingRepositoryProvider).setFeeling(
+            roomId: roomId,
+            votingEventId: votingEvent.votingEventId,
+            userId: userId,
+            feeling: Feeling(
+              userId: userId,
+              isComfortable: isComfortable,
+            ),
+          );
+      ref.refresh(
+        myFeelingsProvider(
+          Tuple3(roomId, votingEvent.votingEventId, userId),
+        ),
+      );
+    } on Exception catch (e) {
+      ref.read(scaffoldMessengerServiceProvider).showSnackBarByException(e);
+    }
+  }
+
+  List<Color> _getBackGroundColors(VotingEventStatus status) {
+    if (status == VotingEventStatus.waiting) {
+      return <Color>[
+        Colors.purple[600]!,
+        Colors.purple[500]!,
+        Colors.purple[300]!,
+      ];
+    }
+
+    if (status == VotingEventStatus.voting) {
+      return <Color>[
+        Colors.red[600]!,
+        Colors.red[500]!,
+        Colors.red[300]!,
+      ];
+    }
+
+    return <Color>[
+      Colors.blue[600]!,
+      Colors.blue[500]!,
+      Colors.blue[300]!,
+    ];
+  }
+
+  LottieBuilder _getLottieAnimation(VotingEventStatus status) {
+    if (status == VotingEventStatus.waiting) {
+      return LottieBuilder.asset('assets/lotties/waiting.json');
+    }
+
+    if (status == VotingEventStatus.voting) {
+      return LottieBuilder.asset('assets/lotties/voting.json');
+    }
+
+    return LottieBuilder.asset('assets/lotties/peace.json');
+  }
+
+  Text _getText(VotingEventStatus status) {
+    if (status == VotingEventStatus.waiting) {
+      return const Text(
+        '戦争の機運が高まっています...',
+        style: TextStyle(color: Colors.purple, fontSize: 32),
+      );
+    }
+
+    if (status == VotingEventStatus.voting) {
+      return const Text(
+        'クーラー戦争勃発!!!',
+        style: TextStyle(color: Colors.red, fontSize: 32),
+      );
+    }
+
+    return const Text(
+      '平和な世の中です',
+      style: TextStyle(color: Colors.blue, fontSize: 32),
+    );
+  }
+
+  String _getIconString(bool isComfortable) {
+    if (!isComfortable) {
+      return '😣';
+    }
+    return '😄';
   }
 }
