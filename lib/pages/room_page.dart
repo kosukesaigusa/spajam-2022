@@ -60,7 +60,7 @@ class RoomPage extends HookConsumerWidget {
       );
     }
 
-    return ref.watch(votingEventStreamProvider(roomId)).when(
+    return ref.watch(latestVotingEventStreamProvider(roomId)).when(
           data: (votingEvent) => Center(
             child: baseScaffold(
               Column(
@@ -91,31 +91,29 @@ class RoomPage extends HookConsumerWidget {
               floatingActionButton: FloatingActionButton(
                 onPressed: () async {
                   // 後でお手製
-                  final isComfortable = await ref
-                      .read(scaffoldMessengerServiceProvider)
-                      .showDialogByBuilder<bool>(
-                        builder: (context) => AlertDialog(
-                          content: CommonAlertDialogContent(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                // コンテンツ領域
-                                SimpleDialogOption(
-                                  onPressed: () {
-                                    Navigator.pop(context, true);
-                                  },
-                                  child: const Text('快適'),
+                  final isComfortable =
+                      await ref.read(scaffoldMessengerServiceProvider).showDialogByBuilder<bool>(
+                            builder: (context) => AlertDialog(
+                              content: CommonAlertDialogContent(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    // コンテンツ領域
+                                    SimpleDialogOption(
+                                      onPressed: () {
+                                        Navigator.pop(context, true);
+                                      },
+                                      child: const Text('快適'),
+                                    ),
+                                    SimpleDialogOption(
+                                      onPressed: () => Navigator.pop(context, false),
+                                      child: const Text('不快'),
+                                    ),
+                                  ],
                                 ),
-                                SimpleDialogOption(
-                                  onPressed: () =>
-                                      Navigator.pop(context, false),
-                                  child: const Text('不快'),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                      );
+                          );
 
                   if (isComfortable == null) {
                     return;
@@ -131,9 +129,7 @@ class RoomPage extends HookConsumerWidget {
                           ),
                         );
                   } on Exception catch (e) {
-                    ref
-                        .read(scaffoldMessengerServiceProvider)
-                        .showSnackBarByException(e);
+                    ref.read(scaffoldMessengerServiceProvider).showSnackBarByException(e);
                   }
                 },
                 child: const Icon(
@@ -145,8 +141,7 @@ class RoomPage extends HookConsumerWidget {
           error: (e, _) => Center(
             child: baseScaffold(Text(e.toString())),
           ),
-          loading: () =>
-              baseScaffold(const Center(child: PrimarySpinkitCircle())),
+          loading: () => baseScaffold(const Center(child: PrimarySpinkitCircle())),
         );
   }
 }

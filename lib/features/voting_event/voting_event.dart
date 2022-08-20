@@ -6,13 +6,11 @@ import '../../utils/exceptions/base.dart';
 import '../auth/auth.dart';
 
 /// VotingEvent 一覧を購読する StreamProvider。
-final votingEventStreamProvider =
+final latestVotingEventStreamProvider =
     StreamProvider.family.autoDispose<VotingEvent, String>((ref, roomId) {
   final userId = ref.watch(userIdProvider).value;
   if (userId == null) {
     throw const AppException(message: 'サインインが必要です。');
   }
-  return ref
-      .read(votingEventRepositoryProvider)
-      .subscribeVotingEvent(roomId: roomId);
+  return ref.read(votingEventRepositoryProvider).subscribeLatestVotingEvent(roomId: roomId);
 });
