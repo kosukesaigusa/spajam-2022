@@ -18,6 +18,7 @@ class VotingEventRepository {
   }
 
   /// 指定した VotingEvent を購読する。
+  /// 投票結果画面の切り替えに使用している
   Stream<VotingEvent?> subscribeVotingEvent({
     required String roomId,
     required String votingEventId,
@@ -25,6 +26,7 @@ class VotingEventRepository {
     final streamDocumentSnapshot =
         votingEventRef(roomId: roomId, votingEventId: votingEventId).snapshots();
     final result = streamDocumentSnapshot.map((ds) => ds.data());
+
     return result;
   }
 }

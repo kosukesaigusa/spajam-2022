@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:tuple/tuple.dart';
 
 import '../features/voting_event/voting_event.dart';
 import '../models/voting_event_status.dart';
@@ -24,6 +25,22 @@ final _roomIdProvider = Provider.autoDispose<String>(
   ],
 );
 
+/// votingEventId を取得してから返す Provider。
+final _votingEventIdProvider = Provider.autoDispose<String>(
+  (ref) {
+    try {
+      final state = ref.read(appRouterStateProvider);
+      final votingEventId = state.params['votingEventId']!;
+      return votingEventId;
+    } on Exception {
+      throw const AppException(message: '投票イベントのIDが見つかりませんでした。');
+    }
+  },
+  dependencies: <ProviderOrFamily>[
+    appRouterStateProvider,
+  ],
+);
+
 /// 投票結果ページ。
 /// 対象の VotingEvent.status が voting or finished のときに表示する想定。
 class ResultPage extends HookConsumerWidget {
@@ -39,10 +56,19 @@ class ResultPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final roomId = ref.watch(_roomIdProvider);
-    // TODO:  VotingEventRepository.subscribeVotingEvent() の方を使う StreamProvider を
-    //  このファイルに定義してしまって使用する。
-    return ref.watch(latestVotingEventStreamProvider(roomId)).when(
+    final votingEventId = ref.watch(_votingEventIdProvider);
+    return ref
+        .watch(votingEventStreamProvider(Tuple2(roomId, votingEventId)))
+        .when(
           data: (votingEvent) {
+            if (votingEvent == null) {
+              return Scaffold(
+                appBar: AppBar(title: const Text('エラー')),
+                body: const EmptyPlaceholderWidget(
+                  message: '有効な投票イベントが存在しません',
+                ),
+              );
+            }
             switch (votingEvent.status) {
               case VotingEventStatus.voting:
                 return const VotingWidget();
@@ -85,7 +111,6 @@ class VotingWidget extends HookConsumerWidget {
         title: Column(
           children: const [
             Text('投票中'),
-            Text('投票中です。'),
           ],
         ),
       ),
@@ -110,7 +135,8 @@ class FinishedWidget extends HookConsumerWidget {
           children: [
             const Text('投票終了'),
             ElevatedButton(
-              onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
+              onPressed: () =>
+                  Navigator.popUntil(context, (route) => route.isFirst),
               child: const Text('戻る'),
             )
           ],
