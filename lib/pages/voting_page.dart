@@ -7,9 +7,13 @@ import '../models/vote_enum.dart';
 class VotingPage extends HookConsumerWidget {
   const VotingPage({super.key});
 
-  static const path = '/voting';
+  static const path = 'rooms/:roomId/:votingEventId';
   static const name = 'VotingPage';
-  static const location = path;
+  static String location({
+    required String roomId,
+    required String votingEventId,
+  }) =>
+      'rooms/$roomId/$votingEventId';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
