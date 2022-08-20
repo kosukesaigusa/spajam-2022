@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tuple/tuple.dart';
@@ -15,7 +14,6 @@ import '../utils/exceptions/base.dart';
 import '../utils/loading.dart';
 import '../utils/routing/app_router_state.dart';
 import '../utils/scaffold_messenger_service.dart';
-import '../widgets/dialog.dart';
 import '../widgets/empty_placeholder.dart';
 import 'voting_page.dart';
 
@@ -109,28 +107,63 @@ class RoomPage extends HookConsumerWidget {
                             const SizedBox(height: 100),
                           ],
                         ),
-                      )
+                      ),
+                      Positioned(
+                        right: 24,
+                        bottom: 30,
+                        child: !hasFeeling
+                            ? FloatingActionButton(
+                                onPressed: () => _onTapFeeling(
+                                  context,
+                                  ref,
+                                  userId,
+                                  roomId,
+                                  votingEvent,
+                                ),
+                                child: const Icon(
+                                  Icons.message,
+                                ),
+                              )
+                            : Text(
+                                emoji,
+                                style: const TextStyle(
+                                  fontSize: 60,
+                                ),
+                              ),
+                      ),
+                      if (votingEvent.status == VotingEventStatus.voting)
+                        Stack(
+                          children: [
+                            Center(
+                              child: LottieBuilder.asset(
+                                'assets/lotties/fight.json',
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 80),
+                                child: ElevatedButton(
+                                  onPressed: () =>
+                                      Navigator.of(context).pushNamed<void>(
+                                    VotingPage.location(
+                                      roomId: roomId,
+                                      votingEventId: votingEvent.votingEventId,
+                                    ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.red,
+                                    onPrimary: Colors.black,
+                                    shape: const StadiumBorder(),
+                                  ),
+                                  child: const Text('投票に進む'),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
                     ],
                   ),
-                  floatingActionButton: !hasFeeling
-                      ? FloatingActionButton(
-                          onPressed: () => _onTapFeeling(
-                            context,
-                            ref,
-                            userId,
-                            roomId,
-                            votingEvent,
-                          ),
-                          child: const Icon(
-                            Icons.message,
-                          ),
-                        )
-                      : Text(
-                          emoji,
-                          style: const TextStyle(
-                            fontSize: 60,
-                          ),
-                        ),
                 );
               },
               error: (e, _) => baseScaffold(
