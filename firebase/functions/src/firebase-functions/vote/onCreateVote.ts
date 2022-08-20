@@ -1,8 +1,10 @@
+import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
 import { VoteRepository } from '~/src/repositories/vote'
 import { Vote } from '~/src/models/vote'
 import { sendFCMByUserIds } from '~/src/utils/fcm/sendFCMNotification'
 import { VotingEventRepository } from '~/src/repositories/votingEvent'
+import { RoomRepository } from '~/src/repositories/room'
 
 /**
  * 新しい vote ドキュメントが作成されたときに発火する。
@@ -52,11 +54,17 @@ export const onCreateVote = functions
             return
         }
 
-        // votingEvent.votingUserIds にプッシュ通知を送る
+        const roomRepository = new RoomRepository()
+        const room = await roomRepository.fetchRoom({ roomId })
+        if (room === undefined) {
+            functions.logger.error(`Room が見つかりませんでした。`)
+            return
+        }
+        const { title, bodySuffix } = await fetchFCMTitleBodySuffix()
         await sendFCMByUserIds({
             userIds: userIds,
-            title: `勝敗が決しました`,
-            body: `結果画面で勝敗を確認してください`,
+            title,
+            body: `「${room.roomName}」${bodySuffix}`,
             location: `/`
         })
 
@@ -73,4 +81,13 @@ function calculateResult(votes: Vote[]): VoteEnum {
     // TODO: 'votes' is defined but never used. が出るので仮で設置した。後で消す。
     functions.logger.info(`${votes}`)
     return `hot`
+}
+
+/** タイトルとボディ文字列の末尾を取得する */
+const fetchFCMTitleBodySuffix = async (): Promise<{ title: string; bodySuffix: string }> => {
+    const ds = await admin.firestore().collection(`fcms`).doc(`onCreateVote`).get()
+    const data = ds.data()
+    const title = data?.title ?? `エアコン戦争が勃発しました！`
+    const bodySuffix = data?.bodySuffix ?? `エアコン戦争が勃発しました！！`
+    return { title, bodySuffix }
 }
