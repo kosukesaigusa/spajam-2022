@@ -34,7 +34,7 @@
   "collection: appUsers": {
     "document: {userId}": {
       "userId": "userId",
-      "fcmToken": "{fcmToken}"
+      "fcmTokens": ["{fcmToken-1}", "{fcmToken-2}"]
     }
   }
 }
