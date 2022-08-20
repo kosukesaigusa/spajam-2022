@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../features/auth/auth.dart';
 import '../features/voting_event/voting_event.dart';
 import '../models/feeling.dart';
+import '../models/voting_event_status.dart';
 import '../repositories/firestore/feeling_repository.dart';
 import '../utils/exceptions/base.dart';
 import '../utils/loading.dart';
@@ -60,7 +62,22 @@ class RoomPage extends HookConsumerWidget {
     return ref.watch(votingEventStreamProvider(roomId)).when(
           data: (votingEvent) => Center(
             child: baseScaffold(
-              Text(votingEvent.toString()),
+              Column(
+                children: [
+                  if (votingEvent.status == VotingEventStatus.voting)
+                    const ColoredBox(
+                      color: Colors.red,
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: Center(child: Text('戦争勃発！！')),
+                      ),
+                    )
+                  else
+                    const Gap(16),
+                  Text(votingEvent.toString()),
+                ],
+              ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () async {
                   // 後でお手製
@@ -74,7 +91,9 @@ class RoomPage extends HookConsumerWidget {
                               children: <Widget>[
                                 // コンテンツ領域
                                 SimpleDialogOption(
-                                  onPressed: () => Navigator.pop(context, true),
+                                  onPressed: () {
+                                    Navigator.pop(context, true);
+                                  },
                                   child: const Text('快適'),
                                 ),
                                 SimpleDialogOption(
