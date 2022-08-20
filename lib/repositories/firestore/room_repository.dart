@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../models/room.dart';
 import '../../utils/firestore_refs.dart';
 
-final roomRepositoryProvider = Provider<RoomRepository>((_) => RoomRepository());
+final roomsRepositoryProvider = Provider<RoomRepository>((_) => RoomRepository());
 
 class RoomRepository {
   Stream<List<Room>> subscribeTodos() {
