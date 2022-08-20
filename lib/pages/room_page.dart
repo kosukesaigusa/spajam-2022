@@ -4,10 +4,28 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../features/auth/auth.dart';
 import '../models/feeling.dart';
 import '../repositories/firestore/feeling_repository.dart';
+import '../utils/exceptions/base.dart';
+import '../utils/routing/app_router_state.dart';
 import '../utils/scaffold_messenger_service.dart';
 import '../utils/uuid.dart';
 import '../widgets/dialog.dart';
 import '../widgets/empty_placeholder.dart';
+
+/// VotingPageArguments インスタンスを取得してから返す Provider。
+final roomPageArgumentsProvider = Provider.autoDispose<String>(
+  (ref) {
+    try {
+      final state = ref.read(appRouterStateProvider);
+      final roomId = state.params['roomId']!;
+      return roomId;
+    } on Exception {
+      throw const AppException(message: 'ルームが見つかりませんでした。');
+    }
+  },
+  dependencies: <ProviderOrFamily>[
+    appRouterStateProvider,
+  ],
+);
 
 /// ルームページ。
 class RoomPage extends HookConsumerWidget {
@@ -20,6 +38,7 @@ class RoomPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userId = ref.watch(userIdProvider).value;
+    final roomId = ref.watch(roomPageArgumentsProvider);
 
     if (userId == null) {
       return Scaffold(
@@ -32,8 +51,9 @@ class RoomPage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('ルーム')),
       body: Column(
-        children: const [
-          Text('あなたは　不快　を選択しています。'),
+        children: [
+          Text('roomId: $roomId'),
+          const Text('あなたは　不快　を選択しています。'),
         ],
       ),
       floatingActionButton: FloatingActionButton(

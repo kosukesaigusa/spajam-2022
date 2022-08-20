@@ -34,7 +34,12 @@ final appRoutes = <AppRoute>[
   AppRoute(
     path: RoomPage.path,
     name: RoomPage.name,
-    builder: (context, state) => const RoomPage(key: ValueKey(RoomPage.name)),
+    builder: (context, state) => ProviderScope(
+      overrides: <Override>[appRouterStateProvider.overrideWithValue(state)],
+      child: const RoomPage(
+        key: ValueKey(RoomPage.name),
+      ),
+    ),
   ),
   AppRoute(
     path: NotFoundPage.path,
