@@ -50,7 +50,7 @@ class RoomsPage extends HookConsumerWidget {
                     );
                   }
                   return GridView.builder(
-                    shrinkWrap: true,
+                    physics: const AlwaysScrollableScrollPhysics(),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
