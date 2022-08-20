@@ -13,7 +13,6 @@ _$_Feeling _$$_FeelingFromJson(Map json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = _$_Feeling(
-          feelingId: $checkedConvert('feelingId', (v) => v as String? ?? ''),
           userId: $checkedConvert('userId', (v) => v as String? ?? ''),
           isComfortable:
               $checkedConvert('isComfortable', (v) => v as bool? ?? true),
@@ -29,7 +28,6 @@ _$_Feeling _$$_FeelingFromJson(Map json) => $checkedCreate(
 
 Map<String, dynamic> _$$_FeelingToJson(_$_Feeling instance) =>
     <String, dynamic>{
-      'feelingId': instance.feelingId,
       'userId': instance.userId,
       'isComfortable': instance.isComfortable,
       'createdAt': unionTimestampConverter.toJson(instance.createdAt),

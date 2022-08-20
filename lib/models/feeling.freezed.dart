@@ -20,7 +20,6 @@ Feeling _$FeelingFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Feeling {
-  String get feelingId => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   bool get isComfortable => throw _privateConstructorUsedError;
   @unionTimestampConverter
@@ -36,8 +35,7 @@ abstract class $FeelingCopyWith<$Res> {
   factory $FeelingCopyWith(Feeling value, $Res Function(Feeling) then) =
       _$FeelingCopyWithImpl<$Res>;
   $Res call(
-      {String feelingId,
-      String userId,
+      {String userId,
       bool isComfortable,
       @unionTimestampConverter UnionTimestamp createdAt});
 
@@ -54,16 +52,11 @@ class _$FeelingCopyWithImpl<$Res> implements $FeelingCopyWith<$Res> {
 
   @override
   $Res call({
-    Object? feelingId = freezed,
     Object? userId = freezed,
     Object? isComfortable = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
-      feelingId: feelingId == freezed
-          ? _value.feelingId
-          : feelingId // ignore: cast_nullable_to_non_nullable
-              as String,
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -94,8 +87,7 @@ abstract class _$$_FeelingCopyWith<$Res> implements $FeelingCopyWith<$Res> {
       __$$_FeelingCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String feelingId,
-      String userId,
+      {String userId,
       bool isComfortable,
       @unionTimestampConverter UnionTimestamp createdAt});
 
@@ -114,16 +106,11 @@ class __$$_FeelingCopyWithImpl<$Res> extends _$FeelingCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object? feelingId = freezed,
     Object? userId = freezed,
     Object? isComfortable = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_$_Feeling(
-      feelingId: feelingId == freezed
-          ? _value.feelingId
-          : feelingId // ignore: cast_nullable_to_non_nullable
-              as String,
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -144,8 +131,7 @@ class __$$_FeelingCopyWithImpl<$Res> extends _$FeelingCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Feeling implements _Feeling {
   const _$_Feeling(
-      {this.feelingId = '',
-      this.userId = '',
+      {this.userId = '',
       this.isComfortable = true,
       @unionTimestampConverter
           this.createdAt = const UnionTimestamp.serverTimestamp()});
@@ -153,9 +139,6 @@ class _$_Feeling implements _Feeling {
   factory _$_Feeling.fromJson(Map<String, dynamic> json) =>
       _$$_FeelingFromJson(json);
 
-  @override
-  @JsonKey()
-  final String feelingId;
   @override
   @JsonKey()
   final String userId;
@@ -169,7 +152,7 @@ class _$_Feeling implements _Feeling {
 
   @override
   String toString() {
-    return 'Feeling(feelingId: $feelingId, userId: $userId, isComfortable: $isComfortable, createdAt: $createdAt)';
+    return 'Feeling(userId: $userId, isComfortable: $isComfortable, createdAt: $createdAt)';
   }
 
   @override
@@ -177,7 +160,6 @@ class _$_Feeling implements _Feeling {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Feeling &&
-            const DeepCollectionEquality().equals(other.feelingId, feelingId) &&
             const DeepCollectionEquality().equals(other.userId, userId) &&
             const DeepCollectionEquality()
                 .equals(other.isComfortable, isComfortable) &&
@@ -188,7 +170,6 @@ class _$_Feeling implements _Feeling {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(feelingId),
       const DeepCollectionEquality().hash(userId),
       const DeepCollectionEquality().hash(isComfortable),
       const DeepCollectionEquality().hash(createdAt));
@@ -208,15 +189,12 @@ class _$_Feeling implements _Feeling {
 
 abstract class _Feeling implements Feeling {
   const factory _Feeling(
-      {final String feelingId,
-      final String userId,
+      {final String userId,
       final bool isComfortable,
       @unionTimestampConverter final UnionTimestamp createdAt}) = _$_Feeling;
 
   factory _Feeling.fromJson(Map<String, dynamic> json) = _$_Feeling.fromJson;
 
-  @override
-  String get feelingId;
   @override
   String get userId;
   @override

@@ -9,13 +9,15 @@ part 'feeling.g.dart';
 @freezed
 class Feeling with _$Feeling {
   const factory Feeling({
-    @Default('') String feelingId,
     @Default('') String userId,
     @Default(true) bool isComfortable,
-    @unionTimestampConverter @Default(UnionTimestamp.serverTimestamp()) UnionTimestamp createdAt,
+    @unionTimestampConverter
+    @Default(UnionTimestamp.serverTimestamp())
+        UnionTimestamp createdAt,
   }) = _Feeling;
 
-  factory Feeling.fromJson(Map<String, dynamic> json) => _$FeelingFromJson(json);
+  factory Feeling.fromJson(Map<String, dynamic> json) =>
+      _$FeelingFromJson(json);
 
   factory Feeling.fromDocumentSnapshot(DocumentSnapshot ds) {
     final data = ds.data()! as Map<String, dynamic>;
