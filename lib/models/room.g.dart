@@ -2,7 +2,7 @@
 
 // ignore_for_file: type=lint, implicit_dynamic_parameter, implicit_dynamic_type, implicit_dynamic_method, strict_raw_type, unnecessary_cast, todo
 
-part of 'rooms.dart';
+part of 'room.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -25,8 +25,8 @@ _$_Rooms _$$_RoomsFromJson(Map json) => $checkedCreate(
               (v) =>
                   (v as List<dynamic>?)?.map((e) => e as String).toList() ??
                   const <String>[]),
-          votingEvent: $checkedConvert(
-              'votingEvent',
+          votingEvents: $checkedConvert(
+              'votingEvents',
               (v) =>
                   (v as List<dynamic>?)
                       ?.map((e) => VotingEvent.fromJson(
@@ -43,5 +43,5 @@ Map<String, dynamic> _$$_RoomsToJson(_$_Rooms instance) => <String, dynamic>{
       'roomName': instance.roomName,
       'createdAt': unionTimestampConverter.toJson(instance.createdAt),
       'userIds': instance.userIds,
-      'votingEvent': instance.votingEvent.map((e) => e.toJson()).toList(),
+      'votingEvents': instance.votingEvents.map((e) => e.toJson()).toList(),
     };

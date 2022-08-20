@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'rooms.dart';
+part of 'room.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,45 +14,45 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Rooms _$RoomsFromJson(Map<String, dynamic> json) {
+Room _$RoomFromJson(Map<String, dynamic> json) {
   return _Rooms.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Rooms {
+mixin _$Room {
   String get roomId => throw _privateConstructorUsedError;
   String get roomName => throw _privateConstructorUsedError;
   @unionTimestampConverter
   UnionTimestamp get createdAt => throw _privateConstructorUsedError;
   List<String> get userIds => throw _privateConstructorUsedError;
-  List<VotingEvent> get votingEvent => throw _privateConstructorUsedError;
+  List<VotingEvent> get votingEvents => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $RoomsCopyWith<Rooms> get copyWith => throw _privateConstructorUsedError;
+  $RoomCopyWith<Room> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RoomsCopyWith<$Res> {
-  factory $RoomsCopyWith(Rooms value, $Res Function(Rooms) then) =
-      _$RoomsCopyWithImpl<$Res>;
+abstract class $RoomCopyWith<$Res> {
+  factory $RoomCopyWith(Room value, $Res Function(Room) then) =
+      _$RoomCopyWithImpl<$Res>;
   $Res call(
       {String roomId,
       String roomName,
       @unionTimestampConverter UnionTimestamp createdAt,
       List<String> userIds,
-      List<VotingEvent> votingEvent});
+      List<VotingEvent> votingEvents});
 
   $UnionTimestampCopyWith<$Res> get createdAt;
 }
 
 /// @nodoc
-class _$RoomsCopyWithImpl<$Res> implements $RoomsCopyWith<$Res> {
-  _$RoomsCopyWithImpl(this._value, this._then);
+class _$RoomCopyWithImpl<$Res> implements $RoomCopyWith<$Res> {
+  _$RoomCopyWithImpl(this._value, this._then);
 
-  final Rooms _value;
+  final Room _value;
   // ignore: unused_field
-  final $Res Function(Rooms) _then;
+  final $Res Function(Room) _then;
 
   @override
   $Res call({
@@ -60,7 +60,7 @@ class _$RoomsCopyWithImpl<$Res> implements $RoomsCopyWith<$Res> {
     Object? roomName = freezed,
     Object? createdAt = freezed,
     Object? userIds = freezed,
-    Object? votingEvent = freezed,
+    Object? votingEvents = freezed,
   }) {
     return _then(_value.copyWith(
       roomId: roomId == freezed
@@ -79,9 +79,9 @@ class _$RoomsCopyWithImpl<$Res> implements $RoomsCopyWith<$Res> {
           ? _value.userIds
           : userIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      votingEvent: votingEvent == freezed
-          ? _value.votingEvent
-          : votingEvent // ignore: cast_nullable_to_non_nullable
+      votingEvents: votingEvents == freezed
+          ? _value.votingEvents
+          : votingEvents // ignore: cast_nullable_to_non_nullable
               as List<VotingEvent>,
     ));
   }
@@ -95,7 +95,7 @@ class _$RoomsCopyWithImpl<$Res> implements $RoomsCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$$_RoomsCopyWith<$Res> implements $RoomsCopyWith<$Res> {
+abstract class _$$_RoomsCopyWith<$Res> implements $RoomCopyWith<$Res> {
   factory _$$_RoomsCopyWith(_$_Rooms value, $Res Function(_$_Rooms) then) =
       __$$_RoomsCopyWithImpl<$Res>;
   @override
@@ -104,14 +104,14 @@ abstract class _$$_RoomsCopyWith<$Res> implements $RoomsCopyWith<$Res> {
       String roomName,
       @unionTimestampConverter UnionTimestamp createdAt,
       List<String> userIds,
-      List<VotingEvent> votingEvent});
+      List<VotingEvent> votingEvents});
 
   @override
   $UnionTimestampCopyWith<$Res> get createdAt;
 }
 
 /// @nodoc
-class __$$_RoomsCopyWithImpl<$Res> extends _$RoomsCopyWithImpl<$Res>
+class __$$_RoomsCopyWithImpl<$Res> extends _$RoomCopyWithImpl<$Res>
     implements _$$_RoomsCopyWith<$Res> {
   __$$_RoomsCopyWithImpl(_$_Rooms _value, $Res Function(_$_Rooms) _then)
       : super(_value, (v) => _then(v as _$_Rooms));
@@ -125,7 +125,7 @@ class __$$_RoomsCopyWithImpl<$Res> extends _$RoomsCopyWithImpl<$Res>
     Object? roomName = freezed,
     Object? createdAt = freezed,
     Object? userIds = freezed,
-    Object? votingEvent = freezed,
+    Object? votingEvents = freezed,
   }) {
     return _then(_$_Rooms(
       roomId: roomId == freezed
@@ -144,9 +144,9 @@ class __$$_RoomsCopyWithImpl<$Res> extends _$RoomsCopyWithImpl<$Res>
           ? _value._userIds
           : userIds // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      votingEvent: votingEvent == freezed
-          ? _value._votingEvent
-          : votingEvent // ignore: cast_nullable_to_non_nullable
+      votingEvents: votingEvents == freezed
+          ? _value._votingEvents
+          : votingEvents // ignore: cast_nullable_to_non_nullable
               as List<VotingEvent>,
     ));
   }
@@ -161,9 +161,9 @@ class _$_Rooms implements _Rooms {
       @unionTimestampConverter
           this.createdAt = const UnionTimestamp.serverTimestamp(),
       final List<String> userIds = const <String>[],
-      final List<VotingEvent> votingEvent = const <VotingEvent>[]})
+      final List<VotingEvent> votingEvents = const <VotingEvent>[]})
       : _userIds = userIds,
-        _votingEvent = votingEvent;
+        _votingEvents = votingEvents;
 
   factory _$_Rooms.fromJson(Map<String, dynamic> json) =>
       _$$_RoomsFromJson(json);
@@ -186,17 +186,17 @@ class _$_Rooms implements _Rooms {
     return EqualUnmodifiableListView(_userIds);
   }
 
-  final List<VotingEvent> _votingEvent;
+  final List<VotingEvent> _votingEvents;
   @override
   @JsonKey()
-  List<VotingEvent> get votingEvent {
+  List<VotingEvent> get votingEvents {
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_votingEvent);
+    return EqualUnmodifiableListView(_votingEvents);
   }
 
   @override
   String toString() {
-    return 'Rooms(roomId: $roomId, roomName: $roomName, createdAt: $createdAt, userIds: $userIds, votingEvent: $votingEvent)';
+    return 'Room(roomId: $roomId, roomName: $roomName, createdAt: $createdAt, userIds: $userIds, votingEvents: $votingEvents)';
   }
 
   @override
@@ -209,7 +209,7 @@ class _$_Rooms implements _Rooms {
             const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
             const DeepCollectionEquality().equals(other._userIds, _userIds) &&
             const DeepCollectionEquality()
-                .equals(other._votingEvent, _votingEvent));
+                .equals(other._votingEvents, _votingEvents));
   }
 
   @JsonKey(ignore: true)
@@ -220,7 +220,7 @@ class _$_Rooms implements _Rooms {
       const DeepCollectionEquality().hash(roomName),
       const DeepCollectionEquality().hash(createdAt),
       const DeepCollectionEquality().hash(_userIds),
-      const DeepCollectionEquality().hash(_votingEvent));
+      const DeepCollectionEquality().hash(_votingEvents));
 
   @JsonKey(ignore: true)
   @override
@@ -235,13 +235,13 @@ class _$_Rooms implements _Rooms {
   }
 }
 
-abstract class _Rooms implements Rooms {
+abstract class _Rooms implements Room {
   const factory _Rooms(
       {final String roomId,
       final String roomName,
       @unionTimestampConverter final UnionTimestamp createdAt,
       final List<String> userIds,
-      final List<VotingEvent> votingEvent}) = _$_Rooms;
+      final List<VotingEvent> votingEvents}) = _$_Rooms;
 
   factory _Rooms.fromJson(Map<String, dynamic> json) = _$_Rooms.fromJson;
 
@@ -255,7 +255,7 @@ abstract class _Rooms implements Rooms {
   @override
   List<String> get userIds;
   @override
-  List<VotingEvent> get votingEvent;
+  List<VotingEvent> get votingEvents;
   @override
   @JsonKey(ignore: true)
   _$$_RoomsCopyWith<_$_Rooms> get copyWith =>
