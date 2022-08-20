@@ -5,6 +5,7 @@ import '../../pages/main_page.dart';
 import '../../pages/not_found_page.dart';
 import '../../pages/rooms_page.dart';
 import '../../pages/test_notification_page.dart';
+import '../../pages/voting_page.dart';
 import 'app_route.dart';
 
 /// AppRoute インスタンスの一覧
@@ -30,12 +31,19 @@ final appRoutes = <AppRoute>[
   AppRoute(
     path: NotFoundPage.path,
     name: NotFoundPage.name,
-    builder: (context, state) => const NotFoundPage(key: ValueKey(NotFoundPage.name)),
+    builder: (context, state) =>
+        const NotFoundPage(key: ValueKey(NotFoundPage.name)),
   ),
   AppRoute(
     path: TestNotificationPage.path,
     name: TestNotificationPage.name,
     builder: (context, state) =>
         const TestNotificationPage(key: ValueKey(TestNotificationPage.name)),
+  ),
+  AppRoute(
+    path: VotingPage.path,
+    name: VotingPage.name,
+    builder: (context, state) =>
+        const VotingPage(key: ValueKey(VotingPage.name)),
   ),
 ];
