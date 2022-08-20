@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../features/auth/auth.dart';
 import '../features/room/room.dart';
+import '../utils/extensions/build_context.dart';
 import '../utils/loading.dart';
 import '../widgets/empty_placeholder.dart';
 import 'room_page.dart';
@@ -20,7 +21,15 @@ class RoomsPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userId = ref.watch(userIdProvider).value;
     return Scaffold(
-      appBar: AppBar(title: const Text('ルーム一覧')),
+      appBar: AppBar(
+        title: const Text(
+          'SPA株式会社',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
       body: userId == null
           ? const EmptyPlaceholderWidget(
               message: '（仮）ルーム一覧を表示するにはサインインが必要です。'
@@ -39,17 +48,49 @@ class RoomsPage extends HookConsumerWidget {
                           'Room を作成してください。',
                     );
                   }
-                  return ListView.separated(
-                    separatorBuilder: (context, index) => const Divider(),
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                    ),
                     itemCount: rooms.length,
                     padding: const EdgeInsets.all(16),
                     itemBuilder: (context, index) {
                       final room = rooms[index];
-                      return ListTile(
-                        title: Text(room.roomName),
+                      return InkWell(
                         onTap: () => Navigator.pushNamed<void>(
                           context,
                           RoomPage.location(roomId: room.roomId),
+                        ),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          elevation: 8,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: context.displaySize.width * 0.3,
+                                child: const Center(
+                                  child: Text(
+                                    // TODO(shimizu-saffle): VotingEventStatus で表示する絵文字を変更する。
+                                    '😌',
+                                    style: TextStyle(
+                                      fontSize: 70,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                room.roomName,
+                                style: context.textTheme.headline6,
+                              ),
+                            ],
+                          ),
                         ),
                       );
                     },
