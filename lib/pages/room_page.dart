@@ -13,6 +13,7 @@ import '../utils/routing/app_router_state.dart';
 import '../utils/scaffold_messenger_service.dart';
 import '../widgets/dialog.dart';
 import '../widgets/empty_placeholder.dart';
+import 'voting_page.dart';
 
 /// roomId を取得してから返す Provider。
 final roomIdProvider = Provider.autoDispose<String>(
@@ -65,12 +66,21 @@ class RoomPage extends HookConsumerWidget {
               Column(
                 children: [
                   if (votingEvent.status == VotingEventStatus.voting)
-                    const ColoredBox(
-                      color: Colors.red,
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: Center(child: Text('戦争勃発！！')),
+                    GestureDetector(
+                      onTap: () => Navigator.pushNamed<void>(
+                        context,
+                        VotingPage.location(
+                          roomId: roomId,
+                          votingEventId: votingEvent.votingEventId,
+                        ),
+                      ),
+                      child: const ColoredBox(
+                        color: Colors.red,
+                        child: SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: Center(child: Text('戦争勃発！！')),
+                        ),
                       ),
                     )
                   else
