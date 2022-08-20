@@ -56,10 +56,14 @@ class AboutPage extends HookConsumerWidget {
                     ref.read(createTestNotificationRequestProvider)(t),
                 child: Text('プッシュ通知をリクエスト (${t.label})'),
               ),
+            // TODO(yamatatsu): 削除
             ElevatedButton(
               onPressed: () => Navigator.pushNamed<void>(
                 context,
-                VotingPage.path,
+                VotingPage.location(
+                  roomId: 'CqZUgBbHXHaycv345YCC',
+                  votingEventId: 'whLZfYf5apCqWL7dPwsz',
+                ),
               ),
               child: const Text('投票ページ'),
             ),
