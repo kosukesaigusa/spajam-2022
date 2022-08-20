@@ -71,112 +71,111 @@ class RoomPage extends HookConsumerWidget {
           data: (votingEvent) {
             final backgroundColors = _getBackGroundColors(votingEvent.status);
             final lottie = _getLottieAnimation(votingEvent.status);
-            final lableText = _getText(votingEvent.status);
+            final labelText = _getTextByVotingEventStatus(votingEvent.status);
+            return ref
+                .watch(myFeelingsProvider(Tuple3(roomId, votingEvent.votingEventId, userId)))
+                .when(
+                  data: (feelings) {
+                    final hasFeeling = feelings.isNotEmpty;
+                    var emoji = '';
+                    if (hasFeeling) {
+                      emoji = _getIconString(feelings.first.isComfortable);
+                    }
 
-            final async = ref.watch(
-              myFeelingsProvider(
-                Tuple3(roomId, votingEvent.votingEventId, userId),
-              ),
-            );
-            return async.when(
-              data: (feelings) {
-                final hasFeeling = feelings.isNotEmpty;
-                var emoji = '';
-                if (hasFeeling) {
-                  emoji = _getIconString(feelings.first.isComfortable);
-                }
-
-                return baseScaffold(
-                  Stack(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            colors: backgroundColors,
-                          ),
-                        ),
-                        child: Center(child: lottie),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            lableText,
-                            const SizedBox(height: 100),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        right: 24,
-                        bottom: 30,
-                        child: !hasFeeling
-                            ? FloatingActionButton(
-                                onPressed: () => _onTapFeeling(
-                                  context,
-                                  ref,
-                                  userId,
-                                  roomId,
-                                  votingEvent,
-                                ),
-                                child: const Icon(
-                                  Icons.message,
-                                ),
-                              )
-                            : Text(
-                                emoji,
-                                style: const TextStyle(
-                                  fontSize: 60,
-                                ),
-                              ),
-                      ),
-                      if (votingEvent.status == VotingEventStatus.voting)
-                        Stack(
-                          children: [
-                            Center(
-                              child: LottieBuilder.asset(
-                                'assets/lotties/fight.json',
+                    return baseScaffold(
+                      Stack(
+                        children: [
+                          DecoratedBox(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                colors: backgroundColors,
                               ),
                             ),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 80),
-                                child: ElevatedButton(
-                                  onPressed: () =>
-                                      Navigator.of(context).pushNamed<void>(
-                                    VotingPage.location(
-                                      roomId: roomId,
-                                      votingEventId: votingEvent.votingEventId,
+                            child: Center(child: lottie),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: labelText,
+                                ),
+                                const SizedBox(height: 100),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            right: 24,
+                            bottom: 30,
+                            child: !hasFeeling
+                                ? FloatingActionButton(
+                                    onPressed: () => _onTapFeeling(
+                                      context,
+                                      ref,
+                                      userId,
+                                      roomId,
+                                      votingEvent,
+                                    ),
+                                    child: const Icon(
+                                      Icons.message,
+                                    ),
+                                  )
+                                : Text(
+                                    emoji,
+                                    style: const TextStyle(
+                                      fontSize: 60,
                                     ),
                                   ),
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.red,
-                                    onPrimary: Colors.black,
-                                    shape: const StadiumBorder(),
+                          ),
+                          if (votingEvent.status == VotingEventStatus.voting)
+                            Stack(
+                              children: [
+                                Center(
+                                  child: LottieBuilder.asset(
+                                    'assets/lotties/fight.json',
                                   ),
-                                  child: const Text('投票に進む'),
                                 ),
-                              ),
-                            ),
-                          ],
-                        )
-                    ],
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 48),
+                                    child: ElevatedButton(
+                                      onPressed: () => Navigator.of(context).pushNamed<void>(
+                                        VotingPage.location(
+                                          roomId: roomId,
+                                          votingEventId: votingEvent.votingEventId,
+                                        ),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.red,
+                                        onPrimary: Colors.black,
+                                        shape: const StadiumBorder(),
+                                      ),
+                                      child: const Text(
+                                        '投票に進む',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                        ],
+                      ),
+                    );
+                  },
+                  error: (e, _) => baseScaffold(
+                    Text(e.toString()),
+                  ),
+                  loading: () => baseScaffold(
+                    const Center(
+                      child: PrimarySpinkitCircle(),
+                    ),
                   ),
                 );
-              },
-              error: (e, _) => baseScaffold(
-                Text(
-                  e.toString(),
-                ),
-              ),
-              loading: () => baseScaffold(
-                const Center(
-                  child: PrimarySpinkitCircle(),
-                ),
-              ),
-            );
           },
           error: (e, _) => Center(
             child: baseScaffold(
@@ -200,35 +199,32 @@ class RoomPage extends HookConsumerWidget {
     String roomId,
     VotingEvent votingEvent,
   ) async {
-// 後でお手製
-    final isComfortable = await ref
-        .read(scaffoldMessengerServiceProvider)
-        .showDialogByBuilder<bool>(
-          builder: (context) => AlertDialog(
-            content: Row(
-              // mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                // コンテンツ領域
-                TextButton(
-                  onPressed: () => Navigator.pop(context, true),
-                  child: const Text(
-                    '😄',
-                    style: TextStyle(fontSize: 72),
-                  ),
+    final isComfortable =
+        await ref.read(scaffoldMessengerServiceProvider).showDialogByBuilder<bool>(
+              builder: (context) => AlertDialog(
+                content: Row(
+                  // mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    // コンテンツ領域
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: const Text(
+                        '😄',
+                        style: TextStyle(fontSize: 72),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: const Text(
+                        '😣',
+                        style: TextStyle(fontSize: 72),
+                      ),
+                    ),
+                  ],
                 ),
-                TextButton(
-                  onPressed: () => Navigator.pop(context, false),
-                  child: const Text(
-                    '😣',
-                    style: TextStyle(fontSize: 72),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-
+              ),
+            );
     if (isComfortable == null) {
       return;
     }
@@ -280,25 +276,23 @@ class RoomPage extends HookConsumerWidget {
     if (status == VotingEventStatus.waiting) {
       return LottieBuilder.asset('assets/lotties/waiting.json');
     }
-
     if (status == VotingEventStatus.voting) {
       return LottieBuilder.asset('assets/lotties/voting.json');
     }
-
     return LottieBuilder.asset('assets/lotties/peace.json');
   }
 
-  Text _getText(VotingEventStatus status) {
+  Text _getTextByVotingEventStatus(VotingEventStatus status) {
     if (status == VotingEventStatus.waiting) {
       return const Text(
-        '戦争の機運が高まっています...',
+        'エアコン戦争の機運が高まっています...',
         style: TextStyle(color: Colors.purple, fontSize: 32),
       );
     }
 
     if (status == VotingEventStatus.voting) {
       return const Text(
-        'クーラー戦争勃発!!!',
+        'エアコン戦争勃発!!!',
         style: TextStyle(color: Colors.red, fontSize: 32),
       );
     }
