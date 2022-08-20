@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../utils/json_converters/union_timestamp.dart';
-
 part 'app_user.freezed.dart';
 part 'app_user.g.dart';
 
@@ -13,8 +11,7 @@ class AppUser with _$AppUser {
     @Default('') String fcmToken,
   }) = _AppUser;
 
-  factory AppUser.fromJson(Map<String, dynamic> json) =>
-      _$AppUserFromJson(json);
+  factory AppUser.fromJson(Map<String, dynamic> json) => _$AppUserFromJson(json);
 
   factory AppUser.fromDocumentSnapshot(DocumentSnapshot ds) {
     final data = ds.data()! as Map<String, dynamic>;
