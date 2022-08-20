@@ -14,18 +14,7 @@ _$_AppUser _$$_AppUserFromJson(Map json) => $checkedCreate(
       ($checkedConvert) {
         final val = _$_AppUser(
           userId: $checkedConvert('userId', (v) => v as String? ?? ''),
-          name: $checkedConvert('name', (v) => v as String? ?? ''),
-          createdAt: $checkedConvert(
-              'createdAt',
-              (v) => v == null
-                  ? const UnionTimestamp.serverTimestamp()
-                  : unionTimestampConverter.fromJson(v as Object)),
-          updatedAt: $checkedConvert(
-              'updatedAt',
-              (v) => v == null
-                  ? const UnionTimestamp.serverTimestamp()
-                  : alwaysUseServerTimestampUnionTimestampConverter
-                      .fromJson(v as Object)),
+          fcmToken: $checkedConvert('fcmToken', (v) => v as String? ?? ''),
         );
         return val;
       },
@@ -34,8 +23,5 @@ _$_AppUser _$$_AppUserFromJson(Map json) => $checkedCreate(
 Map<String, dynamic> _$$_AppUserToJson(_$_AppUser instance) =>
     <String, dynamic>{
       'userId': instance.userId,
-      'name': instance.name,
-      'createdAt': unionTimestampConverter.toJson(instance.createdAt),
-      'updatedAt': alwaysUseServerTimestampUnionTimestampConverter
-          .toJson(instance.updatedAt),
+      'fcmToken': instance.fcmToken,
     };

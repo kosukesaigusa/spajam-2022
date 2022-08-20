@@ -13,6 +13,7 @@
           "status": "voting", // VotingEventStatus（投票ステータス文字列） "peace", "waiting", "voting", "finished" （デフォルト peace）
           "collection: feelings": {
             "document: {feelingId}": {
+              "feelingId": "{feelingId}",
               "userId": "{userId}",
               "isComfortable": false,
               "createdAt": "2022-08-22 15:00"

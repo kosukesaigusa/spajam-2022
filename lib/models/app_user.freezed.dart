@@ -21,11 +21,7 @@ AppUser _$AppUserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$AppUser {
   String get userId => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
-  @unionTimestampConverter
-  UnionTimestamp get createdAt => throw _privateConstructorUsedError;
-  @alwaysUseServerTimestampUnionTimestampConverter
-  UnionTimestamp get updatedAt => throw _privateConstructorUsedError;
+  String get fcmToken => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,16 +32,7 @@ mixin _$AppUser {
 abstract class $AppUserCopyWith<$Res> {
   factory $AppUserCopyWith(AppUser value, $Res Function(AppUser) then) =
       _$AppUserCopyWithImpl<$Res>;
-  $Res call(
-      {String userId,
-      String name,
-      @unionTimestampConverter
-          UnionTimestamp createdAt,
-      @alwaysUseServerTimestampUnionTimestampConverter
-          UnionTimestamp updatedAt});
-
-  $UnionTimestampCopyWith<$Res> get createdAt;
-  $UnionTimestampCopyWith<$Res> get updatedAt;
+  $Res call({String userId, String fcmToken});
 }
 
 /// @nodoc
@@ -59,42 +46,18 @@ class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
   @override
   $Res call({
     Object? userId = freezed,
-    Object? name = freezed,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
+    Object? fcmToken = freezed,
   }) {
     return _then(_value.copyWith(
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      fcmToken: fcmToken == freezed
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: createdAt == freezed
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as UnionTimestamp,
-      updatedAt: updatedAt == freezed
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as UnionTimestamp,
     ));
-  }
-
-  @override
-  $UnionTimestampCopyWith<$Res> get createdAt {
-    return $UnionTimestampCopyWith<$Res>(_value.createdAt, (value) {
-      return _then(_value.copyWith(createdAt: value));
-    });
-  }
-
-  @override
-  $UnionTimestampCopyWith<$Res> get updatedAt {
-    return $UnionTimestampCopyWith<$Res>(_value.updatedAt, (value) {
-      return _then(_value.copyWith(updatedAt: value));
-    });
   }
 }
 
@@ -104,18 +67,7 @@ abstract class _$$_AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
           _$_AppUser value, $Res Function(_$_AppUser) then) =
       __$$_AppUserCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {String userId,
-      String name,
-      @unionTimestampConverter
-          UnionTimestamp createdAt,
-      @alwaysUseServerTimestampUnionTimestampConverter
-          UnionTimestamp updatedAt});
-
-  @override
-  $UnionTimestampCopyWith<$Res> get createdAt;
-  @override
-  $UnionTimestampCopyWith<$Res> get updatedAt;
+  $Res call({String userId, String fcmToken});
 }
 
 /// @nodoc
@@ -130,27 +82,17 @@ class __$$_AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userId = freezed,
-    Object? name = freezed,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
+    Object? fcmToken = freezed,
   }) {
     return _then(_$_AppUser(
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      name: name == freezed
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      fcmToken: fcmToken == freezed
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
               as String,
-      createdAt: createdAt == freezed
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as UnionTimestamp,
-      updatedAt: updatedAt == freezed
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as UnionTimestamp,
     ));
   }
 }
@@ -158,14 +100,7 @@ class __$$_AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_AppUser extends _AppUser {
-  const _$_AppUser(
-      {this.userId = '',
-      this.name = '',
-      @unionTimestampConverter
-          this.createdAt = const UnionTimestamp.serverTimestamp(),
-      @alwaysUseServerTimestampUnionTimestampConverter
-          this.updatedAt = const UnionTimestamp.serverTimestamp()})
-      : super._();
+  const _$_AppUser({this.userId = '', this.fcmToken = ''}) : super._();
 
   factory _$_AppUser.fromJson(Map<String, dynamic> json) =>
       _$$_AppUserFromJson(json);
@@ -175,19 +110,11 @@ class _$_AppUser extends _AppUser {
   final String userId;
   @override
   @JsonKey()
-  final String name;
-  @override
-  @JsonKey()
-  @unionTimestampConverter
-  final UnionTimestamp createdAt;
-  @override
-  @JsonKey()
-  @alwaysUseServerTimestampUnionTimestampConverter
-  final UnionTimestamp updatedAt;
+  final String fcmToken;
 
   @override
   String toString() {
-    return 'AppUser(userId: $userId, name: $name, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'AppUser(userId: $userId, fcmToken: $fcmToken)';
   }
 
   @override
@@ -196,9 +123,7 @@ class _$_AppUser extends _AppUser {
         (other.runtimeType == runtimeType &&
             other is _$_AppUser &&
             const DeepCollectionEquality().equals(other.userId, userId) &&
-            const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
-            const DeepCollectionEquality().equals(other.updatedAt, updatedAt));
+            const DeepCollectionEquality().equals(other.fcmToken, fcmToken));
   }
 
   @JsonKey(ignore: true)
@@ -206,9 +131,7 @@ class _$_AppUser extends _AppUser {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(userId),
-      const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(createdAt),
-      const DeepCollectionEquality().hash(updatedAt));
+      const DeepCollectionEquality().hash(fcmToken));
 
   @JsonKey(ignore: true)
   @override
@@ -224,13 +147,8 @@ class _$_AppUser extends _AppUser {
 }
 
 abstract class _AppUser extends AppUser {
-  const factory _AppUser(
-      {final String userId,
-      final String name,
-      @unionTimestampConverter
-          final UnionTimestamp createdAt,
-      @alwaysUseServerTimestampUnionTimestampConverter
-          final UnionTimestamp updatedAt}) = _$_AppUser;
+  const factory _AppUser({final String userId, final String fcmToken}) =
+      _$_AppUser;
   const _AppUser._() : super._();
 
   factory _AppUser.fromJson(Map<String, dynamic> json) = _$_AppUser.fromJson;
@@ -238,13 +156,7 @@ abstract class _AppUser extends AppUser {
   @override
   String get userId;
   @override
-  String get name;
-  @override
-  @unionTimestampConverter
-  UnionTimestamp get createdAt;
-  @override
-  @alwaysUseServerTimestampUnionTimestampConverter
-  UnionTimestamp get updatedAt;
+  String get fcmToken;
   @override
   @JsonKey(ignore: true)
   _$$_AppUserCopyWith<_$_AppUser> get copyWith =>
