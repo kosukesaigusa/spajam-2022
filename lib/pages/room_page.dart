@@ -5,9 +5,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class RoomPage extends HookConsumerWidget {
   const RoomPage({super.key});
 
-  static const path = '/room';
+  static const path = '/rooms/:roomId';
   static const name = 'RoomPage';
-  static const location = path;
+  static String location({required String roomId}) => '/rooms/$roomId';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

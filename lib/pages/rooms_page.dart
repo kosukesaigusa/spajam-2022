@@ -43,15 +43,13 @@ class RoomsPage extends HookConsumerWidget {
                     separatorBuilder: (context, index) => const Divider(),
                     itemCount: rooms.length,
                     padding: const EdgeInsets.all(16),
-                    // TODO: 仮で SizedBox() にしています。
-                    // itemBuilder: (context, index) => RoomItem(todo: todos[index]),
                     itemBuilder: (context, index) {
                       final room = rooms[index];
                       return ListTile(
                         title: Text(room.roomName),
                         onTap: () => Navigator.pushNamed<void>(
                           context,
-                          RoomPage.location,
+                          RoomPage.location(roomId: room.roomId),
                           arguments: room,
                         ),
                       );
