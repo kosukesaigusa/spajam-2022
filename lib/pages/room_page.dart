@@ -153,12 +153,10 @@ class RoomPage extends HookConsumerWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.only(bottom: 48),
                                     child: ElevatedButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pushNamed<void>(
+                                      onPressed: () => Navigator.of(context).pushNamed<void>(
                                         VotingPage.location(
                                           roomId: roomId,
-                                          votingEventId:
-                                              votingEvent.votingEventId,
+                                          votingEventId: votingEvent.votingEventId,
                                         ),
                                       ),
                                       style: ElevatedButton.styleFrom(
@@ -201,33 +199,32 @@ class RoomPage extends HookConsumerWidget {
     String roomId,
     VotingEvent votingEvent,
   ) async {
-    final isComfortable = await ref
-        .read(scaffoldMessengerServiceProvider)
-        .showDialogByBuilder<bool>(
-          builder: (context) => AlertDialog(
-            content: Row(
-              // mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                // コンテンツ領域
-                TextButton(
-                  onPressed: () => Navigator.pop(context, true),
-                  child: const Text(
-                    '😄',
-                    style: TextStyle(fontSize: 72),
-                  ),
+    final isComfortable =
+        await ref.read(scaffoldMessengerServiceProvider).showDialogByBuilder<bool>(
+              builder: (context) => AlertDialog(
+                content: Row(
+                  // mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    // コンテンツ領域
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: const Text(
+                        '😄',
+                        style: TextStyle(fontSize: 72),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: const Text(
+                        '😣',
+                        style: TextStyle(fontSize: 72),
+                      ),
+                    ),
+                  ],
                 ),
-                TextButton(
-                  onPressed: () => Navigator.pop(context, false),
-                  child: const Text(
-                    '😣',
-                    style: TextStyle(fontSize: 72),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
+              ),
+            );
     if (isComfortable == null) {
       return;
     }
@@ -288,21 +285,21 @@ class RoomPage extends HookConsumerWidget {
   Text _getTextByVotingEventStatus(VotingEventStatus status) {
     if (status == VotingEventStatus.waiting) {
       return const Text(
-        'エアコン戦争の機運が高まっています...',
-        style: TextStyle(color: Colors.purple, fontSize: 32),
+        'エアコンの設定温度に\n不満な人がいるようです...😒',
+        style: TextStyle(color: Colors.purple, fontSize: 24),
       );
     }
 
     if (status == VotingEventStatus.voting) {
       return const Text(
-        'エアコン戦争勃発!!!',
-        style: TextStyle(color: Colors.red, fontSize: 32),
+        'エアコン戦争勃発!!!!🤯',
+        style: TextStyle(color: Colors.red, fontSize: 24),
       );
     }
 
     return const Text(
-      '平和な世の中です',
-      style: TextStyle(color: Colors.blue, fontSize: 32),
+      'みんな快適に過ごしています😌',
+      style: TextStyle(color: Colors.blue, fontSize: 24),
     );
   }
 
