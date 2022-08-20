@@ -13,5 +13,5 @@ final roomsStreamProvider = StreamProvider.autoDispose((ref) {
   if (userId == null) {
     return Stream.value(<Room>[]);
   }
-  return ref.read(roomsRepositoryProvider).subscribeTodos();
+  return ref.read(roomsRepositoryProvider).subscribeRooms();
 });
