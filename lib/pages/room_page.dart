@@ -90,7 +90,6 @@ class RoomPage extends HookConsumerWidget {
               ),
               floatingActionButton: FloatingActionButton(
                 onPressed: () async {
-                  // 後でお手製
                   final isComfortable =
                       await ref.read(scaffoldMessengerServiceProvider).showDialogByBuilder<bool>(
                             builder: (context) => AlertDialog(
@@ -100,9 +99,7 @@ class RoomPage extends HookConsumerWidget {
                                   children: <Widget>[
                                     // コンテンツ領域
                                     SimpleDialogOption(
-                                      onPressed: () {
-                                        Navigator.pop(context, true);
-                                      },
+                                      onPressed: () => Navigator.pop(context, true),
                                       child: const Text('快適'),
                                     ),
                                     SimpleDialogOption(
@@ -114,7 +111,6 @@ class RoomPage extends HookConsumerWidget {
                               ),
                             ),
                           );
-
                   if (isComfortable == null) {
                     return;
                   }

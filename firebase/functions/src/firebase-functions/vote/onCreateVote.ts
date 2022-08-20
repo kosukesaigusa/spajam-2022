@@ -1,8 +1,8 @@
 import * as functions from 'firebase-functions'
-import { VotingEventRepository } from '~/src/repositories/voting_event'
 import { VoteRepository } from '~/src/repositories/vote'
 import { Vote } from '~/src/models/vote'
 import { sendFCMByUserIds } from '~/src/utils/fcm/sendFCMNotification'
+import { VotingEventRepository } from '~/src/repositories/votingEvent'
 
 /**
  * 新しい vote ドキュメントが作成されたときに発火する。
@@ -17,9 +17,9 @@ import { sendFCMByUserIds } from '~/src/utils/fcm/sendFCMNotification'
  */
 export const onCreateVote = functions
     .region(`asia-northeast1`)
-    // .runWith({failurePolicy:true})
     .firestore.document(`/rooms/{roomId}/votingEvents/{votingEventId}/votes/{voteId}`)
     .onCreate(async (_, context) => {
+        functions.logger.info(`あああああ`)
         const { roomId, votingEventId } = context.params
         // votingEventのuserIdsを取得
         const votingEventRepository = new VotingEventRepository()
@@ -36,21 +36,23 @@ export const onCreateVote = functions
         const votes = await voteRepository.fetchVotes({ roomId, votingEventId })
         // 比較
         if (votes.length < userIds.length) {
+            functions.logger.info(`まだ全員の回答が終わっていないので終了します。`)
             return
         }
+        functions.logger.info(`全員の回答が終わりました、結果を算出します。`)
 
         // 算出ロジックの実行
         const result = calculateResult(votes)
+        functions.logger.info(`算出結果：${result}`)
 
-        //resultを更新
         try {
-            await votingEventRepository.updateResult({ roomId, votingEventId, result })
+            await votingEventRepository.completeVotingEvent({ roomId, votingEventId, result })
         } catch (e) {
             functions.logger.error(`resultの更新に失敗しました: { roomId: ${roomId}, votingEventId: ${votingEventId} }`)
             return
         }
 
-        // votingEvent.votingUserIdsにプッシュ通知を送る
+        // votingEvent.votingUserIds にプッシュ通知を送る
         await sendFCMByUserIds({
             userIds: userIds,
             title: `勝敗が決しました`,
@@ -59,10 +61,11 @@ export const onCreateVote = functions
         })
 
         try {
-            // 新しいvotingEventドキュメントを作成する
-            await votingEventRepository.createNewVotingEvent({ roomId })
+            // 新しい votingEvent ドキュメントを作成する
+            await votingEventRepository.createVotingEvent({ roomId })
+            functions.logger.info(`新しい votingEvent を作成しました。`)
         } catch (e) {
-            functions.logger.error(`新規VotingEventドキュメントの作成に失敗しました: ${e}`)
+            functions.logger.error(`新規 VotingEvent ドキュメントの作成に失敗しました: ${e}`)
         }
     })
 
