@@ -1,3 +1,4 @@
+import * as admin from 'firebase-admin'
 import * as functions from 'firebase-functions'
 import { votingEventRef } from '~/src/firestore-refs/firestoreRefs'
 import { FeelingRepository } from '~/src/repositories/feeling'
@@ -40,13 +41,27 @@ export const onCreateFeeling = functions
         // roomId から room を取得する。
         const roomRepository = new RoomRepository()
         const room = await roomRepository.fetchRoom({ roomId })
+        if (room === undefined) {
+            functions.logger.error(`Room が見つかりませんでした。`)
+            return
+        }
         const userIds = room?.userIds ?? []
         // room.userIds を votingEvents の votingUserIds にコピーする。
         votingEventRef({ roomId, votingEventId }).update({ votingUserIds: userIds })
+        const { title, bodySuffix } = await fetchFCMTitleBodySuffix()
         await sendFCMByUserIds({
             userIds,
-            title: `暑い寒い戦争が勃発しました！`,
-            body: `暑い寒い戦争に参加してください！`,
+            title,
+            body: `「${room?.roomName}」の${bodySuffix}`,
             location: `/rooms/${roomId}/${votingEventId}`
         })
     })
+
+/** タイトルとボディ文字列の末尾を取得する */
+const fetchFCMTitleBodySuffix = async (): Promise<{ title: string; bodySuffix: string }> => {
+    const ds = await admin.firestore().collection(`fcms`).doc(`onCreateFeeling`).get()
+    const data = ds.data()
+    const title = data?.title ?? `エアコン戦争が勃発しました！`
+    const bodySuffix = data?.bodySuffix ?? `エアコン戦争が勃発しました！！`
+    return { title, bodySuffix }
+}
