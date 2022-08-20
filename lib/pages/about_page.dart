@@ -11,6 +11,7 @@ import '../utils/firebase_messaging.dart';
 import '../utils/hooks/package_info_state.dart';
 import '../utils/loading.dart';
 import '../utils/scaffold_messenger_service.dart';
+import 'room_page.dart';
 
 class AboutPage extends HookConsumerWidget {
   const AboutPage({super.key});
@@ -48,6 +49,16 @@ class AboutPage extends HookConsumerWidget {
             ElevatedButton(
               onPressed: () => ref.read(showFCMTokenProvider)(),
               child: const Text('FCM トークンを表示'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pushNamed<void>(
+              context,
+              RoomPage.location(
+                // TODO: RoomsPage から値を取得
+                roomId: 'gxdmunvBcT5noyAP5FbJ',
+              ),
+            ),
+              child: const Text('room_pageへ'),
             ),
             for (final t in TestNotificationRequestType.values)
               ElevatedButton(
