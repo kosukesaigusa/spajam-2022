@@ -12,8 +12,8 @@ import '../utils/scaffold_messenger_service.dart';
 import '../widgets/dialog.dart';
 import '../widgets/empty_placeholder.dart';
 
-/// VotingPageArguments インスタンスを取得してから返す Provider。
-final roomPageArgumentsProvider = Provider.autoDispose<String>(
+/// roomId を取得してから返す Provider。
+final roomIdProvider = Provider.autoDispose<String>(
   (ref) {
     try {
       final state = ref.read(appRouterStateProvider);
@@ -39,7 +39,7 @@ class RoomPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userId = ref.watch(userIdProvider).value;
-    final roomId = ref.watch(roomPageArgumentsProvider);
+    final roomId = ref.watch(roomIdProvider);
 
     Widget baseScaffold(Widget body, {Widget? floatingActionButton}) {
       return Scaffold(
