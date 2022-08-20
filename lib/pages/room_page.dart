@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:tuple/tuple.dart';
 
 import '../features/auth/auth.dart';
+import '../features/room/room.dart';
 import '../features/voting_event/feeling.dart';
 import '../features/voting_event/voting_event.dart';
 import '../models/feeling.dart';
@@ -49,7 +50,13 @@ class RoomPage extends HookConsumerWidget {
     Widget baseScaffold(Widget body, {Widget? floatingActionButton}) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('ルーム'),
+          title: Text(
+            ref.watch(roomStreamProvider(roomId)).when(
+                  data: (room) => room!.roomName,
+                  error: (_, __) => 'エラー',
+                  loading: () => '...',
+                ),
+          ),
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
@@ -73,7 +80,11 @@ class RoomPage extends HookConsumerWidget {
             final lottie = _getLottieAnimation(votingEvent.status);
             final labelText = _getTextByVotingEventStatus(votingEvent.status);
             return ref
-                .watch(myFeelingsProvider(Tuple3(roomId, votingEvent.votingEventId, userId)))
+                .watch(
+                  myFeelingsProvider(
+                    Tuple3(roomId, votingEvent.votingEventId, userId),
+                  ),
+                )
                 .when(
                   data: (feelings) {
                     final hasFeeling = feelings.isNotEmpty;
@@ -143,10 +154,12 @@ class RoomPage extends HookConsumerWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.only(bottom: 48),
                                     child: ElevatedButton(
-                                      onPressed: () => Navigator.of(context).pushNamed<void>(
+                                      onPressed: () =>
+                                          Navigator.of(context).pushNamed<void>(
                                         VotingPage.location(
                                           roomId: roomId,
-                                          votingEventId: votingEvent.votingEventId,
+                                          votingEventId:
+                                              votingEvent.votingEventId,
                                         ),
                                       ),
                                       style: ElevatedButton.styleFrom(
@@ -199,32 +212,33 @@ class RoomPage extends HookConsumerWidget {
     String roomId,
     VotingEvent votingEvent,
   ) async {
-    final isComfortable =
-        await ref.read(scaffoldMessengerServiceProvider).showDialogByBuilder<bool>(
-              builder: (context) => AlertDialog(
-                content: Row(
-                  // mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    // コンテンツ領域
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, true),
-                      child: const Text(
-                        '😄',
-                        style: TextStyle(fontSize: 72),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, false),
-                      child: const Text(
-                        '😣',
-                        style: TextStyle(fontSize: 72),
-                      ),
-                    ),
-                  ],
+    final isComfortable = await ref
+        .read(scaffoldMessengerServiceProvider)
+        .showDialogByBuilder<bool>(
+          builder: (context) => AlertDialog(
+            content: Row(
+              // mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                // コンテンツ領域
+                TextButton(
+                  onPressed: () => Navigator.pop(context, true),
+                  child: const Text(
+                    '😄',
+                    style: TextStyle(fontSize: 72),
+                  ),
                 ),
-              ),
-            );
+                TextButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: const Text(
+                    '😣',
+                    style: TextStyle(fontSize: 72),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
     if (isComfortable == null) {
       return;
     }

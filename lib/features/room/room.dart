@@ -12,3 +12,10 @@ final roomsStreamProvider = StreamProvider.autoDispose((ref) {
   }
   return ref.read(roomsRepositoryProvider).subscribeRooms();
 });
+
+final roomStreamProvider =
+    StreamProvider.family.autoDispose<Room?, String>((ref, roomId) {
+  final result =
+      ref.read(roomsRepositoryProvider).subscribeRoom(roomId: roomId);
+  return result;
+});
