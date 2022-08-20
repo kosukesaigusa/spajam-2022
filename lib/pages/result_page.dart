@@ -137,7 +137,7 @@ class FinishedWidget extends HookConsumerWidget {
       onWillPop: () async => false,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('投票終了'),
+          title: const Text('エアコン戦争に終止符が打たれました 🙌'),
           automaticallyImplyLeading: false,
         ),
         body: Center(
