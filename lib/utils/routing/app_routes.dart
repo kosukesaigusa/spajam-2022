@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../pages/about_page.dart';
 import '../../pages/main_page.dart';
 import '../../pages/not_found_page.dart';
+import '../../pages/result_page.dart';
 import '../../pages/room_page.dart';
 import '../../pages/rooms_page.dart';
 import '../../pages/test_notification_page.dart';
@@ -59,6 +60,14 @@ final appRoutes = <AppRoute>[
     builder: (context, state) => ProviderScope(
       overrides: <Override>[appRouterStateProvider.overrideWithValue(state)],
       child: const VotingPage(key: ValueKey(VotingPage.name)),
+    ),
+  ),
+  AppRoute(
+    path: ResultPage.path,
+    name: ResultPage.name,
+    builder: (context, state) => ProviderScope(
+      overrides: <Override>[appRouterStateProvider.overrideWithValue(state)],
+      child: const ResultPage(key: ValueKey(ResultPage.name)),
     ),
   ),
 ];
