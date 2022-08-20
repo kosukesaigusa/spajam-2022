@@ -3,16 +3,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../pages/about_page.dart';
-import '../../pages/github_page.dart';
-import '../../pages/todos_page.dart';
+import '../../pages/rooms_page.dart';
 
 /// 現在選択状態になっている下タブを管理する StateProvider。
 final bottomTabStateProvider = StateProvider<BottomTab>((_) => bottomTabs[0]);
 
 /// BottomTab の種別。
 enum BottomTabEnum {
-  todos(label: 'Todos', location: TodosPage.location),
-  github(label: 'GitHub', location: GitHubPage.location),
+  rooms(label: 'Rooms', location: RoomsPage.location),
   about(label: 'About', location: AboutPage.location);
 
   const BottomTabEnum({
@@ -40,10 +38,8 @@ class BottomTab {
 /// BottomNavigationBarItem.icon に表示するウィジェットを提供するプロバイダ。
 final bottomTabIconProvider = Provider.family<Widget, BottomTabEnum>((ref, bottomTabEnum) {
   switch (bottomTabEnum) {
-    case BottomTabEnum.todos:
+    case BottomTabEnum.rooms:
       return const FaIcon(FontAwesomeIcons.list);
-    case BottomTabEnum.github:
-      return const FaIcon(FontAwesomeIcons.github);
     case BottomTabEnum.about:
       return const FaIcon(FontAwesomeIcons.ellipsis);
   }
@@ -54,15 +50,10 @@ final bottomTabs = <BottomTab>[
   BottomTab._(
     index: 0,
     key: GlobalKey<NavigatorState>(),
-    bottomTabEnum: BottomTabEnum.todos,
+    bottomTabEnum: BottomTabEnum.rooms,
   ),
   BottomTab._(
     index: 1,
-    key: GlobalKey<NavigatorState>(),
-    bottomTabEnum: BottomTabEnum.github,
-  ),
-  BottomTab._(
-    index: 2,
     key: GlobalKey<NavigatorState>(),
     bottomTabEnum: BottomTabEnum.about,
   ),
