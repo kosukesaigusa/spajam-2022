@@ -77,7 +77,19 @@ class VotingWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Scaffold(body: Text('投票中'));
+    return Scaffold(
+      appBar: AppBar(
+        title: Column(
+          children: const [
+            Text('投票中'),
+            Text('投票中です。'),
+          ],
+        ),
+      ),
+      body: const Center(
+        child: PrimarySpinkitCircle(),
+      ),
+    );
   }
 }
 
@@ -87,6 +99,21 @@ class FinishedWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Scaffold(body: Text('投票終了'));
+    return Scaffold(
+      appBar: AppBar(title: const Text('投票終了')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('投票終了'),
+            ElevatedButton(
+              onPressed: () =>
+                  Navigator.popUntil(context, (route) => route.isFirst),
+              child: const Text('戻る'),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
