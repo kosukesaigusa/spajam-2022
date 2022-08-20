@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lottie/lottie.dart';
+import 'package:tuple/tuple.dart';
 
 import '../features/auth/auth.dart';
 import '../features/voting_event/feeling.dart';
@@ -50,8 +52,11 @@ class RoomPage extends HookConsumerWidget {
       return Scaffold(
         appBar: AppBar(
           title: const Text('ルーム'),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
         floatingActionButton: floatingActionButton,
+        extendBodyBehindAppBar: true,
         body: body,
       );
     }
@@ -65,51 +70,81 @@ class RoomPage extends HookConsumerWidget {
     }
 
     return ref.watch(latestVotingEventStreamProvider(roomId)).when(
-          data: (votingEvent) => Center(
-            child: baseScaffold(
-              Column(
-                children: [
-                  if (votingEvent.status == VotingEventStatus.voting)
-                    GestureDetector(
-                      onTap: () => Navigator.pushNamed<void>(
-                        context,
-                        VotingPage.location(
-                          roomId: roomId,
-                          votingEventId: votingEvent.votingEventId,
-                        ),
-                      ),
-                      child: const ColoredBox(
-                        color: Colors.red,
-                        child: SizedBox(
-                          width: double.infinity,
-                          height: 50,
-                          child: Center(
-                            child: Text('戦争勃発！！'),
+          data: (votingEvent) {
+            final backgroundColors = _getBackGroundColors(votingEvent.status);
+            final lottie = _getLottieAnimation(votingEvent.status);
+            final lableText = _getText(votingEvent.status);
+
+            final async = ref.watch(
+              myFeelingsProvider(
+                Tuple3(roomId, votingEvent.votingEventId, userId),
+              ),
+            );
+            return async.when(
+              data: (feelings) {
+                final hasFeeling = feelings.isNotEmpty;
+                var emoji = '';
+                if (hasFeeling) {
+                  emoji = _getIconString(feelings.first.isComfortable);
+                }
+
+                return baseScaffold(
+                  Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            colors: backgroundColors,
                           ),
                         ),
+                        child: Center(child: lottie),
                       ),
-                    )
-                  else
-                    const Gap(16),
-                  Text(
-                    votingEvent.toString(),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            lableText,
+                            const SizedBox(height: 100),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
-                ],
-              ),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () => _onTapFeeling(
-                  context,
-                  ref,
-                  userId,
-                  roomId,
-                  votingEvent,
+                  floatingActionButton: !hasFeeling
+                      ? FloatingActionButton(
+                          onPressed: () => _onTapFeeling(
+                            context,
+                            ref,
+                            userId,
+                            roomId,
+                            votingEvent,
+                          ),
+                          child: const Icon(
+                            Icons.message,
+                          ),
+                        )
+                      : Text(
+                          emoji,
+                          style: const TextStyle(
+                            fontSize: 60,
+                          ),
+                        ),
+                );
+              },
+              error: (e, _) => baseScaffold(
+                Text(
+                  e.toString(),
                 ),
-                child: const Icon(
-                  Icons.message,
+              ),
+              loading: () => baseScaffold(
+                const Center(
+                  child: PrimarySpinkitCircle(),
                 ),
               ),
-            ),
-          ),
+            );
+          },
           error: (e, _) => Center(
             child: baseScaffold(
               Text(
@@ -174,8 +209,77 @@ class RoomPage extends HookConsumerWidget {
               isComfortable: isComfortable,
             ),
           );
+      ref.refresh(
+        myFeelingsProvider(
+          Tuple3(roomId, votingEvent.votingEventId, userId),
+        ),
+      );
     } on Exception catch (e) {
       ref.read(scaffoldMessengerServiceProvider).showSnackBarByException(e);
     }
+  }
+
+  List<Color> _getBackGroundColors(VotingEventStatus status) {
+    if (status == VotingEventStatus.waiting) {
+      return <Color>[
+        Colors.purple[600]!,
+        Colors.purple[500]!,
+        Colors.purple[300]!,
+      ];
+    }
+
+    if (status == VotingEventStatus.voting) {
+      return <Color>[
+        Colors.red[600]!,
+        Colors.red[500]!,
+        Colors.red[300]!,
+      ];
+    }
+
+    return <Color>[
+      Colors.blue[600]!,
+      Colors.blue[500]!,
+      Colors.blue[300]!,
+    ];
+  }
+
+  LottieBuilder _getLottieAnimation(VotingEventStatus status) {
+    if (status == VotingEventStatus.waiting) {
+      return LottieBuilder.asset('assets/lotties/waiting.json');
+    }
+
+    if (status == VotingEventStatus.voting) {
+      return LottieBuilder.asset('assets/lotties/voting.json');
+    }
+
+    return LottieBuilder.asset('assets/lotties/peace.json');
+  }
+
+  Text _getText(VotingEventStatus status) {
+    if (status == VotingEventStatus.waiting) {
+      return const Text(
+        '戦争の機運が高まっています...',
+        style: TextStyle(color: Colors.purple, fontSize: 32),
+      );
+    }
+
+    if (status == VotingEventStatus.voting) {
+      return const Text(
+        'クーラー戦争勃発!!!',
+        style: TextStyle(color: Colors.red, fontSize: 32),
+      );
+    }
+
+    return const Text(
+      '平和な世の中です',
+      style: TextStyle(color: Colors.blue, fontSize: 32),
+    );
+  }
+
+  String _getIconString(bool isComfortable) {
+    if (!isComfortable) {
+      return '😣';
+    }
+    return '😄';
   }
 }
