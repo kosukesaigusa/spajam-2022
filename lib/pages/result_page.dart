@@ -57,9 +57,7 @@ class ResultPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final roomId = ref.watch(_roomIdProvider);
     final votingEventId = ref.watch(_votingEventIdProvider);
-    return ref
-        .watch(votingEventStreamProvider(Tuple2(roomId, votingEventId)))
-        .when(
+    return ref.watch(votingEventStreamProvider(Tuple2(roomId, votingEventId))).when(
           data: (votingEvent) {
             if (votingEvent == null) {
               return Scaffold(
@@ -88,6 +86,7 @@ class ResultPage extends HookConsumerWidget {
             appBar: AppBar(
               title: const Text('投票結果'),
               automaticallyImplyLeading: false,
+              leading: const SizedBox(),
             ),
             body: Center(
               child: Text(error.toString()),
@@ -147,8 +146,7 @@ class FinishedWidget extends HookConsumerWidget {
             children: [
               const Text('投票終了'),
               ElevatedButton(
-                onPressed: () =>
-                    Navigator.popUntil(context, (route) => route.isFirst),
+                onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
                 child: const Text('戻る'),
               )
             ],
