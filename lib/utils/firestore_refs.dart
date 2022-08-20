@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/app_user.dart';
+import '../models/feeling.dart';
+import '../models/room.dart';
 import '../models/test_notification_request.dart';
 import '../models/todo.dart';
+import '../models/vote.dart';
+import '../models/voting_event.dart';
 
 final db = FirebaseFirestore.instance;
 
@@ -17,6 +21,78 @@ DocumentReference<AppUser> appUserRef({
   required String userId,
 }) =>
     appUsersRef.doc(userId);
+
+/// rooms コレクションの参照。
+final roomsRef = db.collection('rooms').withConverter(
+      fromFirestore: (ds, _) => Room.fromDocumentSnapshot(ds),
+      toFirestore: (obj, _) => obj.toJson(),
+    );
+
+/// room ドキュメントの参照。
+DocumentReference<Room> roomRef({
+  required String roomId,
+}) =>
+    roomsRef.doc(roomId);
+
+/// votingEvents コレクションの参照。
+CollectionReference<VotingEvent> votingEventsRef({
+  required String roomId,
+}) =>
+    roomRef(roomId: roomId).collection('votingEvents').withConverter(
+          fromFirestore: (ds, _) => VotingEvent.fromDocumentSnapshot(ds),
+          toFirestore: (obj, _) => obj.toJson(),
+        );
+
+/// votingEvent ドキュメントの参照。
+DocumentReference<VotingEvent> votingEventRef({
+  required String roomId,
+  required String votingEventId,
+}) =>
+    votingEventsRef(roomId: roomId).doc(votingEventId);
+
+/// feelings コレクションの参照。
+CollectionReference<Feeling> feelingsRef({
+  required String roomId,
+  required String votingEventId,
+}) =>
+    votingEventRef(roomId: roomId, votingEventId: votingEventId)
+        .collection('feelings')
+        .withConverter(
+          fromFirestore: (ds, _) => Feeling.fromDocumentSnapshot(ds),
+          toFirestore: (obj, _) => obj.toJson(),
+        );
+
+/// feeling ドキュメントの参照。
+DocumentReference<Feeling> feelingRef({
+  required String roomId,
+  required String votingEventId,
+  required String feelingId,
+}) =>
+    feelingsRef(roomId: roomId, votingEventId: votingEventId).doc(feelingId);
+
+/// votes コレクションの参照。
+CollectionReference<Vote> votesRef({
+  required String roomId,
+  required String votingEventId,
+}) =>
+    votingEventRef(roomId: roomId, votingEventId: votingEventId).collection('votes').withConverter(
+          fromFirestore: (ds, _) => Vote.fromDocumentSnapshot(ds),
+          toFirestore: (obj, _) => obj.toJson(),
+        );
+
+/// vote ドキュメントの参照。
+DocumentReference<Vote> voteRef({
+  required String roomId,
+  required String votingEventId,
+  required String voteId,
+}) =>
+    votesRef(roomId: roomId, votingEventId: votingEventId).doc(voteId);
+
+/// testNotificationRequest コレクションの参照。
+final testNotificationRequestsRef = db.collection('testNotificationRequests').withConverter(
+      fromFirestore: (ds, _) => TestNotificationRequest.fromDocumentSnapshot(ds),
+      toFirestore: (obj, _) => obj.toJson(),
+    );
 
 /// todo コレクションの参照。
 CollectionReference<Todo> todosRef({
@@ -33,9 +109,3 @@ DocumentReference<Todo> todoRef({
   required String todoId,
 }) =>
     todosRef(userId: userId).doc(todoId);
-
-/// testNotificationRequest コレクションの参照。
-final testNotificationRequestsRef = db.collection('testNotificationRequests').withConverter(
-      fromFirestore: (ds, _) => TestNotificationRequest.fromDocumentSnapshot(ds),
-      toFirestore: (obj, _) => obj.toJson(),
-    );
