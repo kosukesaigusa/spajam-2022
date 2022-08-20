@@ -66,16 +66,18 @@ CollectionReference<Feeling> feelingsRef({
 DocumentReference<Feeling> feelingRef({
   required String roomId,
   required String votingEventId,
-  required String feelingId,
+  required String userId,
 }) =>
-    feelingsRef(roomId: roomId, votingEventId: votingEventId).doc(feelingId);
+    feelingsRef(roomId: roomId, votingEventId: votingEventId).doc(userId);
 
 /// votes コレクションの参照。
 CollectionReference<Vote> votesRef({
   required String roomId,
   required String votingEventId,
 }) =>
-    votingEventRef(roomId: roomId, votingEventId: votingEventId).collection('votes').withConverter(
+    votingEventRef(roomId: roomId, votingEventId: votingEventId)
+        .collection('votes')
+        .withConverter(
           fromFirestore: (ds, _) => Vote.fromDocumentSnapshot(ds),
           toFirestore: (obj, _) => obj.toJson(),
         );
@@ -89,10 +91,12 @@ DocumentReference<Vote> voteRef({
     votesRef(roomId: roomId, votingEventId: votingEventId).doc(voteId);
 
 /// testNotificationRequest コレクションの参照。
-final testNotificationRequestsRef = db.collection('testNotificationRequests').withConverter(
-      fromFirestore: (ds, _) => TestNotificationRequest.fromDocumentSnapshot(ds),
-      toFirestore: (obj, _) => obj.toJson(),
-    );
+final testNotificationRequestsRef =
+    db.collection('testNotificationRequests').withConverter(
+          fromFirestore: (ds, _) =>
+              TestNotificationRequest.fromDocumentSnapshot(ds),
+          toFirestore: (obj, _) => obj.toJson(),
+        );
 
 /// todo コレクションの参照。
 CollectionReference<Todo> todosRef({

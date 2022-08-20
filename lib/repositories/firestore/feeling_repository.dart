@@ -11,12 +11,13 @@ class FeelingRepository {
   Future<void> setFeeling({
     required String roomId,
     required String votingEventId,
+    required String userId,
     required Feeling feeling,
   }) async {
     await feelingRef(
       roomId: roomId,
       votingEventId: votingEventId,
-      feelingId: feeling.feelingId,
+      userId: userId,
     ).set(feeling);
   }
 }
