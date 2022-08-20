@@ -19,22 +19,24 @@ export const onCreateVote = functions
     .region(`asia-northeast1`)
     // .runWith({failurePolicy:true})
     .firestore.document(`/rooms/{roomId}/votingEvents/{votingEventId}/votes/{voteId}`)
-    .onCreate(async (_,context) => {
-        const {roomId, votingEventId} = context.params
+    .onCreate(async (_, context) => {
+        const { roomId, votingEventId } = context.params
         // votingEventのuserIdsを取得
         const votingEventRepository = new VotingEventRepository()
-        const votingEvent = await votingEventRepository.fetchVotingEvent({ roomId,votingEventId })
-        if(votingEvent === undefined){
-            functions.logger.error(`指定のVotingEventが存在しません: { roomId: ${roomId}, votingEventId: ${votingEventId} }`)
-            return; 
+        const votingEvent = await votingEventRepository.fetchVotingEvent({ roomId, votingEventId })
+        if (votingEvent === undefined) {
+            functions.logger.error(
+                `指定のVotingEventが存在しません: { roomId: ${roomId}, votingEventId: ${votingEventId} }`
+            )
+            return
         }
         const userIds = votingEvent.votingUserIds
         // votesのドキュメント数を取得
         const voteRepository = new VoteRepository()
-        const votes = await voteRepository.fetchVotes({roomId,votingEventId})
+        const votes = await voteRepository.fetchVotes({ roomId, votingEventId })
         // 比較
-        if(votes.length < userIds.length){
-            return;
+        if (votes.length < userIds.length) {
+            return
         }
 
         // 算出ロジックの実行
@@ -42,23 +44,30 @@ export const onCreateVote = functions
 
         //resultを更新
         try {
-            await votingEventRepository.updateResult({roomId, votingEventId, result})
+            await votingEventRepository.updateResult({ roomId, votingEventId, result })
         } catch (e) {
             functions.logger.error(`resultの更新に失敗しました: { roomId: ${roomId}, votingEventId: ${votingEventId} }`)
-            return; 
+            return
         }
 
         // votingEvent.votingUserIdsにプッシュ通知を送る
-        await sendFCMByUserIds({userIds:userIds, title:`勝敗が決しました`, body:`結果画面で勝敗を確認してください`, location:`/` })
+        await sendFCMByUserIds({
+            userIds: userIds,
+            title: `勝敗が決しました`,
+            body: `結果画面で勝敗を確認してください`,
+            location: `/`
+        })
 
         try {
             // 新しいvotingEventドキュメントを作成する
-            await votingEventRepository.createNewVotingEvent({roomId})
+            await votingEventRepository.createNewVotingEvent({ roomId })
         } catch (e) {
             functions.logger.error(`新規VotingEventドキュメントの作成に失敗しました: ${e}`)
         }
     })
 
-function calculateResult(votes: Vote[]) :VoteEnum {
+function calculateResult(votes: Vote[]): VoteEnum {
+    // TODO: 'votes' is defined but never used. が出るので仮で設置した。後で消す。
+    functions.logger.info(`${votes}`)
     return `hot`
-}    
+}

@@ -4,11 +4,10 @@ import { VotingEvent } from '../models/voting_event'
 
 /** VotingEvent のリポジトリクラス */
 export class VotingEventRepository {
-
-        /** 指定したVotingEventを取得する。 */
-    async createNewVotingEvent({ roomId }: { roomId: string;}): Promise<string| undefined> {
+    /** 指定したVotingEventを取得する。 */
+    async createNewVotingEvent({ roomId }: { roomId: string }): Promise<string | undefined> {
         const doc = await votingEventsRef({ roomId: roomId }).doc()
-        
+
         await doc.set({
             votingEventId: doc.id,
             votingUserIds: [],
@@ -28,12 +27,26 @@ export class VotingEventRepository {
     }
 
     /** 指定したVotingEventを取得する。 */
-    async fetchVotingEvent({ roomId, votingEventId }: { roomId: string; votingEventId:string }): Promise<VotingEvent| undefined> {
-        const ds = await votingEventRef({ roomId: roomId, votingEventId:votingEventId }).get()
-        return ds.data();
+    async fetchVotingEvent({
+        roomId,
+        votingEventId
+    }: {
+        roomId: string
+        votingEventId: string
+    }): Promise<VotingEvent | undefined> {
+        const ds = await votingEventRef({ roomId: roomId, votingEventId: votingEventId }).get()
+        return ds.data()
     }
 
-    async updateResult({roomId, votingEventId  , result}:{ roomId:string, votingEventId:string,result:VoteEnum}):Promise<void>{
-        await votingEventRef({ roomId: roomId, votingEventId:votingEventId }).update({result: result,})
+    async updateResult({
+        roomId,
+        votingEventId,
+        result
+    }: {
+        roomId: string
+        votingEventId: string
+        result: VoteEnum
+    }): Promise<void> {
+        await votingEventRef({ roomId: roomId, votingEventId: votingEventId }).update({ result: result })
     }
 }
