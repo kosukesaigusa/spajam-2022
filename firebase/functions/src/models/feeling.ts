@@ -1,7 +1,7 @@
 export class Feeling {
-    feelingId:string = ``
-    userId:string = ``
-    isComfortable:boolean = false
+    feelingId = ``
+    userId = ``
+    isComfortable = false
     createdAt?: FirebaseFirestore.Timestamp
 
     constructor(partial?: Partial<Feeling>) {

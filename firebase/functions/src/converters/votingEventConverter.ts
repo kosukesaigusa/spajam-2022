@@ -11,7 +11,7 @@ export const votingEventConverter: FirestoreDataConverter<VotingEvent> = {
             feelings: data.feelings,
             votes: data.votes,
             result: data.result,
-            createdAt: data.createdAt,
+            createdAt: data.createdAt
         }
     },
     toFirestore(votingEvent: VotingEvent): FirebaseFirestore.DocumentData {
@@ -22,7 +22,7 @@ export const votingEventConverter: FirestoreDataConverter<VotingEvent> = {
             feelings: votingEvent.feelings,
             votes: votingEvent.votes,
             result: votingEvent.result,
-            createdAt: FieldValue.serverTimestamp(),
+            createdAt: FieldValue.serverTimestamp()
         }
     }
 }

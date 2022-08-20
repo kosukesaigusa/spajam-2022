@@ -1,6 +1,6 @@
 export class Vote {
-    voteId:string = ``
-    userId:string = ``
+    voteId = ``
+    userId = ``
     vote: VoteEnum = `comfortable`
 
     constructor(partial?: Partial<Vote>) {

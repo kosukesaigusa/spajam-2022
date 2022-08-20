@@ -8,7 +8,7 @@ export const feelingConverter: FirestoreDataConverter<Feeling> = {
             feelingId: qds.id,
             userId: data.userId,
             isComfortable: data.isComfortable,
-            createdAt: data.createdAt,
+            createdAt: data.createdAt
         }
     },
     toFirestore(feeling: Feeling): FirebaseFirestore.DocumentData {
@@ -16,7 +16,7 @@ export const feelingConverter: FirestoreDataConverter<Feeling> = {
             feelingId: feeling.feelingId,
             userId: feeling.userId,
             isComfortable: feeling.isComfortable,
-            createdAt: FieldValue.serverTimestamp(),
+            createdAt: FieldValue.serverTimestamp()
         }
     }
 }
