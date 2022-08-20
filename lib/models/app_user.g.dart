@@ -14,7 +14,11 @@ _$_AppUser _$$_AppUserFromJson(Map json) => $checkedCreate(
       ($checkedConvert) {
         final val = _$_AppUser(
           userId: $checkedConvert('userId', (v) => v as String? ?? ''),
-          fcmToken: $checkedConvert('fcmToken', (v) => v as String? ?? ''),
+          fcmTokens: $checkedConvert(
+              'fcmTokens',
+              (v) =>
+                  (v as List<dynamic>?)?.map((e) => e as String).toList() ??
+                  const <String>[]),
         );
         return val;
       },
@@ -23,5 +27,5 @@ _$_AppUser _$$_AppUserFromJson(Map json) => $checkedCreate(
 Map<String, dynamic> _$$_AppUserToJson(_$_AppUser instance) =>
     <String, dynamic>{
       'userId': instance.userId,
-      'fcmToken': instance.fcmToken,
+      'fcmTokens': instance.fcmTokens,
     };

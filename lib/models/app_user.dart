@@ -8,7 +8,7 @@ part 'app_user.g.dart';
 class AppUser with _$AppUser {
   const factory AppUser({
     @Default('') String userId,
-    @Default('') String fcmToken,
+    @Default(<String>[]) List<String> fcmTokens,
   }) = _AppUser;
 
   factory AppUser.fromJson(Map<String, dynamic> json) => _$AppUserFromJson(json);

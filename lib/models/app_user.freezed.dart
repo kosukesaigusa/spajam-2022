@@ -21,7 +21,7 @@ AppUser _$AppUserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$AppUser {
   String get userId => throw _privateConstructorUsedError;
-  String get fcmToken => throw _privateConstructorUsedError;
+  List<String> get fcmTokens => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -32,7 +32,7 @@ mixin _$AppUser {
 abstract class $AppUserCopyWith<$Res> {
   factory $AppUserCopyWith(AppUser value, $Res Function(AppUser) then) =
       _$AppUserCopyWithImpl<$Res>;
-  $Res call({String userId, String fcmToken});
+  $Res call({String userId, List<String> fcmTokens});
 }
 
 /// @nodoc
@@ -46,17 +46,17 @@ class _$AppUserCopyWithImpl<$Res> implements $AppUserCopyWith<$Res> {
   @override
   $Res call({
     Object? userId = freezed,
-    Object? fcmToken = freezed,
+    Object? fcmTokens = freezed,
   }) {
     return _then(_value.copyWith(
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      fcmToken: fcmToken == freezed
-          ? _value.fcmToken
-          : fcmToken // ignore: cast_nullable_to_non_nullable
-              as String,
+      fcmTokens: fcmTokens == freezed
+          ? _value.fcmTokens
+          : fcmTokens // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -67,7 +67,7 @@ abstract class _$$_AppUserCopyWith<$Res> implements $AppUserCopyWith<$Res> {
           _$_AppUser value, $Res Function(_$_AppUser) then) =
       __$$_AppUserCopyWithImpl<$Res>;
   @override
-  $Res call({String userId, String fcmToken});
+  $Res call({String userId, List<String> fcmTokens});
 }
 
 /// @nodoc
@@ -82,17 +82,17 @@ class __$$_AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userId = freezed,
-    Object? fcmToken = freezed,
+    Object? fcmTokens = freezed,
   }) {
     return _then(_$_AppUser(
       userId: userId == freezed
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      fcmToken: fcmToken == freezed
-          ? _value.fcmToken
-          : fcmToken // ignore: cast_nullable_to_non_nullable
-              as String,
+      fcmTokens: fcmTokens == freezed
+          ? _value._fcmTokens
+          : fcmTokens // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -100,7 +100,10 @@ class __$$_AppUserCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_AppUser extends _AppUser {
-  const _$_AppUser({this.userId = '', this.fcmToken = ''}) : super._();
+  const _$_AppUser(
+      {this.userId = '', final List<String> fcmTokens = const <String>[]})
+      : _fcmTokens = fcmTokens,
+        super._();
 
   factory _$_AppUser.fromJson(Map<String, dynamic> json) =>
       _$$_AppUserFromJson(json);
@@ -108,13 +111,17 @@ class _$_AppUser extends _AppUser {
   @override
   @JsonKey()
   final String userId;
+  final List<String> _fcmTokens;
   @override
   @JsonKey()
-  final String fcmToken;
+  List<String> get fcmTokens {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_fcmTokens);
+  }
 
   @override
   String toString() {
-    return 'AppUser(userId: $userId, fcmToken: $fcmToken)';
+    return 'AppUser(userId: $userId, fcmTokens: $fcmTokens)';
   }
 
   @override
@@ -123,7 +130,8 @@ class _$_AppUser extends _AppUser {
         (other.runtimeType == runtimeType &&
             other is _$_AppUser &&
             const DeepCollectionEquality().equals(other.userId, userId) &&
-            const DeepCollectionEquality().equals(other.fcmToken, fcmToken));
+            const DeepCollectionEquality()
+                .equals(other._fcmTokens, _fcmTokens));
   }
 
   @JsonKey(ignore: true)
@@ -131,7 +139,7 @@ class _$_AppUser extends _AppUser {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(userId),
-      const DeepCollectionEquality().hash(fcmToken));
+      const DeepCollectionEquality().hash(_fcmTokens));
 
   @JsonKey(ignore: true)
   @override
@@ -147,7 +155,7 @@ class _$_AppUser extends _AppUser {
 }
 
 abstract class _AppUser extends AppUser {
-  const factory _AppUser({final String userId, final String fcmToken}) =
+  const factory _AppUser({final String userId, final List<String> fcmTokens}) =
       _$_AppUser;
   const _AppUser._() : super._();
 
@@ -156,7 +164,7 @@ abstract class _AppUser extends AppUser {
   @override
   String get userId;
   @override
-  String get fcmToken;
+  List<String> get fcmTokens;
   @override
   @JsonKey(ignore: true)
   _$$_AppUserCopyWith<_$_AppUser> get copyWith =>
