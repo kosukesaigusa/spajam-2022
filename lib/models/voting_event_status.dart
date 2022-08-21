@@ -5,18 +5,18 @@ enum VotingEventStatus {
     status: 'peace',
     mood: '😌',
     chipLabel: '快適',
-    moodColor: Colors.green,
+    moodColor: Color.fromRGBO(83, 215, 88, 1),
   ),
   waiting(
     status: 'waiting',
     mood: '😒',
-    chipLabel: 'ちょっと不満..',
-    moodColor: Colors.purple,
+    chipLabel: '不満',
+    moodColor: Color.fromARGB(255, 215, 85, 238),
   ),
   voting(
     status: 'voting',
     mood: '🔥',
-    chipLabel: 'エアコン戦争勃発!!',
+    chipLabel: '勃発!!',
     moodColor: Colors.red,
   ),
   finished(
