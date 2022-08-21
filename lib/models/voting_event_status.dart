@@ -22,7 +22,7 @@ enum VotingEventStatus {
   finished(
     status: 'エアコン戦争終結',
     mood: '🎉',
-    chipLabel: 'エアコン戦争に終止符が打たれました!!',
+    chipLabel: '平和',
     moodColor: Colors.blue,
   );
 
