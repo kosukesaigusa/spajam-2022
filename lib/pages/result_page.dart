@@ -82,7 +82,7 @@ class ResultPage extends HookConsumerWidget {
             }
             switch (votingEvent.status) {
               case VotingEventStatus.voting:
-              // return const VotingWidget();
+                return const VotingWidget();
               case VotingEventStatus.finished:
                 return FinishedWidget(
                   resultText: votingEvent.result.resultText,
@@ -318,7 +318,7 @@ class _FinishedWidgetState extends ConsumerState<FinishedWidget> {
                 blastDirection: pi / 2,
                 emissionFrequency: 0.1,
                 numberOfParticles: 5,
-                maxBlastForce: 20,
+                maxBlastForce: 15,
                 minBlastForce: 1,
                 shouldLoop: true,
                 gravity: 0.1,
