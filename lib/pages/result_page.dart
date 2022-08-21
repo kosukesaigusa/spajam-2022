@@ -5,11 +5,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tuple/tuple.dart';
 
+import '../features/auth/auth.dart';
 import '../features/voting_event/voting_event.dart';
 import '../models/voting_event_status.dart';
+import '../repositories/firestore/voting_event_repository.dart';
+import '../utils/constants/number.dart';
 import '../utils/exceptions/base.dart';
 import '../utils/extensions/build_context.dart';
+import '../utils/hooks/interval.dart';
 import '../utils/loading.dart';
+import '../utils/logger.dart';
 import '../utils/routing/app_router_state.dart';
 import '../widgets/empty_placeholder.dart';
 
@@ -116,6 +121,29 @@ class VotingWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userId = ref.watch(userIdProvider).value;
+    if (userId == null) {
+      return const EmptyPlaceholderWidget(message: 'サインインが必要です');
+    }
+    final countDown = useState(votingSeconds);
+    final delay = useState(const Duration(milliseconds: 1000));
+    final isRunning = useState(true);
+    logger.info('残り ${countDown.value} 秒');
+    useInterval(
+      () {
+        countDown.value--;
+      },
+      isRunning.value ? delay.value : null,
+    );
+    if (countDown.value <= 0) {
+      final roomId = ref.watch(_roomIdProvider);
+      final votingEventId = ref.watch(_votingEventIdProvider);
+      ref.read(votingEventRepositoryProvider).createCompleteVotingEventRequest(
+            roomId: roomId,
+            votingEventId: votingEventId,
+            userId: userId,
+          );
+    }
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -127,8 +155,18 @@ class VotingWidget extends HookConsumerWidget {
           ),
           automaticallyImplyLeading: false,
         ),
-        body: const Center(
-          child: PrimarySpinkitCircle(),
+        // TODO: ここの表示をいい感じにしてほしい
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const PrimarySpinkitCircle(),
+              if (countDown.value > 0)
+                Text('残り約 ${countDown.value} 秒')
+              else if (countDown.value <= 0)
+                const Text('もうすぐ結果が確定します...'),
+            ],
+          ),
         ),
       ),
     );
