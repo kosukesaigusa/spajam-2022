@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tuple/tuple.dart';
@@ -123,7 +124,8 @@ class RoomPage extends HookConsumerWidget {
                             bottom: 30,
                             child: !hasFeeling
                                 ? FloatingActionButton(
-                                    backgroundColor: votingEvent.status.moodColor,
+                                    backgroundColor:
+                                        votingEvent.status.moodColor,
                                     onPressed: () => _onTapFeeling(
                                       context,
                                       ref,
@@ -142,6 +144,44 @@ class RoomPage extends HookConsumerWidget {
                                     ),
                                   ),
                           ),
+                          ref.watch(roomStreamProvider(roomId)).when(
+                              data: (room) => Positioned(
+                                    bottom: 40,
+                                    left: 40,
+                                    child: Row(
+                                      children: <Widget>[
+                                        const Icon(
+                                          Icons.person,
+                                          color: Colors.white,
+                                          size: 30,
+                                        ),
+                                        const Gap(8),
+                                        const Text(
+                                          'x',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        const Gap(2),
+                                        Text(
+                                          '${room?.userIds.length ?? 0}',
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                              error: (e, _) {
+                                return Container();
+                              },
+                              loading: () {
+                                return Container();
+                              }),
                           if (votingEvent.status == VotingEventStatus.voting)
                             Stack(
                               children: [
@@ -155,10 +195,12 @@ class RoomPage extends HookConsumerWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.only(bottom: 48),
                                     child: ElevatedButton(
-                                      onPressed: () => Navigator.of(context).pushNamed<void>(
+                                      onPressed: () =>
+                                          Navigator.of(context).pushNamed<void>(
                                         VotingPage.location(
                                           roomId: roomId,
-                                          votingEventId: votingEvent.votingEventId,
+                                          votingEventId:
+                                              votingEvent.votingEventId,
                                         ),
                                       ),
                                       style: ElevatedButton.styleFrom(
@@ -174,12 +216,16 @@ class RoomPage extends HookConsumerWidget {
                                   ),
                                 ),
                               ],
-                            )
+                            ),
                         ],
                       ),
                     );
                   },
-                  error: (e, _) => baseScaffold(Text(e.toString())),
+                  error: (e, _) => baseScaffold(
+                    Text(
+                      e.toString(),
+                    ),
+                  ),
                   loading: () => const SizedBox(),
                 );
           },
@@ -201,32 +247,33 @@ class RoomPage extends HookConsumerWidget {
     String roomId,
     VotingEvent votingEvent,
   ) async {
-    final isComfortable =
-        await ref.read(scaffoldMessengerServiceProvider).showDialogByBuilder<bool>(
-              builder: (context) => AlertDialog(
-                content: Row(
-                  // mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    // コンテンツ領域
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, true),
-                      child: const Text(
-                        '😄',
-                        style: TextStyle(fontSize: 72),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, false),
-                      child: const Text(
-                        '😣',
-                        style: TextStyle(fontSize: 72),
-                      ),
-                    ),
-                  ],
+    final isComfortable = await ref
+        .read(scaffoldMessengerServiceProvider)
+        .showDialogByBuilder<bool>(
+          builder: (context) => AlertDialog(
+            content: Row(
+              // mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                // コンテンツ領域
+                TextButton(
+                  onPressed: () => Navigator.pop(context, true),
+                  child: const Text(
+                    '😄',
+                    style: TextStyle(fontSize: 72),
+                  ),
                 ),
-              ),
-            );
+                TextButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: const Text(
+                    '😣',
+                    style: TextStyle(fontSize: 72),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
     if (isComfortable == null) {
       return;
     }
