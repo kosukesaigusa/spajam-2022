@@ -123,6 +123,7 @@ class RoomPage extends HookConsumerWidget {
                             bottom: 30,
                             child: !hasFeeling
                                 ? FloatingActionButton(
+                                    backgroundColor: votingEvent.status.moodColor,
                                     onPressed: () => _onTapFeeling(
                                       context,
                                       ref,
@@ -131,7 +132,7 @@ class RoomPage extends HookConsumerWidget {
                                       votingEvent,
                                     ),
                                     child: const Icon(
-                                      Icons.message,
+                                      Icons.mood,
                                     ),
                                   )
                                 : Text(
