@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tuple/tuple.dart';
+import 'dart:math';
 
 import '../features/auth/auth.dart';
 import '../features/voting_event/voting_event.dart';
@@ -17,6 +18,7 @@ import '../utils/loading.dart';
 import '../utils/logger.dart';
 import '../utils/routing/app_router_state.dart';
 import '../widgets/empty_placeholder.dart';
+import 'package:confetti/confetti.dart';
 
 /// roomId を取得してから返す Provider。
 final _roomIdProvider = Provider.autoDispose<String>(
@@ -187,17 +189,24 @@ class FinishedWidget extends StatefulHookConsumerWidget {
 
 class _FinishedWidgetState extends ConsumerState<FinishedWidget> {
   bool changeWidgets = false;
+  final confettiController =
+      ConfettiController(duration: const Duration(minutes: 10));
+
+  @override
+  void dispose() {
+    confettiController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final controller = useAnimationController(
+    final castleController = useAnimationController(
       // initialValue: 0.8,
       duration: const Duration(milliseconds: 2300),
     );
-    // useAnimation(controller);
 
     final birdController = useAnimationController(
-      duration: const Duration(milliseconds: 2000),
+      duration: const Duration(milliseconds: 2300),
     );
 
     final birdAnimation = Tween<Offset>(
@@ -205,13 +214,10 @@ class _FinishedWidgetState extends ConsumerState<FinishedWidget> {
       end: Offset.zero,
     ).animate(birdController);
 
-    final textController = useAnimationController(
-      duration: const Duration(milliseconds: 1500),
-    );
-
     useEffect(
       () {
-        controller.animateTo(1).whenComplete(() async {
+        castleController.animateTo(1).whenComplete(() async {
+          confettiController.play();
           await Future<void>.delayed(const Duration(milliseconds: 500));
           await birdController.animateTo(1).whenComplete(
             () async {
@@ -251,9 +257,8 @@ class _FinishedWidgetState extends ConsumerState<FinishedWidget> {
               child: Center(
                 child: LottieBuilder.asset(
                   'assets/lotties/peace.json',
-                  animate: false,
                   repeat: false,
-                  controller: controller,
+                  controller: castleController,
                 ),
               ),
             ),
@@ -269,7 +274,7 @@ class _FinishedWidgetState extends ConsumerState<FinishedWidget> {
                 child: FadeTransition(
                   opacity: birdController,
                   child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 1000),
+                    duration: const Duration(milliseconds: 1800),
                     child: !changeWidgets
                         ? Column(
                             mainAxisSize: MainAxisSize.min,
@@ -297,7 +302,6 @@ class _FinishedWidgetState extends ConsumerState<FinishedWidget> {
                                     color: Colors.black87,
                                   ),
                                 ),
-                                const Gap(32),
                               ],
                             ),
                           ),
@@ -305,7 +309,23 @@ class _FinishedWidgetState extends ConsumerState<FinishedWidget> {
                 ),
               ),
             ),
-
+            Container(
+              padding: const EdgeInsets.all(30),
+              alignment: Alignment.topCenter,
+              child: ConfettiWidget(
+                confettiController: confettiController,
+                blastDirectionality: BlastDirectionality.explosive,
+                blastDirection: pi / 2,
+                emissionFrequency: 0.1,
+                numberOfParticles: 5,
+                maxBlastForce: 20,
+                minBlastForce: 1,
+                shouldLoop: true,
+                gravity: 0.1,
+                maximumSize: const Size(15, 15),
+                minimumSize: const Size(10, 10),
+              ),
+            ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
