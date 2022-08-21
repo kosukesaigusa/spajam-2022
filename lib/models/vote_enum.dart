@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 enum VoteEnum {
   extremelyHot(
-    label: 'めちゃ暑い',
+    label: 'めちゃ暑い！！',
     emoji: '🥵',
     color: Colors.red,
     resultText: 'めちゃ暑い人の気持ちが尊重されました!\nエアコンの設定温度を\n2度下げてください📉',
@@ -26,7 +26,7 @@ enum VoteEnum {
     resultText: '寒い人の気持ちが尊重されました!\nエアコンの設定温度を\n1度上げてください📈',
   ),
   extremelyCold(
-    label: 'めちゃ寒い',
+    label: 'めちゃ寒い...',
     emoji: '🥶',
     color: Colors.blue,
     resultText: 'めちゃ寒い人の気持ちが尊重されました!\nエアコンの設定温度を\n2度上げてください📈',
