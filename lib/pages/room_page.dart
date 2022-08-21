@@ -105,8 +105,9 @@ class RoomPage extends HookConsumerWidget {
                             child: Center(child: lottie),
                           ),
                           Align(
-                            alignment: Alignment.bottomCenter,
+                            alignment: const Alignment(0.13, -0.7),
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Padding(
@@ -286,20 +287,20 @@ class RoomPage extends HookConsumerWidget {
     if (status == VotingEventStatus.waiting) {
       return const Text(
         'エアコンの設定温度に\n不満な人がいるようです...😒',
-        style: TextStyle(color: Colors.purple, fontSize: 24),
+        style: TextStyle(color: Colors.white70, fontSize: 24),
       );
     }
 
     if (status == VotingEventStatus.voting) {
       return const Text(
         'エアコン戦争勃発!!!!🤯',
-        style: TextStyle(color: Colors.red, fontSize: 24),
+        style: TextStyle(color: Colors.white, fontSize: 24),
       );
     }
 
     return const Text(
       'みんな快適に過ごしています😌',
-      style: TextStyle(color: Colors.blue, fontSize: 24),
+      style: TextStyle(color: Colors.white, fontSize: 24),
     );
   }
 
