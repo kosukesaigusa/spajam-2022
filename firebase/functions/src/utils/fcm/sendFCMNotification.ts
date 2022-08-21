@@ -58,7 +58,7 @@ export const sendFCMByTargets = async ({
                     notification: {
                         priority: `max`,
                         defaultSound: true,
-                        notificationCount: 1 // 増加数
+                        notificationCount: 0 // 増加数
                     }
                 }
             }
@@ -103,7 +103,7 @@ export const sendFCMByUserIds = async ({
         }
         const fcmTokens = appUser.fcmTokens ?? []
         // TODO: 後で実装内容を考える
-        const badgeNumber = 1
+        const badgeNumber = 0
         fcmTargets.push({ fcmTokens, badgeNumber })
     }
     await sendFCMByTargets({ fcmTargets, title, body, location })
