@@ -17,7 +17,7 @@ class App extends ConsumerWidget {
             key: UniqueKey(),
             title: 'SPAJAM 2022',
             debugShowCheckedModeBanner: false,
-            theme: ThemeData(primarySwatch: Colors.blue).copyWith(
+            theme: ThemeData(primarySwatch: Colors.deepOrange).copyWith(
               textTheme: TextTheme(
                 displayLarge: context.textTheme.displayLarge!.copyWith(
                   color: Colors.black87,
