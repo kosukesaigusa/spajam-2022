@@ -94,35 +94,57 @@ class RoomsPage extends HookConsumerWidget {
                                 error: (_, __) => const SizedBox(),
                                 loading: () => const PrimarySpinkitCircle(),
                               );
+                      final votingEventColor = ref
+                          .watch(
+                            latestVotingEventStreamProvider(room.roomId),
+                          )
+                          .when(
+                            data: (data) => data.status.moodColor,
+                            error: (_, __) => Colors.white,
+                            loading: () => Colors.white,
+                          );
                       return InkWell(
                         borderRadius: BorderRadius.circular(10),
                         onTap: () => Navigator.pushNamed<void>(
                           context,
                           RoomPage.location(roomId: room.roomId),
                         ),
-                        splashColor: Colors.grey,
-                        child: Card(
-                          color: Colors.white.withOpacity(0.9),
-                          shape: RoundedRectangleBorder(
+                        splashColor: votingEventColor,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                          ),
-                          elevation: 8,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Stack(
-                                children: [
-                                  SizedBox(
-                                    height: context.displaySize.width * 0.3,
-                                    child: votingEventMood,
-                                  ),
-                                ],
-                              ),
-                              Text(
-                                room.roomName,
-                                style: context.textTheme.headline6,
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: votingEventColor,
+                                blurRadius: 12,
+                                spreadRadius: 5,
                               ),
                             ],
+                          ),
+                          child: Card(
+                            color: Colors.white.withOpacity(0.9),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            elevation: 8,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Stack(
+                                  children: [
+                                    SizedBox(
+                                      height: context.displaySize.width * 0.3,
+                                      child: votingEventMood,
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  room.roomName,
+                                  style: context.textTheme.headline6,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
