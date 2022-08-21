@@ -101,7 +101,7 @@ android {
         if (dartEnvironmentVariables.FLAVOR != 'prod') {
             applicationIdSuffix ".${dartEnvironmentVariables.FLAVOR}"
         }
-        resValue "string", "app_name", "SPAJAM 2022" + 
+        resValue "string", "app_name", "エアコン戦争" +
             (dartEnvironmentVariables.FLAVOR == 'prod' ? '' : ".${dartEnvironmentVariables.FLAVOR}")
         multiDexEnabled true
     }
