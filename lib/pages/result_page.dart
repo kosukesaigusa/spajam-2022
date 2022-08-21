@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:tuple/tuple.dart';
 
 import '../features/voting_event/voting_event.dart';
@@ -59,7 +61,9 @@ class ResultPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final roomId = ref.watch(_roomIdProvider);
     final votingEventId = ref.watch(_votingEventIdProvider);
-    return ref.watch(votingEventStreamProvider(Tuple2(roomId, votingEventId))).when(
+    return ref
+        .watch(votingEventStreamProvider(Tuple2(roomId, votingEventId)))
+        .when(
           data: (votingEvent) {
             if (votingEvent == null) {
               return Scaffold(
@@ -71,7 +75,7 @@ class ResultPage extends HookConsumerWidget {
             }
             switch (votingEvent.status) {
               case VotingEventStatus.voting:
-                return const VotingWidget();
+              // return const VotingWidget();
               case VotingEventStatus.finished:
                 return FinishedWidget(
                   resultText: votingEvent.result.resultText,
@@ -132,43 +136,156 @@ class VotingWidget extends HookConsumerWidget {
 }
 
 /// 結果ページの、投票終了 (finished) 状態のときに表示するウィジェット。
-class FinishedWidget extends HookConsumerWidget {
+class FinishedWidget extends StatefulHookConsumerWidget {
   const FinishedWidget({
     super.key,
     required this.resultText,
   });
 
   final String resultText;
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _FinishedWidgetState();
+}
+
+class _FinishedWidgetState extends ConsumerState<FinishedWidget> {
+  bool changeWidgets = false;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
+    final controller = useAnimationController(
+      // initialValue: 0.8,
+      duration: const Duration(milliseconds: 2300),
+    );
+    // useAnimation(controller);
+
+    final birdController = useAnimationController(
+      duration: const Duration(milliseconds: 2000),
+    );
+
+    final birdAnimation = Tween<Offset>(
+      begin: const Offset(0, -0.5),
+      end: Offset.zero,
+    ).animate(birdController);
+
+    final textController = useAnimationController(
+      duration: const Duration(milliseconds: 1500),
+    );
+
+    useEffect(
+      () {
+        controller.animateTo(1).whenComplete(() async {
+          await Future<void>.delayed(const Duration(milliseconds: 500));
+          await birdController.animateTo(1).whenComplete(
+            () async {
+              await Future<void>.delayed(const Duration(milliseconds: 800));
+              setState(() {
+                changeWidgets = true;
+              });
+            },
+          );
+        });
+        return null;
+      },
+      [],
+    );
+
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('エアコン戦争に終止符が打たれました 🙌'),
-          automaticallyImplyLeading: false,
-        ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  resultText,
-                  style: context.textTheme.headlineLarge!.copyWith(
-                    color: Colors.black87,
+        // appBar: AppBar(
+        //   title: const Text('エアコン戦争に終止符が打たれました 🙌'),
+        //   automaticallyImplyLeading: false,
+        // ),
+        body: Stack(
+          children: [
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: <Color>[
+                    Colors.yellow[800]!,
+                    Colors.yellow[500]!,
+                    Colors.yellow[300]!,
+                  ],
+                ),
+              ),
+              child: Center(
+                child: LottieBuilder.asset(
+                  'assets/lotties/peace.json',
+                  animate: false,
+                  repeat: false,
+                  controller: controller,
+                ),
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: Colors.white.withOpacity(0.7),
+            ),
+            // 鳥とテキスト用のwidget
+            Center(
+              child: SlideTransition(
+                position: birdAnimation,
+                child: FadeTransition(
+                  opacity: birdController,
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 1000),
+                    child: !changeWidgets
+                        ? Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(height: 50),
+                              const Text(
+                                'エアコン戦争に\n終止符が打たれました 🙌',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 24),
+                              ),
+                              Image.asset('assets/images/bird.png'),
+                            ],
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  widget.resultText,
+                                  // textAlign: TextAlign.center,
+                                  style:
+                                      context.textTheme.headlineLarge!.copyWith(
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                                const Gap(32),
+                              ],
+                            ),
+                          ),
                   ),
                 ),
-                const Gap(32),
-                ElevatedButton(
-                  onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
-                  child: const Text('戻る'),
-                )
-              ],
+              ),
             ),
-          ),
+
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 80),
+                child: ElevatedButton(
+                  onPressed: () =>
+                      Navigator.popUntil(context, (route) => route.isFirst),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(100, 40),
+                    primary: Colors.blue,
+                    onPrimary: Colors.white,
+                    shape: const StadiumBorder(),
+                  ),
+                  child: const Text('終戦'),
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
