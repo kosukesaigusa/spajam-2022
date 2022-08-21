@@ -12,3 +12,6 @@ const receiveTimeoutMilliSeconds = 100000;
 
 /// Search GitHub Repositories API の 1 ページあたりの取得サイズ。
 const searchReposParPage = 30;
+
+/// 投票のカウントダウンタイマーの最大時間（秒）
+const votingSeconds = 30;

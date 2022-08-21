@@ -13,23 +13,19 @@ final latestVotingEventStreamProvider =
   if (userId == null) {
     throw const AppException(message: 'サインインが必要です。');
   }
-  return ref
-      .read(votingEventRepositoryProvider)
-      .subscribeLatestVotingEvent(roomId: roomId);
+  return ref.read(votingEventRepositoryProvider).subscribeLatestVotingEvent(roomId: roomId);
 });
 
 /// 指定した VotingEvent 一覧を購読する StreamProvider。
 /// スコープが狭いので Tuple を使用する
-final votingEventStreamProvider = StreamProvider.family
-    .autoDispose<VotingEvent?, Tuple2<String, String>>((ref, tuple) {
+final votingEventStreamProvider =
+    StreamProvider.family.autoDispose<VotingEvent?, Tuple2<String, String>>((ref, tuple) {
   final userId = ref.watch(userIdProvider).value;
   if (userId == null) {
     throw const AppException(message: 'サインインが必要です。');
   }
-
   final result = ref
       .read(votingEventRepositoryProvider)
       .subscribeVotingEvent(roomId: tuple.item1, votingEventId: tuple.item2);
-
   return result;
 });
