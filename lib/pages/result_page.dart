@@ -157,11 +157,54 @@ class VotingWidget extends HookConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const PrimarySpinkitCircle(),
-              if (countDown.value > 0)
-                Text('残り約 ${countDown.value} 秒')
-              else if (countDown.value <= 0)
-                const Text('もうすぐ結果が確定します...'),
+              SizedBox(
+                width: 200,
+                height: 200,
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    CircularProgressIndicator(
+                      value: countDown.value / votingSeconds,
+                      strokeWidth: 12,
+                    ),
+                    if (countDown.value > 0)
+                      Center(
+                        child: Align(
+                          alignment: const Alignment(0.25, 0),
+                          child: Text(
+                            '${countDown.value} ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: context.theme.primaryColor,
+                              fontSize: 80,
+                            ),
+                          ),
+                        ),
+                      )
+                  ],
+                ),
+              ),
+              if (countDown.value > 0) ...[
+                const Gap(40),
+                Text(
+                  '投票終了まで...',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: context.theme.primaryColor,
+                    fontSize: 40,
+                  ),
+                )
+              ] else if (countDown.value <= 0)
+                Center(
+                  child: Text(
+                    'もうすぐ結果が確定します...',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: context.theme.primaryColor,
+                      fontSize: 25,
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
