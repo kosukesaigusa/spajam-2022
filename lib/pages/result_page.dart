@@ -1,10 +1,11 @@
+import 'dart:math';
+
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tuple/tuple.dart';
-import 'dart:math';
 
 import '../features/auth/auth.dart';
 import '../features/voting_event/voting_event.dart';
@@ -18,7 +19,6 @@ import '../utils/loading.dart';
 import '../utils/logger.dart';
 import '../utils/routing/app_router_state.dart';
 import '../widgets/empty_placeholder.dart';
-import 'package:confetti/confetti.dart';
 
 /// roomId を取得してから返す Provider。
 final _roomIdProvider = Provider.autoDispose<String>(
@@ -284,7 +284,7 @@ class _FinishedWidgetState extends ConsumerState<FinishedWidget> {
                                 'エアコン戦争に\n終止符が打たれました 🙌',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 24),
+                                    fontWeight: FontWeight.bold, fontSize: 24,),
                               ),
                               Image.asset('assets/images/bird.png'),
                             ],

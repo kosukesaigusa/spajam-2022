@@ -14,4 +14,4 @@ const receiveTimeoutMilliSeconds = 100000;
 const searchReposParPage = 30;
 
 /// 投票のカウントダウンタイマーの最大時間（秒）
-const votingSeconds = 30;
+const votingSeconds = 10;
