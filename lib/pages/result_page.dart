@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tuple/tuple.dart';
 
+import '../features/auth/auth.dart';
 import '../features/voting_event/voting_event.dart';
 import '../models/voting_event_status.dart';
+import '../repositories/firestore/voting_event_repository.dart';
+import '../utils/constants/number.dart';
 import '../utils/exceptions/base.dart';
+import '../utils/extensions/build_context.dart';
+import '../utils/hooks/interval.dart';
 import '../utils/loading.dart';
+import '../utils/logger.dart';
 import '../utils/routing/app_router_state.dart';
 import '../widgets/empty_placeholder.dart';
 
@@ -71,7 +79,9 @@ class ResultPage extends HookConsumerWidget {
               case VotingEventStatus.voting:
                 return const VotingWidget();
               case VotingEventStatus.finished:
-                return const FinishedWidget();
+                return FinishedWidget(
+                  resultText: votingEvent.result.resultText,
+                );
               case VotingEventStatus.peace:
               case VotingEventStatus.waiting:
                 return Scaffold(
@@ -108,6 +118,29 @@ class VotingWidget extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userId = ref.watch(userIdProvider).value;
+    if (userId == null) {
+      return const EmptyPlaceholderWidget(message: 'サインインが必要です');
+    }
+    final countDown = useState(votingSeconds);
+    final delay = useState(const Duration(milliseconds: 1000));
+    final isRunning = useState(true);
+    logger.info('残り ${countDown.value} 秒');
+    useInterval(
+      () {
+        countDown.value--;
+      },
+      isRunning.value ? delay.value : null,
+    );
+    if (countDown.value <= 0) {
+      final roomId = ref.watch(_roomIdProvider);
+      final votingEventId = ref.watch(_votingEventIdProvider);
+      ref.read(votingEventRepositoryProvider).createCompleteVotingEventRequest(
+            roomId: roomId,
+            votingEventId: votingEventId,
+            userId: userId,
+          );
+    }
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -119,8 +152,18 @@ class VotingWidget extends HookConsumerWidget {
           ),
           automaticallyImplyLeading: false,
         ),
-        body: const Center(
-          child: PrimarySpinkitCircle(),
+        // TODO: ここの表示をいい感じにしてほしい
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const PrimarySpinkitCircle(),
+              if (countDown.value > 0)
+                Text('残り約 ${countDown.value} 秒')
+              else if (countDown.value <= 0)
+                const Text('もうすぐ結果が確定します...'),
+            ],
+          ),
         ),
       ),
     );
@@ -129,7 +172,12 @@ class VotingWidget extends HookConsumerWidget {
 
 /// 結果ページの、投票終了 (finished) 状態のときに表示するウィジェット。
 class FinishedWidget extends HookConsumerWidget {
-  const FinishedWidget({super.key});
+  const FinishedWidget({
+    super.key,
+    required this.resultText,
+  });
+
+  final String resultText;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -137,19 +185,28 @@ class FinishedWidget extends HookConsumerWidget {
       onWillPop: () async => false,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('投票終了'),
+          title: const Text('エアコン戦争に終止符が打たれました 🙌'),
           automaticallyImplyLeading: false,
         ),
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text('投票終了'),
-              ElevatedButton(
-                onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
-                child: const Text('戻る'),
-              )
-            ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  resultText,
+                  style: context.textTheme.headlineLarge!.copyWith(
+                    color: Colors.black87,
+                  ),
+                ),
+                const Gap(32),
+                ElevatedButton(
+                  onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
+                  child: const Text('戻る'),
+                )
+              ],
+            ),
           ),
         ),
       ),

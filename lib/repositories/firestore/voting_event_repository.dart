@@ -1,5 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import '../../models/complete_voting_request.dart';
 import '../../models/voting_event.dart';
 import '../../utils/firestore_refs.dart';
 
@@ -28,5 +29,17 @@ class VotingEventRepository {
     final result = streamDocumentSnapshot.map((ds) => ds.data());
 
     return result;
+  }
+
+  /// 指定した VotingEvent のサブコレクションに
+  /// CompleteVotingEventRequest ドキュメントを作成する。
+  Future<void> createCompleteVotingEventRequest({
+    required String roomId,
+    required String votingEventId,
+    required String userId,
+  }) async {
+    await completeVotingRequestRef(roomId: roomId, votingEventId: votingEventId).set(
+      CompleteVotingRequest(userId: userId, completeVotingRequestId: votingEventId),
+    );
   }
 }

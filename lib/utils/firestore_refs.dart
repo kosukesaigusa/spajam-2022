@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/app_user.dart';
+import '../models/complete_voting_request.dart';
 import '../models/feeling.dart';
 import '../models/room.dart';
 import '../models/test_notification_request.dart';
@@ -69,6 +70,25 @@ DocumentReference<Feeling> feelingRef({
   required String userId,
 }) =>
     feelingsRef(roomId: roomId, votingEventId: votingEventId).doc(userId);
+
+/// completeVotingEventRequests コレクションの参照。
+CollectionReference<CompleteVotingRequest> completeVotingRequestsRef({
+  required String roomId,
+  required String votingEventId,
+}) =>
+    votingEventRef(roomId: roomId, votingEventId: votingEventId)
+        .collection('completeVotingRequests')
+        .withConverter(
+          fromFirestore: (ds, _) => CompleteVotingRequest.fromDocumentSnapshot(ds),
+          toFirestore: (obj, _) => obj.toJson(),
+        );
+
+/// completeVotingEventRequest ドキュメントの参照。
+DocumentReference<CompleteVotingRequest> completeVotingRequestRef({
+  required String roomId,
+  required String votingEventId,
+}) =>
+    completeVotingRequestsRef(roomId: roomId, votingEventId: votingEventId).doc(votingEventId);
 
 /// votes コレクションの参照。
 CollectionReference<Vote> votesRef({
