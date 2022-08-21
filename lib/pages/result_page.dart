@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:tuple/tuple.dart';
@@ -68,9 +69,7 @@ class ResultPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final roomId = ref.watch(_roomIdProvider);
     final votingEventId = ref.watch(_votingEventIdProvider);
-    return ref
-        .watch(votingEventStreamProvider(Tuple2(roomId, votingEventId)))
-        .when(
+    return ref.watch(votingEventStreamProvider(Tuple2(roomId, votingEventId))).when(
           data: (votingEvent) {
             if (votingEvent == null) {
               return Scaffold(
@@ -232,8 +231,7 @@ class FinishedWidget extends StatefulHookConsumerWidget {
 
 class _FinishedWidgetState extends ConsumerState<FinishedWidget> {
   bool changeWidgets = false;
-  final confettiController =
-      ConfettiController(duration: const Duration(minutes: 10));
+  final confettiController = ConfettiController(duration: const Duration(minutes: 10));
 
   @override
   void dispose() {
@@ -327,7 +325,9 @@ class _FinishedWidgetState extends ConsumerState<FinishedWidget> {
                                 'エアコン戦争に\n終止符が打たれました 🙌',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 24,),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24,
+                                ),
                               ),
                               Image.asset('assets/images/bird.png'),
                             ],
@@ -340,8 +340,7 @@ class _FinishedWidgetState extends ConsumerState<FinishedWidget> {
                                 Text(
                                   widget.resultText,
                                   // textAlign: TextAlign.center,
-                                  style:
-                                      context.textTheme.headlineLarge!.copyWith(
+                                  style: context.textTheme.headlineLarge!.copyWith(
                                     color: Colors.black87,
                                   ),
                                 ),
@@ -374,8 +373,7 @@ class _FinishedWidgetState extends ConsumerState<FinishedWidget> {
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 80),
                 child: ElevatedButton(
-                  onPressed: () =>
-                      Navigator.popUntil(context, (route) => route.isFirst),
+                  onPressed: () => Navigator.popUntil(context, (route) => route.isFirst),
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(100, 40),
                     primary: Colors.blue,
